@@ -1,0 +1,43 @@
+GET http://localhost:3000/ad
+
+###
+POST http://localhost:3000/ad
+Content-Type: application/json
+
+{ 
+    "id": 3,
+    "title": "Bike to sell",
+    "description": "My bike is blue, working fine. I'm selling it because I've got a new one.",
+    "owner": "bike.seller@gmail.com",
+    "price": 10000,
+    "picture": "https://www.automobile-magazine.fr/asset/cms/34973/config/28294/apres-plusieurs-prototypes-la-bollore-bluecar-a-fini-par-devoiler-sa-version-definitive.jpg",
+    "location": "Metz",
+    "createdAt": "2023-09-05T10:13:14:755Z"
+}
+
+###
+DELETE http://localhost:3000/ad
+Content-Type: application/json
+
+{
+    "id": 1
+}
+
+###
+PUT http://localhost:3000/ad
+Content-Type: application/json
+
+{
+    "idToEdit": 0,
+    "newAdId": {
+        "id": 10,
+        "title": "eeeeeeeeeeee to sell",
+        "description": "My bike is RED, working fine. I'm selling it because I've got a new one.",
+        "owner": "bike.seller@gmail.com",
+        "price": 10000,
+        "picture": "https://www.automobile-magazine.fr/asset/cms/34973/config/28294/apres-plusieurs-prototypes-la-bollore-bluecar-a-fini-par-devoiler-sa-version-definitive.jpg",
+        "location": "Metz",
+        "createdAt": "2023-09-05T10:13:14:755Z"
+
+    }
+}
