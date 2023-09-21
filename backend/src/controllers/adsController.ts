@@ -1,59 +1,44 @@
 import { Request, Response } from "express";
-import { db } from "../index";
+import { Ad } from "../entities/ad";
 
 const adController = {
-  read: (req: Request, res: Response) => {
-    db.all('SELECT * FROM ad', (_err: any, rows: any) => {
-      res.send(rows);
-    });
-  },
-  create: (req: Request, res: Response) => {
-    db.run(
-      `
-      INSERT INTO ad (title, description, owner, price, location, createdAt, category_id)
-      VALUES (
-        "${req.body.title}",
-        "${req.body.description}",
-        "${req.body.owner}",
-        ${req.body.price},
-        "${req.body.location}",
-        "${req.body.createdAt}",
-        "${req.body.category_id}"
-      );
-      `,
-      (err) => {
-        if (err) {
-          console.log("error", err);
-          res.send("Error while adding the ad");
-        } else {
-          res.send("The ad has been added");
-        }
-      }
-    );
-  },
-  delete: (req: Request, res: Response) => {
-    db.run(
-      `
-      DELETE FROM ad WHERE id = ?;
-      `,[req.body.id], () => {
-        res.send(`Ad has been deleted`);
-      });
-  },
-  put: (req: Request, res: Response) => {
-    let data = [0, '20/10/2019']
-  db.run(
-    `
-    UPDATE ad 
-    SET price= ?
-    WHERE createdAt= ?;
-    `,
-    [0, '20/10/2019'],
-   (err) => {
-    if(err) {
-      console.error(err);
+  read: async (_req: Request, res: Response) => {
+    try {
+      const result = await Ad.find();
+      res.send(result);
+    } catch (error) {
+      res.send("An error occcured while reading the ad");
+      console.error(error)
     }
-    res.send(`Ad has been modify`);
-  });
+  },
+  create: async (req: Request, res: Response) => {
+    try {
+      await Ad.save(req.body);
+      res.send("Ad has been created")
+    } catch (error) {
+      res.send("An error occcured while creating the ad");
+      console.error(error)
+    }
+  },
+  delete: async (req: Request, res: Response) => {
+    try {
+      const id = req.body.id; 
+      await Ad.delete(id)
+      res.send('Ad has been deleted')
+    } catch (error) {
+      res.send("An error occcured while deleting the ad");
+      console.error(error)
+    }
+  },
+  put: async (req: Request, res: Response) => {
+    try {
+      await Ad.update(req.body.id, req.body)
+      res.send('Ad has been modified')
+    } catch (error) {
+      res.send("An error occcured while modifying the ad");
+      console.error(error)
+      
+    }
   },
 };
 

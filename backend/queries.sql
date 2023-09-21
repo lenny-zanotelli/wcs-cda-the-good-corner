@@ -1,4 +1,4 @@
-BEGIN;
+-- BEGIN;
   -- DROP TABLE IF EXISTS ad;
   -- DROP TABLE IF EXISTS category;
 
@@ -44,10 +44,10 @@ BEGIN;
   -- ('Sell bike', 'Nunc sed velit dignissim sodales ut', 'Marine', 50, 'https://unsplash.com/fr/photos/tG36rvCeqng', 'Bordeaux', 1, '20/10/2019'),
   -- ('Sell bike', 'Id volutpat lacus laoreet non curabitur gravida arcu ac', 'Manon', 50, 'https://unsplash.com/fr/photos/tG36rvCeqng', 'Bordeaux', 1, '20/10/2019');
 
-  INSERT INTO "category" ("id", "name") VALUES
-  (1, 'bike'),
-  (2, 'boat'),
-  (3, 'phone');
+  -- INSERT INTO "category" ("id", "name") VALUES
+  -- (1, 'bike'),
+  -- (2, 'boat'),
+  -- (3, 'phone');
 
 -- SELECT * FROM ad;
 
@@ -70,7 +70,7 @@ BEGIN;
   -- INNER JOIN category
   -- ON ad.category_id = category.id;
 
-COMMIT;
+-- COMMIT;
 
 
 
