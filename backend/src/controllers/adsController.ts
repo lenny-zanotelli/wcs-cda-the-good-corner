@@ -7,6 +7,7 @@ const adController = {
       const result = await Ad.find({ 
         relations: {
           category: true,
+          tags: true
         },
       });
       res.send(result);

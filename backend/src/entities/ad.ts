@@ -1,5 +1,6 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Category } from "./category";
+import { Tag } from "./tag";
 
 @Entity()
 export class Ad extends BaseEntity{
@@ -32,4 +33,10 @@ export class Ad extends BaseEntity{
   // MamyToOne relationship (many adds one category)
   @ManyToOne(() => Category, (category) => category.ads) 
   category: Category
+
+   // An ad can have multiple tags
+  // A tag can have multiple ads
+  @ManyToMany(() => Tag, (tag) => tag.ads)
+  @JoinTable()
+  tags: Tag[];
 }

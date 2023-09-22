@@ -3,6 +3,7 @@ import express, { Express } from 'express';
 import dataSource from "../config/db";
 import adsController from "./controllers/adsController";
 import categoryController from "./controllers/categoryController";
+import tagController from "./controllers/tagController";
 
 const app: Express = express();
 
@@ -19,6 +20,11 @@ app.get('/category', categoryController.read);
 app.post('/category', categoryController.create);
 app.delete('/category', categoryController.delete);
 app.put('/category', categoryController.put);
+
+app.get('/tag', tagController.read);
+app.post('/tag', tagController.create);
+app.delete('/tag', tagController.delete);
+app.put('/tag', tagController.put);
 
 app.listen(port, async () => {
   await dataSource.initialize();

@@ -1,7 +1,7 @@
-GET http://localhost:3000/category
+GET http://localhost:3000/tag
 
 ###
-POST http://localhost:3000/category
+POST http://localhost:3000/tag
 Content-Type: application/json
 
 {
@@ -9,7 +9,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/category
+DELETE http://localhost:3000/tag
 Content-Type: application/json
 
 {
@@ -17,7 +17,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3000/category
+PUT http://localhost:3000/tag
 Content-Type: application/json
 
 {
