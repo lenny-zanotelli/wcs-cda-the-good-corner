@@ -13,7 +13,7 @@ DELETE http://localhost:3000/category
 Content-Type: application/json
 
 {
-    "id": 5
+    "id": 1
 }
 
 ###
@@ -21,7 +21,7 @@ PUT http://localhost:3000/category
 Content-Type: application/json
 
 {
-  "idToEdit": 3,
+  "id": 4,
   "name": "informatique"
 }
 

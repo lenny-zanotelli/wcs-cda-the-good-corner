@@ -12,7 +12,7 @@ Content-Type: application/json
     "picture": "https://www.automobile-magazine.fr/asset/cms/34973/config/28294/apres-plusieurs-prototypes-la-bollore-bluecar-a-fini-par-devoiler-sa-version-definitive.jpg",
     "location": "Metz",
     "createdAt": "2023-09-05T10:13:14:755Z",
-    "category_id": 3
+    "category": 2
 }
 
 ###
@@ -28,7 +28,7 @@ PUT http://localhost:3000/ad
 Content-Type: application/json
 
 {
-    "id": 1,
+    "id": 3,
     "title": "BOAAAT to sell",
     "description": "My bike is blue, working fine. I'm selling it because I've got a new one.",
     "owner": "bike.seller@gmail.com",

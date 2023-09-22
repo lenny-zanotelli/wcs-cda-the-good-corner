@@ -4,7 +4,11 @@ import { Ad } from "../entities/ad";
 const adController = {
   read: async (_req: Request, res: Response) => {
     try {
-      const result = await Ad.find();
+      const result = await Ad.find({ 
+        relations: {
+          category: true,
+        },
+      });
       res.send(result);
     } catch (error) {
       res.send("An error occcured while reading the ad");
