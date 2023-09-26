@@ -1,10 +1,9 @@
-import Head from "next/head"
-import { ReactNode } from "react"
-import Header from "./Header"
-import styles from "@/styles/Layout.module.css";
+import Head from 'next/head';
+import { ReactNode } from 'react';
+import styles from '@/styles/Layout.module.css';
+import Header from './Header';
 
-
-const Layout = ({ children }: { children: ReactNode}) => {
+function Layout({ children }: { children: ReactNode }) {
   return (
     <>
       <Head>
@@ -17,7 +16,7 @@ const Layout = ({ children }: { children: ReactNode}) => {
       <main className={styles.mainContent}>{children}</main>
     </>
 
-  )
+  );
 }
 
 export default Layout;

@@ -1,16 +1,20 @@
-import styles from './../styles/NavCategory.module.css'
+/* eslint-disable @next/next/no-html-link-for-pages */
+/* eslint-disable react/no-unused-prop-types */
+import styles from '../styles/NavCategory.module.css';
 
 export type CategoryProps = {
   id: number;
   name: string;
-}
+};
 
-const NavCategory = ({ name }: CategoryProps) => {
+function NavCategory({ name }: CategoryProps) {
   return (
     <>
-      <a href="" className={styles.categoryNavigationLink}>{name}</a> •
+      <a href="/" className={styles.categoryNavigationLink}>{name}</a>
+      {' '}
+      •
     </>
-  )
+  );
 }
 
 export default NavCategory;

@@ -79,11 +79,7 @@
   font-family: inherit;
 }
 
-.desktop-long-label {
-  display: none;
-}
-
-.desktop-long-label {
+.desktopLongLabel {
   display: none;
 }
  
@@ -93,6 +89,11 @@
   }
   .desktopLongLabel {
     display: initial;
+  }
+  .categoriesNavigation {
+    padding-top: 14px;
+    display: flex;
+    justify-content: space-between;
   }
 
 }
