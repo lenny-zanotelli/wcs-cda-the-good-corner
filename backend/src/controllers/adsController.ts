@@ -28,7 +28,7 @@ const adController = {
   delete: async (req: Request, res: Response) => {
     try {
       const id = req.body.id; 
-      await Ad.delete(id)
+      await Ad.delete(id);
       res.send('Ad has been deleted')
     } catch (error) {
       res.send("An error occcured while deleting the ad");

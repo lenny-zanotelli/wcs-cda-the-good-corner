@@ -1,7 +1,7 @@
-GET http://localhost:3000/ad
+GET http://localhost:4000/ad
 
 ###
-POST http://localhost:3000/ad
+POST http://localhost:4000/ad
 Content-Type: application/json
 
 {   
@@ -17,15 +17,15 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/ad
+DELETE http://localhost:4000/ad
 Content-Type: application/json
 
 {
-    "id": 8
+    "id": 10
 }
 
 ###
-PUT http://localhost:3000/ad
+PUT http://localhost:4000/ad
 Content-Type: application/json
 
 {
@@ -36,5 +36,6 @@ Content-Type: application/json
     "price": 10000,
     "picture": "https://www.automobile-magazine.fr/asset/cms/34973/config/28294/apres-plusieurs-prototypes-la-bollore-bluecar-a-fini-par-devoiler-sa-version-definitive.jpg",
     "location": "Metz",
+    "category": 1,
     "createdAt": "2023-09-05T10:13:14:755Z"
 }
