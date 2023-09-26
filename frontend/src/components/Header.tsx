@@ -1,18 +1,35 @@
 import styles from "@/styles/Header.module.css";
+import axios from 'axios';
+import { useEffect, useState } from "react";
+import NavCategory, { CategoryProps } from "./NavCategory";
 
 const Header = () => {
+  const [categories, setCategories] = useState<CategoryProps[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await axios.get<CategoryProps[]>('http://localhost:4000/category');
+        setCategories(result.data);
+        console.log(result.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <header className={styles.header}>
     <div className={styles.mainMenu}>
       <h1>
-        <a href="/" className="button logo link-button">
+        <a href="/" className={`${styles.button} ${styles.logo} ${styles.linkButton}`}>
           <span className={styles.mobileShortLabel}>TGC</span>
           <span className={styles.desktopLongLabel}> THE GOOD CORNER</span>
           </a>
       </h1>
       <form className={styles.textFieldWithButton}>
-        <input className="text-field main-search-field" type="search" />
-        <button className="button button-primary">
+        <input className={`${styles.textField} ${styles.mainSearchField}`} type="search" />
+        <button className={`${styles.button} ${styles.butonPrimary}`}>
           <svg
             aria-hidden="true"
             width="16"
@@ -30,25 +47,19 @@ const Header = () => {
           </svg>
         </button>
       </form>
-      <a href="/post-ad" className="button link-button">
-        <span className="mobile-short-label">Publier</span>
-        <span className="desktop-long-label">Publier une annonce</span>
+      <a href="/post-ad" className={`${styles.button} ${styles.linkButton}`}>
+        <span className={styles.mobileShortLabel}>Publier</span>
+        <span className={styles.desktopLongLabel}>Publier une annonce</span>
       </a>
     </div>
-    <nav className="categories-navigation">
-      <a href="" className="category-navigation-link">Ameublement</a> •
-      <a href="" className="category-navigation-link">Électroménager</a> •
-      <a href="" className="category-navigation-link">Photographie</a> •
-      <a href="" className="category-navigation-link">Informatique</a> •
-      <a href="" className="category-navigation-link">Téléphonie </a> •
-      <a href="" className="category-navigation-link">Vélos</a> •
-      <a href="" className="category-navigation-link">Véhicules</a> •
-      <a href="" className="category-navigation-link">Sport</a> •
-      <a href="" className="category-navigation-link">Habillement</a> •
-      <a href="" className="category-navigation-link">Bébé</a> •
-      <a href="" className="category-navigation-link">Outillage</a> •
-      <a href="" className="category-navigation-link">Services </a> •
-      <a href="" className="category-navigation-link">Vacances</a>
+    <nav className={styles.categoriesNavigation}>
+      {categories.map((category) => (
+        <NavCategory
+        key={category.id}
+        id={category.id}
+        name={category.name}     
+        />
+      ))}
     </nav>
   </header>
 
