@@ -1,10 +1,13 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { CategoryProps } from '@/@types';
 import axios from 'axios';
+import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import styles from '@/styles/NewAd.module.css';
 
 function NewAd() {
   const [categories, setCategories] = useState<CategoryProps[]>([]);
+  const { register, handleSubmit, formState: { errors } } = useForm();
   useEffect(() => {
     const fetchCategories = async () => {
       const result = await axios.get<CategoryProps[]>(
@@ -14,38 +17,40 @@ function NewAd() {
     };
     fetchCategories();
   }, []);
+
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
-
-        const form = e.target;
-        const formData = new FormData(form as HTMLFormElement);
-        const formJson = Object.fromEntries(formData.entries());
-        console.log(formJson);
-      }}
+      onSubmit={handleSubmit((data) => {
+        console.log(data);
+      })}
     >
       <label>
         Titre de l&apos;annonce:
         {' '}
         <br />
         <input
-          name="title"
+          {...register('titleRequired', { required: true })}
           className={styles.textField}
         />
+        {errors.titleRequired && <span>This field is required</span>}
       </label>
       <br />
       <label>
         Prix:
         <br />
         <input
+          type="number"
+          {...register('price', {
+            min: 1,
+            valueAsNumber: true,
+          })}
           className={styles.textField}
           name="price"
-          type="number"
         />
+
       </label>
       <br />
-      <select name="category">
+      <select {...register('category')}>
         {categories.map((category) => (
           <option
             value={category.id}
