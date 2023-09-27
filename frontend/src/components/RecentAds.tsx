@@ -2,7 +2,8 @@
 import axios from 'axios';
 import styles from '@/styles/RecentAds.module.css';
 import { useEffect, useState } from 'react';
-import AdCard, { AdCardProps } from './AdCard';
+import { AdCardProps } from '@/@types';
+import AdCard from './AdCard';
 
 function RecentAds() {
   const [total, setTotal] = useState(0);

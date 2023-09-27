@@ -1,8 +1,13 @@
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
-const AdDetailComponent = () => {
+function AdDetailComponent() {
   const router = useRouter();
-  return <p>Display details of ad with id {router.query.id}</p>
+  return (
+    <p>
+      Display details of ad with id
+      {router.query.id}
+    </p>
+  );
 }
 
-export default  AdDetailComponent;
+export default AdDetailComponent;

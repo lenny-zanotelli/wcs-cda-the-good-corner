@@ -3,7 +3,8 @@
 import styles from '@/styles/Header.module.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import NavCategory, { CategoryProps } from './NavCategory';
+import { CategoryProps } from '@/@types';
+import NavCategory from './NavCategory';
 
 function Header() {
   const [categories, setCategories] = useState<CategoryProps[]>([]);
