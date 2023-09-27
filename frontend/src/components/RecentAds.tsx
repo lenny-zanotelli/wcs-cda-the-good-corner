@@ -55,9 +55,10 @@ function RecentAds() {
               key={ad.id}
               id={ad.id}
               picture={ad.picture}
-              link={ad.link}
               price={ad.price}
               title={ad.title}
+              description={ad.description}
+              owner={ad.owner}
             />
             <button
               type="button"

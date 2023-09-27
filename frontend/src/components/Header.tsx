@@ -50,7 +50,7 @@ function Header() {
             </svg>
           </button>
         </form>
-        <a href="/post-ad" className={`${styles.button} ${styles.linkButton}`}>
+        <a href="/ad/new" className={`${styles.button} ${styles.linkButton}`}>
           <span className={styles.mobileShortLabel}>Publier</span>
           <span className={styles.desktopLongLabel}>Publier une annonce</span>
         </a>

@@ -4,10 +4,14 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import styles from '@/styles/NewAd.module.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function NewAd() {
   const [categories, setCategories] = useState<CategoryProps[]>([]);
+  // React-Hook-Form
   const { register, handleSubmit, formState: { errors } } = useForm();
+  // Fetch categories
   useEffect(() => {
     const fetchCategories = async () => {
       const result = await axios.get<CategoryProps[]>(
@@ -20,8 +24,15 @@ function NewAd() {
 
   return (
     <form
-      onSubmit={handleSubmit((data) => {
-        console.log(data);
+      onSubmit={handleSubmit(async (data) => {
+        try {
+          toast.success('New Ad has been submit!');
+          await axios.post('http://localhost:4000/ad', data);
+          console.log(data);
+        } catch (error) {
+          toast.error('Cant add new Ad');
+          console.log(error);
+        }
       })}
     >
       <label>
@@ -29,10 +40,55 @@ function NewAd() {
         {' '}
         <br />
         <input
-          {...register('titleRequired', { required: true })}
+          {...register('title', { required: true })}
           className={styles.textField}
         />
-        {errors.titleRequired && <span>This field is required</span>}
+        {errors.title && toast.warning('Name is required')}
+      </label>
+      <br />
+      <label>
+        Description:
+        {' '}
+        <br />
+        <input
+          {...register('description', { required: true })}
+          className={styles.textField}
+        />
+        {errors.description && toast.warning('Description is required')}
+      </label>
+      <br />
+      <label>
+        Owner:
+        {' '}
+        <br />
+        <input
+          {...register('owner', { required: true })}
+          className={styles.textField}
+        />
+        {errors.owner && toast.warning('An Owner is required')}
+      </label>
+      <br />
+      <label>
+        Picture:
+        {' '}
+        <br />
+        <input
+          type="url"
+          {...register('picture', { required: true })}
+          className={styles.textField}
+        />
+        {errors.picture && toast.warning('A picture is required')}
+      </label>
+      <br />
+      <label>
+        Location:
+        {' '}
+        <br />
+        <input
+          {...register('location', { required: true })}
+          className={styles.textField}
+        />
+        {errors.location && toast.warning('A location is required')}
       </label>
       <br />
       <label>
@@ -41,13 +97,14 @@ function NewAd() {
         <input
           type="number"
           {...register('price', {
-            min: 1,
+            required: true,
             valueAsNumber: true,
+            min: 1,
           })}
           className={styles.textField}
           name="price"
         />
-
+        {errors.price && toast.warning('Positive price is required')}
       </label>
       <br />
       <select {...register('category')}>
@@ -66,6 +123,18 @@ function NewAd() {
       >
         Submit
       </button>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </form>
   );
 }
