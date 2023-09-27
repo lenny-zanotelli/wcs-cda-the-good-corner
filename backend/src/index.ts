@@ -15,6 +15,7 @@ app.use(express.json());
 app.use(cors())
 
 app.get('/ad', adsController.read);
+app.get('/ad/:id', adsController.findOne);
 app.post('/ad', adsController.create);
 app.delete('/ad', adsController.delete);
 app.put('/ad', adsController.put);

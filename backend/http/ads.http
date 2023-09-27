@@ -1,6 +1,9 @@
 GET http://localhost:4000/ad
 
 ###
+GET http://localhost:4000/ad/1
+
+###
 POST http://localhost:4000/ad
 Content-Type: application/json
 
