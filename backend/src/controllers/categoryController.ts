@@ -3,9 +3,27 @@ import { Category } from "../entities/category";
 
 
 const tagController = {
-  read: async (_req: Request, res: Response) => {
+  read: async (req: Request, res: Response) => {
+    let result: Category[] = [];
     try {
-      const result = await Category.find();
+      if(req.query.name) {
+        result = await Category.find({
+          relations: {
+            ads: true,
+          },
+          where: {
+            name: `${req.query.name}`
+          }
+        });
+        console.log(req.query.name);
+      } else {
+        console.log('no category in query')
+        result = await Category.find({
+          relations: {
+            ads: true
+          },
+        });
+      }
       res.send(result);
     } catch (error) {
       res.send("An error occcured while reading categories");
