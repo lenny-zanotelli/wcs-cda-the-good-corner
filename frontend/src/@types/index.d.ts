@@ -12,4 +12,5 @@ export type AdCardProps = {
   owner: string;
   price: number;
   category: string;
+  createdAt: string;
 };

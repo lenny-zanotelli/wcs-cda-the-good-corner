@@ -1,6 +1,5 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable react/no-unused-prop-types */
 import { AdCardProps } from '@/@types';
+
 import styles from '@/styles/AdCard.module.css';
 import Link from 'next/link';
 
@@ -13,7 +12,7 @@ function AdCard({
         className={styles.adCardLink}
         href={`/ad/${id}`}
       >
-        <img className={styles.adCardImage} src={picture} alt={picture} />
+        <img className={styles.adCardImage} src={picture} alt={title} />
         <div className={styles.adCardText}>
           <div className={styles.adCardTitle}>{title}</div>
           <div>

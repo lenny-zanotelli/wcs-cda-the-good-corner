@@ -1,6 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
-// import { useRouter } from 'next/router';
-
 import { AdCardProps } from '@/@types';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -43,7 +40,7 @@ function AdDetailComponent() {
             {' '}
             <b>{data?.owner}</b>
             {' '}
-            aujourd'hui (9:32).
+            {data?.createdAt}
           </div>
           <a
             href="mailto:serge@serge.com"

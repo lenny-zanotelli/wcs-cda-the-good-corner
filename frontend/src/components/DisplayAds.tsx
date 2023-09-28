@@ -2,7 +2,6 @@
 import styles from '@/styles/DisplayAds.module.css';
 import { AdCardProps } from '@/@types';
 import axios from 'axios';
-// import { useState } from 'react';
 import AdCard from './AdCard';
 
 type DisplayAdsProps = {
@@ -38,6 +37,7 @@ function DisplayAds({ ads, title, onUpdateAds }: DisplayAdsProps) {
               description={ad.description}
               owner={ad.owner}
               category={ad.category}
+              createdAt={ad.createdAt}
             />
             <button
               type="button"
