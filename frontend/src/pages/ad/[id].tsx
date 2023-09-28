@@ -3,43 +3,45 @@
 
 import { AdCardProps } from '@/@types';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
-function AdDetailComponent({
-  id, title, picture, description, price, owner,
-}: AdCardProps) {
+function AdDetailComponent() {
+  const [data, setData] = useState<AdCardProps>();
+  const router = useRouter();
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (searchId: number) => {
       try {
-        const result = await axios.get(`http://localhost:4000/ad/${id}`);
+        const result = await axios.get(`http://localhost:4000/ad/${searchId}`);
+        setData(result.data);
         console.log(result.data);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchData();
-  });
+    fetchData(Number(router.query.id));
+  }, [router.query.id]);
   return (
     <main className="main-content">
-      <h2 className="ad-details-title">{title}</h2>
+      <h2 className="ad-details-title">{data?.title}</h2>
       <section className="ad-details">
         <div className="ad-details-image-container">
-          <img className="ad-details-image" src={picture} />
+          <img className="ad-details-image" src={data?.picture} />
         </div>
         <div className="ad-details-info">
           <div className="ad-details-price">
-            {price}
+            {data?.price}
             {' '}
             €
           </div>
           <div className="ad-details-description">
-            {description}
+            {data?.description}
           </div>
           <hr className="separator" />
           <div className="ad-details-owner">
             Annoncée publiée par
             {' '}
-            <b>{owner}</b>
+            <b>{data?.owner}</b>
             {' '}
             aujourd'hui (9:32).
           </div>

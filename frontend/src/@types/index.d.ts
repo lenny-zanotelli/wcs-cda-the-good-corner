@@ -1,6 +1,7 @@
 export type CategoryProps = {
   id: number;
   name: string;
+  onClick?: () => void;
 };
 
 export type AdCardProps = {
@@ -10,4 +11,5 @@ export type AdCardProps = {
   description: string;
   owner: string;
   price: number;
+  category: string;
 };

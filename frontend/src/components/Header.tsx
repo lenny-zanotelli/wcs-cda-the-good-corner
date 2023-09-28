@@ -2,7 +2,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import styles from '@/styles/Header.module.css';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import {
+  useEffect, useState,
+} from 'react';
 import { CategoryProps } from '@/@types';
 import NavCategory from './NavCategory';
 
@@ -21,6 +23,7 @@ function Header() {
     };
     fetchData();
   }, []);
+
   return (
     <header className={styles.header}>
       <div className={styles.mainMenu}>

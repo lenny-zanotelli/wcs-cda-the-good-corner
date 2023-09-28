@@ -26,7 +26,18 @@ function RecentAds() {
       }
     };
     fetchData();
-  }, [time]);
+  }, []);
+
+  const deleteAd = async (cardId: number) => {
+    try {
+      const result = await axios.delete('http://localhost:4000/ad', { data: { id: cardId } });
+      // Update when deleting ad with right id
+      setAdsData((prevAdsData) => prevAdsData.filter((ad) => ad.id !== cardId));
+      console.log(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -59,6 +70,7 @@ function RecentAds() {
               title={ad.title}
               description={ad.description}
               owner={ad.owner}
+              category={ad.category}
             />
             <button
               type="button"
@@ -68,6 +80,13 @@ function RecentAds() {
               }}
             >
               Add Price to total
+            </button>
+            <button
+              type="button"
+              className="button"
+              onClick={() => deleteAd(ad.id)}
+            >
+              Delete
             </button>
           </div>
         ))}
