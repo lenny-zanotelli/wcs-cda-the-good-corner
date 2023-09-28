@@ -6,10 +6,12 @@ import {
   useEffect, useState,
 } from 'react';
 import { CategoryProps } from '@/@types';
+import { useRouter } from 'next/router';
 import NavCategory from './NavCategory';
 
 function Header() {
   const [categories, setCategories] = useState<CategoryProps[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,8 +35,23 @@ function Header() {
             <span className={styles.desktopLongLabel}> THE GOOD CORNER</span>
           </a>
         </h1>
-        <form className={styles.textFieldWithButton}>
-          <input className={`${styles.textField} ${styles.mainSearchField}`} type="search" />
+        <form
+          className={styles.textFieldWithButton}
+          onSubmit={(e) => {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form as HTMLFormElement);
+
+            const formJson = Object.fromEntries(formData.entries());
+            console.log(formJson);
+            router.push(`/ad/search/${formJson.keyword}`);
+          }}
+        >
+          <input
+            className={`${styles.textField} ${styles.mainSearchField}`}
+            type="search"
+            name="keyword"
+          />
           <button type="button" className={`${styles.button} ${styles.butonPrimary}`}>
             <svg
               aria-hidden="true"
