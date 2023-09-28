@@ -7,7 +7,7 @@ function NavCategory({ name }: CategoryProps) {
   return (
     <>
       <Link
-        href={`/ads/${name}`}
+        href={`/ad/category/${name}`}
         className={styles.categoryNavigationLink}
       >
         {name}

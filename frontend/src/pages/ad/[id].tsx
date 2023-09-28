@@ -26,7 +26,7 @@ function AdDetailComponent() {
       <h2 className="ad-details-title">{data?.title}</h2>
       <section className="ad-details">
         <div className="ad-details-image-container">
-          <img className="ad-details-image" src={data?.picture} />
+          <img className="ad-details-image" src={data?.picture} alt={data?.title} />
         </div>
         <div className="ad-details-info">
           <div className="ad-details-price">
