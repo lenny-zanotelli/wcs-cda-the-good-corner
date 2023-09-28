@@ -1,15 +1,31 @@
 import { Request, Response } from "express";
 import { Ad } from "../entities/ad";
+import { Like } from "typeorm";
 
 const adsController = {
-  read: async (_req: Request, res: Response) => {
+  read: async (req: Request, res: Response) => {
+    let result: Ad[] = [];
     try {
-      const result = await Ad.find({ 
-        relations: {
-          category: true,
-          tags: true
-        },
-      });
+      if(req.query.title) {
+        result = await Ad.find({ 
+          relations: {
+            category: true,
+            tags: true
+          },
+          where: {
+            title: Like(`%${req.query.title}%`)
+          }
+        })
+        console.log(req.query.title);
+      } else {
+        console.log('no title in query');
+        result = await Ad.find({ 
+          relations: {
+            category: true,
+            tags: true
+          },
+        });
+      }
       res.send(result);
     } catch (error) {
       res.send("An error occcured while reading the ad");
