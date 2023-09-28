@@ -107,7 +107,8 @@ function NewAd() {
         {errors.price && toast.warning('Positive price is required')}
       </label>
       <br />
-      <select {...register('category')}>
+      <select {...register('category', { required: true })}>
+        {errors.category && toast.warning('A category is required')}
         {categories.map((category) => (
           <option
             value={category.id}
