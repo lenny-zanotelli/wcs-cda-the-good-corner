@@ -41,22 +41,24 @@ function DisplayAds({ ads, title, onUpdateAds }: DisplayAdsProps) {
               category={ad.category}
               createdAt={ad.createdAt}
             />
-            <button
-              type="button"
-              className="button"
-              onClick={() => deleteAd(ad.id)}
-            >
-              Delete
-            </button>
-            <div>
-              <Link href={`/ad/edit/${ad.id}`}>
-                <button
-                  type="button"
-                  className="button"
-                >
-                  Edit
-                </button>
-              </Link>
+            <div className={styles.buttonContainer}>
+              <button
+                type="button"
+                className="button"
+                onClick={() => deleteAd(ad.id)}
+              >
+                Delete
+              </button>
+              <div>
+                <Link href={`/ad/edit/${ad.id}`} style={{ textDecoration: 'none' }}>
+                  <button
+                    type="button"
+                    className="button"
+                  >
+                    Edit
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
 

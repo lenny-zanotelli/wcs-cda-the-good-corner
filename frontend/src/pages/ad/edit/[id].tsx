@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ToastContainer, toast } from 'react-toastify';
 import styles from '@/styles/NewAd.module.css';
@@ -21,7 +22,9 @@ function EditAd() {
   const router = useRouter();
   const [ad, setAd] = useState<AdCardProps>();
   const [categories, setCategories] = useState<CategoryProps[]>([]);
-  const { register, handleSubmit, reset } = useForm<Inputs>();
+  const {
+    register, handleSubmit, reset, formState: { errors },
+  } = useForm<Inputs>();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -60,7 +63,7 @@ function EditAd() {
         router.push('/');
       }, 1000);
     } catch (error: any) {
-      toast.error(error.response.data);
+      toast.error(error.response);
     }
   };
 
@@ -77,6 +80,7 @@ function EditAd() {
           {...register('title', { required: true })}
           className={styles.textField}
         />
+        {errors.title && toast.warning('Title with 3 characters at least required')}
       </label>
       <br />
       <label>
@@ -88,6 +92,7 @@ function EditAd() {
           {...register('description', { required: true })}
           className={styles.textField}
         />
+        {errors.description && toast.warning('Description required')}
       </label>
       <br />
       <label>
@@ -99,6 +104,7 @@ function EditAd() {
           {...register('owner', { required: true })}
           className={styles.textField}
         />
+        {errors.owner && toast.warning('Description required')}
       </label>
       <br />
       <label>
@@ -111,6 +117,7 @@ function EditAd() {
           {...register('picture', { required: true })}
           className={styles.textField}
         />
+        {errors.picture && toast.warning('Picture required')}
       </label>
       <br />
       <label>
@@ -122,6 +129,7 @@ function EditAd() {
           {...register('location', { required: true })}
           className={styles.textField}
         />
+        {errors.location && toast.warning('Location required')}
       </label>
       <br />
       <label>
@@ -138,6 +146,7 @@ function EditAd() {
           className={styles.textField}
           name="price"
         />
+        {errors.price && toast.warning('Positive Price required')}
       </label>
       <br />
       <select
@@ -153,6 +162,7 @@ function EditAd() {
           </option>
         ))}
       </select>
+      {errors.category && toast.warning('A Category required')}
       <button
         className="button"
         type="submit"
