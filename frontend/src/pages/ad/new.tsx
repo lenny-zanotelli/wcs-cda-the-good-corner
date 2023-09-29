@@ -25,8 +25,8 @@ function NewAd() {
     <form
       onSubmit={handleSubmit(async (data) => {
         try {
-          toast.success('New Ad has been submit!');
           await axios.post('http://localhost:4000/ad', data);
+          toast.success('New Ad has been submit!');
           console.log(data);
         } catch (error) {
           toast.error('Cant add new Ad');

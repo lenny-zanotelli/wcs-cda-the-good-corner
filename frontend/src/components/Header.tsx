@@ -24,7 +24,7 @@ function Header() {
       }
     };
     fetchData();
-  }, []);
+  }, [router.push]);
 
   return (
     <header className={styles.header}>
@@ -73,6 +73,10 @@ function Header() {
         <a href="/ad/new" className={`${styles.button} ${styles.linkButton}`}>
           <span className={styles.mobileShortLabel}>Publier</span>
           <span className={styles.desktopLongLabel}>Publier une annonce</span>
+        </a>
+        <a href="/ad/category/new" className={`${styles.button} ${styles.linkButton}`}>
+          <span className={styles.mobileShortLabel}>Categorie</span>
+          <span className={styles.desktopLongLabel}>Ajouter une Categorie</span>
         </a>
       </div>
       <nav className={styles.categoriesNavigation}>
