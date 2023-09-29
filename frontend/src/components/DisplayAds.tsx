@@ -2,6 +2,7 @@
 import styles from '@/styles/DisplayAds.module.css';
 import { AdCardProps } from '@/@types';
 import axios from 'axios';
+import Link from 'next/link';
 import AdCard from './AdCard';
 
 type DisplayAdsProps = {
@@ -35,6 +36,7 @@ function DisplayAds({ ads, title, onUpdateAds }: DisplayAdsProps) {
               price={ad.price}
               title={ad.title}
               description={ad.description}
+              location={ad.location}
               owner={ad.owner}
               category={ad.category}
               createdAt={ad.createdAt}
@@ -46,6 +48,16 @@ function DisplayAds({ ads, title, onUpdateAds }: DisplayAdsProps) {
             >
               Delete
             </button>
+            <div>
+              <Link href={`/ad/edit/${ad.id}`}>
+                <button
+                  type="button"
+                  className="button"
+                >
+                  Edit
+                </button>
+              </Link>
+            </div>
           </div>
 
         ))}

@@ -1,48 +1,82 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { CategoryProps } from '@/@types';
-import axios from 'axios';
-import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import styles from '@/styles/NewAd.module.css';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ToastContainer, toast } from 'react-toastify';
+import styles from '@/styles/NewAd.module.css';
+import { useRouter } from 'next/router';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { AdCardProps, CategoryProps } from '@/@types';
 
-function NewAd() {
+type Inputs = {
+  title: string;
+  price: number;
+  description: string;
+  owner: string;
+  picture: string;
+  location: string;
+  category: number;
+};
+
+function EditAd() {
+  const router = useRouter();
+  const [ad, setAd] = useState<AdCardProps>();
   const [categories, setCategories] = useState<CategoryProps[]>([]);
-  // React-Hook-Form
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  // Fetch categories
+  const { register, handleSubmit, reset } = useForm<Inputs>();
+
   useEffect(() => {
     const fetchCategories = async () => {
-      const result = await axios.get<CategoryProps[]>(
-        'http://localhost:4000/category',
-      );
-      setCategories(result.data);
+      try {
+        const result = await axios.get<CategoryProps[]>(
+          'http://localhost:4000/category',
+        );
+        setCategories(result.data);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchCategories();
-  }, []);
+    const fetchAd = async () => {
+      try {
+        const result = await axios.get<AdCardProps>(
+          `http://localhost:4000/ad/${router.query.id}`,
+        );
+        setAd(result.data);
+        reset();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchAd();
+  }, [router.query.id, reset]);
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      const result = await axios.put('http://localhost:4000/ad', {
+        idToEdit: router.query.id,
+        newAd: data,
+      });
+      toast.success(result.data);
+      setTimeout(() => {
+        router.push('/');
+      }, 1000);
+    } catch (error: any) {
+      toast.error(error.response.data);
+    }
+  };
 
   return (
     <form
-      onSubmit={handleSubmit(async (data) => {
-        try {
-          toast.success('New Ad has been submit!');
-          await axios.post('http://localhost:4000/ad', data);
-          console.log(data);
-        } catch (error) {
-          toast.error('Cant add new Ad');
-          console.log(error);
-        }
-      })}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <label>
         Titre de l&apos;annonce:
         {' '}
         <br />
         <input
+          defaultValue={ad?.title}
           {...register('title', { required: true })}
           className={styles.textField}
         />
-        {errors.title && toast.warning('Name is required')}
       </label>
       <br />
       <label>
@@ -50,10 +84,10 @@ function NewAd() {
         {' '}
         <br />
         <input
+          defaultValue={ad?.description}
           {...register('description', { required: true })}
           className={styles.textField}
         />
-        {errors.description && toast.warning('Description is required')}
       </label>
       <br />
       <label>
@@ -61,10 +95,10 @@ function NewAd() {
         {' '}
         <br />
         <input
+          defaultValue={ad?.owner}
           {...register('owner', { required: true })}
           className={styles.textField}
         />
-        {errors.owner && toast.warning('An Owner is required')}
       </label>
       <br />
       <label>
@@ -72,11 +106,11 @@ function NewAd() {
         {' '}
         <br />
         <input
+          defaultValue={ad?.picture}
           type="url"
           {...register('picture', { required: true })}
           className={styles.textField}
         />
-        {errors.picture && toast.warning('A picture is required')}
       </label>
       <br />
       <label>
@@ -84,16 +118,17 @@ function NewAd() {
         {' '}
         <br />
         <input
+          defaultValue={ad?.location}
           {...register('location', { required: true })}
           className={styles.textField}
         />
-        {errors.location && toast.warning('A location is required')}
       </label>
       <br />
       <label>
         Prix:
         <br />
         <input
+          defaultValue={ad?.price}
           type="number"
           {...register('price', {
             required: true,
@@ -103,11 +138,12 @@ function NewAd() {
           className={styles.textField}
           name="price"
         />
-        {errors.price && toast.warning('Positive price is required')}
       </label>
       <br />
-      <select {...register('category', { required: true })}>
-        {errors.category && toast.warning('A category is required')}
+      <select
+        defaultValue={ad?.category?.id}
+        {...register('category', { required: true })}
+      >
         {categories.map((category) => (
           <option
             value={category.id}
@@ -136,7 +172,8 @@ function NewAd() {
         theme="light"
       />
     </form>
+
   );
 }
 
-export default NewAd;
+export default EditAd;
