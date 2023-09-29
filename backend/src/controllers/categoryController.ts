@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Category } from "../entities/category";
+import { validate } from "class-validator";
 
 
 const categoryController = {
@@ -32,11 +33,16 @@ const categoryController = {
   },
   create: async (req: Request, res: Response) => {
     try {
-      await Category.save(req.body);
+      const newCategory = Category.create(req.body);
+      const errors = await validate(newCategory);
+      if (errors.length > 0) {
+        throw new Error(`Validation failed`);
+      } else {
+        await newCategory.save();
+      }
       res.send("A Category has been created")
     } catch (error) {
-      res.send("An error occured while creating the category")
-      console.error(error)
+      res.status(400).send("An error occured while creating the category")
     }
   },
   delete: async (req: Request, res: Response) => {
@@ -53,7 +59,7 @@ const categoryController = {
       await Category.update(req.body.id, req.body);
       res.send('Category has been modified')
     } catch (error) {
-      res.send('An error occured while modifying the category');
+      res.send('An error occured while updating the category');
       console.error(error);
     }
 
