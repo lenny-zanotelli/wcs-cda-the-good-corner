@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Ad } from "../entities/ad";
 import { Like } from "typeorm";
+import { validate } from "class-validator";
 
 const adsController = {
   read: async (req: Request, res: Response) => {
@@ -44,11 +45,16 @@ const adsController = {
   },
   create: async (req: Request, res: Response) => {
     try {
-      await Ad.save(req.body);
+      const newAd = Ad.create(req.body);
+      const errors = await validate(newAd);
+      if (errors.length > 0) {
+        throw new Error(`Validation failed`);
+      } else {
+        await newAd.save();
+      }
       res.send("Ad has been created")
     } catch (error) {
-      res.send("An error occcured while creating the ad");
-      console.error(error)
+      res.status(400).send("An error occcured while creating the ad");
     }
   },
   delete: async (req: Request, res: Response) => {
@@ -63,12 +69,20 @@ const adsController = {
   },
   put: async (req: Request, res: Response) => {
     try {
-      await Ad.update(req.body.id, req.body)
-      res.send('Ad has been modified')
+      const result = await Ad.find({
+        where: {
+          id: parseInt(req.body.idToEdit),
+        },
+        relations: { category: true }
+      });
+      console.log('result', result);
+      Ad.update({
+         id: req.body.idToEdit }, 
+         req.body.newAd);
+      res.send('Ad has been updated')
     } catch (error) {
       res.send("An error occcured while modifying the ad");
       console.error(error)
-      
     }
   },
 };
