@@ -39,7 +39,8 @@ export class Ad extends BaseEntity{
   // One Ad has only 1 category
   // A category can contain multiple ads
   // MamyToOne relationship (many adds one category)
-  @ManyToOne(() => Category, (category) => category.ads) 
+  @ManyToOne(() => Category, (category) => category.ads, {
+    onDelete: "SET NULL"}) 
   category: Category
 
    // An ad can have multiple tags

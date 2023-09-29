@@ -1,4 +1,4 @@
-GET http://localhost:4000/tca
+GET http://localhost:4000/tag
 
 ###
 POST http://localhost:4000/tag

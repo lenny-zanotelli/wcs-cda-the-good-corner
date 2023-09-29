@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { Category } from "../entities/category";
 
 
-const tagController = {
+const categoryController = {
   read: async (req: Request, res: Response) => {
     let result: Category[] = [];
     try {
@@ -60,4 +60,4 @@ const tagController = {
   },
 }
 
-export default tagController;
+export default categoryController;
