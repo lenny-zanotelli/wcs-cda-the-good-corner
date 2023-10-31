@@ -71,7 +71,7 @@ const adsController = {
     try {
       const result = await Ad.find({
         where: {
-          id: parseInt(req.body.idToEdit),
+          id: req.body.idToEdit,
         },
         relations: { category: true }
       });
