@@ -27,7 +27,7 @@ DELETE http://localhost:4000/ad
 Content-Type: application/json
 
 {
-    "id": 10
+    "id": 31
 }
 
 ###

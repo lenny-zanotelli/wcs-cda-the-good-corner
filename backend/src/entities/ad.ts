@@ -1,40 +1,49 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { 
+  BaseEntity, 
+  Column, 
+  CreateDateColumn, 
+  Entity, 
+  JoinTable, 
+  ManyToMany, 
+  ManyToOne, 
+  PrimaryGeneratedColumn, 
+  UpdateDateColumn } from "typeorm";
 import { ObjectType, Field, ID} from "type-graphql";
 import { Category } from "./category";
 import { Tag } from "./tag";
 import { IsDate, IsInt, Length, Min } from "class-validator";
 
-@Entity()
 @ObjectType()
+@Entity()
 export class Ad extends BaseEntity{
   @Field(() => ID)
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field(() => String)
+  @Field()
   @Column()
   @Length(3, 20)
   title: string;
 
-  @Field(() => Number)
+  @Field()
   @Column()
   @IsInt()
   @Min(0)
   price: number;
 
-  @Field(() => String)
+  @Field()
   @Column()
   description: string;
 
-  @Field(() => String)
+  @Field()
   @Column()
   owner: string;
   
-  @Field(() => String)
+  @Field()
   @Column()
   picture: string;
 
-  @Field(() => String)
+  @Field()
   @Column()
   location: string;
 
@@ -45,18 +54,21 @@ export class Ad extends BaseEntity{
 
   @Field()
   @UpdateDateColumn()
+  @IsDate()
   updatedAt: Date;
 
   // One Ad has only 1 category
   // A category can contain multiple ads
-  // MamyToOne relationship (many adds one category)
+  // ManyToOne relationship (many adds one category)
+  @Field(() => Category, { nullable: true})
   @ManyToOne(() => Category, (category) => category.ads, {
-    onDelete: "SET NULL"}) 
+    onDelete: "SET NULL"
+  }) 
   category: Category
 
    // An ad can have multiple tags
   // A tag can have multiple ads
-  @ManyToMany(() => Tag, (tag) => tag.ads)
   @JoinTable()
+  @ManyToMany(() => Tag, (tag) => tag.ads)
   tags: Tag[];
 }

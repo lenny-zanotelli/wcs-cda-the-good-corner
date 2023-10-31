@@ -3,12 +3,12 @@ import { ObjectType, Field, ID} from "type-graphql";
 import { Ad } from "./ad";
 
 
-@Entity()
 @ObjectType()
+@Entity()
 export class Tag extends BaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
   @Field(() => String)
   @Column()

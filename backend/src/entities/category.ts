@@ -4,14 +4,14 @@ import { ObjectType, Field, ID} from "type-graphql";
 import { Ad } from "./ad";
 import { Length } from "class-validator";
 
-@Entity()
 @ObjectType()
+@Entity()
 export class Category extends BaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field(() => String)
+  @Field()
   @Column()
   @Length(2, 10)
   name: string;
