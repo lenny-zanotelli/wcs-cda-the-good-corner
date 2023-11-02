@@ -1,7 +1,6 @@
-import { AdCardProps } from '@/@types';
-
-import styles from '@/styles/AdCard.module.css';
 import Link from 'next/link';
+import styles from '@/styles/AdCard.module.css';
+import { AdCardProps } from '../@types';
 
 function AdCard({
   id, title, picture, price,

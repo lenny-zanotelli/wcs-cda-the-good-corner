@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ToastContainer, toast } from 'react-toastify';
-import styles from '@/styles/NewAd.module.css';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { AdCardProps, CategoryProps } from '@/@types';
+import styles from '@/styles/NewAd.module.css';
+import { AdCardProps, CategoryProps } from '../../../@types';
 
 type Inputs = {
   title: string;

@@ -1,10 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { CategoryProps } from '@/@types';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import styles from '@/styles/NewAd.module.css';
 import { ToastContainer, toast } from 'react-toastify';
+import styles from '../styles/NewAd.module.css';
+import { CategoryProps } from '../../@types';
 
 function NewAd() {
   const [categories, setCategories] = useState<CategoryProps[]>([]);

@@ -1,14 +1,23 @@
-import Layout from '@/components/Layout';
-import '@/styles/globals.css';
+/* eslint-disable import/extensions */
+import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import 'react-toastify/dist/ReactToastify.min.css';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import Layout from '../components/Layout';
+
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/',
+  cache: new InMemoryCache(),
+});
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <ApolloProvider client={client}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ApolloProvider>
   );
 }
 

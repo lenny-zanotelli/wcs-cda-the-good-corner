@@ -2,12 +2,12 @@
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
-import styles from '@/styles/NewAd.module.css';
 import { useRouter } from 'next/router';
+import styles from '@/styles/NewAd.module.css';
 
 function NewCategory() {
-  const router = useRouter();
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const router = useRouter();
 
   return (
     <form

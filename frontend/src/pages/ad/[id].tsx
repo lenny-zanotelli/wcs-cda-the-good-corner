@@ -1,23 +1,38 @@
-import { AdCardProps } from '@/@types';
-import axios from 'axios';
+import { gql, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+
+const GET_AD_BY_ID = gql`
+query Query($getAdByIdId: Float!) {
+  getAdById(id: $getAdByIdId) {
+    id
+    title
+    price
+    description
+    owner
+    picture
+    location
+  }
+}
+`;
 
 function AdDetailComponent() {
-  const [data, setData] = useState<AdCardProps>();
   const router = useRouter();
-  useEffect(() => {
-    const fetchData = async (searchId: number) => {
-      try {
-        const result = await axios.get(`http://localhost:4000/ad/${searchId}`);
-        setData(result.data);
-        console.log(result.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData(Number(router.query.id));
-  }, [router.query.id]);
+  const { adId } = router.query;
+  const { data, loading, error } = useQuery(GET_AD_BY_ID, {
+    variables: { getAdById: Number(adId) },
+  });
+
+  if (loading) return <p>Loading...</p>;
+  if (error) {
+    return (
+      <p>
+        Error:
+        {' '}
+        {error.message}
+      </p>
+    );
+  }
+
   return (
     <main className="main-content">
       <h2 className="ad-details-title">{data?.title}</h2>

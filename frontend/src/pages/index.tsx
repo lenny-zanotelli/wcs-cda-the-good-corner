@@ -1,4 +1,4 @@
-import RecentAds from '@/components/RecentAds';
+import RecentAds from '../components/RecentAds';
 
 export default function Home() {
   return (

@@ -1,30 +1,37 @@
+/* eslint-disable import/extensions */
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable import/no-extraneous-dependencies */
-import styles from '@/styles/Header.module.css';
-import axios from 'axios';
-import {
-  useEffect, useState,
-} from 'react';
-import { CategoryProps } from '@/@types';
 import { useRouter } from 'next/router';
+import { gql, useQuery } from '@apollo/client';
+import styles from '../styles/Header.module.css';
 import NavCategory from './NavCategory';
+import { CategoryProps } from '../@types';
+
+const GET_CATEGORIES = gql`
+query Query {
+  getAllCategories {
+    name
+    id
+  }
+}
+`;
 
 function Header() {
-  const [categories, setCategories] = useState<CategoryProps[]>([]);
+  const { data, loading, error } = useQuery<CategoryProps>(GET_CATEGORIES);
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await axios.get<CategoryProps[]>('http://localhost:4000/category');
-        setCategories(result.data);
-        console.log(result.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, [router.push]);
+  if (loading) return <p>Loading...</p>;
+  if (error) {
+    return (
+      <p>
+        Error:
+        {' '}
+        {error.message}
+      </p>
+    );
+  }
+
+  const categories = data ? data.getAllCategories : [];
 
   return (
     <header className={styles.header}>
@@ -85,6 +92,7 @@ function Header() {
             key={category.id}
             id={category.id}
             name={category.name}
+            getAllCategories={[]}
           />
         ))}
       </nav>

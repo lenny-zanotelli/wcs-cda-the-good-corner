@@ -1,30 +1,46 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { AdCardProps } from '@/@types';
+import { gql, useQuery } from '@apollo/client';
 import DisplayAds from './DisplayAds';
+// import { AdCardProps } from '@/types';
+
+const GET_ALL_ADS = gql`
+  query GetAllAds {
+    getAllAds {
+      id
+      title
+      category {
+        id
+        name
+      }
+      description
+      picture
+      location
+      owner
+      price
+    }
+  }
+`;
 
 function RecentAds() {
-  const [recentAds, setRecentsAds] = useState<AdCardProps[]>([]);
+  const { loading, error, data } = useQuery(GET_ALL_ADS);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await axios.get<AdCardProps[]>('http://localhost:4000/ad');
-        setRecentsAds(result.data);
-        console.log(result);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, []);
+  if (loading) return <p>Loading...</p>;
+  if (error) {
+    return (
+      <p>
+        Error:
+        {' '}
+        {error.message}
+      </p>
+    );
+  }
 
-  const updatedAdsLocally = (updateAds: AdCardProps[]) => {
-    setRecentsAds(updateAds);
-  };
-
-  return <DisplayAds ads={recentAds} title="Recents Ads" onUpdateAds={updatedAdsLocally} />;
+  return (
+    <DisplayAds
+      ads={data.getAllAds}
+      title="Recents Ads"
+    />
+  );
 }
 
 export default RecentAds;

@@ -1,35 +1,52 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { AdCardProps } from '@/@types';
-import DisplayAds from '@/components/DisplayAds';
-import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { gql, useQuery } from '@apollo/client';
+import DisplayAds from '../../../components/DisplayAds';
+
+const GET_ADS_SEARCH = gql`
+query Query($title: String) {
+  getAllAds(title: $title) {
+    id
+    title
+    price
+    description
+    owner
+    picture
+    location
+    createdAt
+    updatedAt
+    category {
+      id
+      name
+    }
+    tags {
+      id
+      name
+    }
+  }
+}
+`;
 
 function SearchResults() {
-  const [searchAds, setSearchAds] = useState<AdCardProps[]>([]);
-
   const router = useRouter();
+  const { keyword } = router.query;
+  const { data, loading, error } = useQuery(GET_ADS_SEARCH, {
+    variables: { title: keyword },
+  });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await axios.get(`http://localhost:4000/ad?title=${router.query.keyword}`);
-        console.log(result.data);
-        setSearchAds(result.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, [router.query.keyword]);
-
+  if (loading) return <p>Loading...</p>;
+  if (error) {
+    return (
+      <p>
+        Error:
+        {' '}
+        {error.message}
+      </p>
+    );
+  }
   return (
     <DisplayAds
-      ads={searchAds}
-      title={`Displaying search results for : ${router.query.keyword}`}
-      onUpdateAds={(_updatedAds: AdCardProps[]) => {
-        throw new Error('Function not implemented.');
-      }}
+      ads={data.getAllAds}
+      title={`Displaying search results for : ${keyword}`}
     />
 
   );

@@ -1,7 +1,8 @@
+/* eslint-disable import/extensions */
 /* eslint-disable @next/next/no-html-link-for-pages */
-import { CategoryProps } from '@/@types';
 import Link from 'next/link';
 import styles from '../styles/NavCategory.module.css';
+import { CategoryProps } from '../@types';
 
 function NavCategory({ name }: CategoryProps) {
   return (

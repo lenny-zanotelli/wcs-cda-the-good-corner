@@ -1,7 +1,7 @@
 export type CategoryProps = {
   id: number;
   name: string;
-  onClick?: () => void;
+  getAllCategories: CategoryProps[]
 };
 
 export type AdCardProps = {
@@ -16,5 +16,9 @@ export type AdCardProps = {
     id: number;
     name: string;
   }
+  ads: {
+    id: number;
+    name: string;
+  },
   createdAt: string;
 };

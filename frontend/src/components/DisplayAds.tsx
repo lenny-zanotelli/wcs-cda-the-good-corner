@@ -1,28 +1,56 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import styles from '@/styles/DisplayAds.module.css';
-import { AdCardProps } from '@/@types';
-import axios from 'axios';
 import Link from 'next/link';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import styles from '@/styles/DisplayAds.module.css';
 import AdCard from './AdCard';
+import { AdCardProps } from '../@types';
 
 type DisplayAdsProps = {
   ads: AdCardProps[];
   title: string;
-  onUpdateAds: (updatedAds: AdCardProps[]) => void;
 };
 
-function DisplayAds({ ads, title, onUpdateAds }: DisplayAdsProps) {
-  const deleteAd = async (cardId: number) => {
+const DELETE_AD = gql`
+mutation Mutation($deleteAdId: Float!) {
+  deleteAd(id: $deleteAdId)
+}
+`;
+
+const GET_ALL_ADS = gql`
+  query GetAllAds {
+    getAllAds {
+      id
+      title
+      category {
+        id
+        name
+      }
+      description
+      picture
+      location
+      owner
+      price
+    }
+  }
+`;
+
+function DisplayAds({ ads, title }: DisplayAdsProps) {
+  const { data, refetch: refetchAds } = useQuery(GET_ALL_ADS);
+  const [deleteAd] = useMutation(DELETE_AD);
+
+  // TODO: find the good type or smth else
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleDeleteAd = async (adId: any) => {
     try {
-      const result = await axios.delete('http://localhost:4000/ad', { data: { id: cardId } });
-      // Filtre les annonces pour exclure celle avec un Id correspondant a cardId
-      const updatedAds = ads.filter((ad) => ad.id !== cardId);
-      onUpdateAds(updatedAds);
-      console.log(result.data);
+      await deleteAd({
+        variables: { deleteAdId: parseFloat(adId) },
+      });
+      refetchAds();
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <>
       <h2>{title}</h2>
@@ -40,12 +68,14 @@ function DisplayAds({ ads, title, onUpdateAds }: DisplayAdsProps) {
               owner={ad.owner}
               category={ad.category}
               createdAt={ad.createdAt}
+              ads={ad.ads}
+              getAllAds={[]}
             />
             <div className={styles.buttonContainer}>
               <button
                 type="button"
                 className="button"
-                onClick={() => deleteAd(ad.id)}
+                onClick={() => handleDeleteAd(ad.id)}
               >
                 Delete
               </button>
