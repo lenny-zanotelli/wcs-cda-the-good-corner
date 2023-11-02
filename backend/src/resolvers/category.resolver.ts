@@ -6,7 +6,7 @@ import { UpdateCategoryInput } from "./inputs/UpdateCategoryInput";
 @Resolver()
 export class CategoryResolver {
   @Query(() => [Category])
-  allCategories() {
+  getAllCategories() {
     const categories = Category.find({ 
       relations: { 
         ads: true
@@ -31,9 +31,10 @@ export class CategoryResolver {
     return newCategory;
   }
 
-  @Mutation(() => String)
+  @Mutation(() => Category)
   async updateCategory(@Arg("id") id: number, @Arg("data") data: UpdateCategoryInput) {
     await Category.update(id, {...data});
-    return "Category has been modified";
+    const updateCategory = await Category.findOneBy({ id })
+    return updateCategory;
   }
 }

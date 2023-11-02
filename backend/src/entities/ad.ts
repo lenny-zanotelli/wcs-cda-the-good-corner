@@ -70,5 +70,6 @@ export class Ad extends BaseEntity{
   // A tag can have multiple ads
   @JoinTable()
   @ManyToMany(() => Tag, (tag) => tag.ads)
+  @Field(() => [Tag], { nullable: true })
   tags: Tag[];
 }

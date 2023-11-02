@@ -10,10 +10,11 @@ export class Tag extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field(() => String)
+  @Field()
   @Column()
   name: string;
 
   @ManyToMany(() => Ad, (ad) => ad.tags)
+  @Field(() => [Ad], { nullable: true})
   ads: Ad[]
 }

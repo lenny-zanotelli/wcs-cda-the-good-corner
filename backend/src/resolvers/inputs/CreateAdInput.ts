@@ -23,4 +23,5 @@ export class CreateAdInput {
 
   @Field()
   location: string;
+
 }

@@ -10,6 +10,7 @@ import { startStandaloneServer } from "@apollo/server/standalone"
 // import tagController from "./controllers/tagController";
 import { AdResolver } from "./resolvers/ad.resolver";
 import { CategoryResolver } from "./resolvers/category.resolver";
+import { TagResolver } from "./resolvers/tag.resolver";
 
 const port: number = 4000;
 const app: Express = express();
@@ -38,7 +39,7 @@ app.use(express.json());
 async function start() {
   await dataSource.initialize();
   const schema = await buildSchema({
-    resolvers: [AdResolver, CategoryResolver],
+    resolvers: [AdResolver, CategoryResolver, TagResolver],
   })
   const server = new ApolloServer({ schema })
   const { url } = await startStandaloneServer(server, {

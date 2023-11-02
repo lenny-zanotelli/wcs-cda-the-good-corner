@@ -17,7 +17,9 @@ export class Category extends BaseEntity {
   name: string;
 
   // A category can contain multiple ads
+  
   @OneToMany(() => Ad, (ads) => ads.category)
+  @Field(() => [Ad], { nullable: true})
   ads: Ad[];
 
 }
