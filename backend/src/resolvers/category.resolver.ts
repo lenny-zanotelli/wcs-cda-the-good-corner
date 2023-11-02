@@ -31,12 +31,9 @@ export class CategoryResolver {
     return newCategory;
   }
 
-  @Mutation(() => Category)
+  @Mutation(() => String)
   async updateCategory(@Arg("id") id: number, @Arg("data") data: UpdateCategoryInput) {
-    const category = await Category.findOne({where:{id}});
-    if(!category) throw new Error("Category not found!");
-    Object.assign(category, data);
-    await category.save()
-    return `Category has been modified!`;
+    await Category.update(id, {...data});
+    return "Category has been modified";
   }
 }
