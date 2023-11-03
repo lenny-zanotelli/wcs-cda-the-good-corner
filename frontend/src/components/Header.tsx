@@ -1,6 +1,3 @@
-/* eslint-disable import/extensions */
-/* eslint-disable @next/next/no-html-link-for-pages */
-/* eslint-disable import/no-extraneous-dependencies */
 import { useRouter } from 'next/router';
 import { gql, useQuery } from '@apollo/client';
 import styles from '../styles/Header.module.css';
@@ -50,7 +47,6 @@ function Header() {
             const formData = new FormData(form as HTMLFormElement);
 
             const formJson = Object.fromEntries(formData.entries());
-            console.log(formJson);
             router.push(`/ad/search/${formJson.keyword}`);
           }}
         >

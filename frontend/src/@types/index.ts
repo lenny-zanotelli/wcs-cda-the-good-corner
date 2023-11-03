@@ -1,7 +1,10 @@
 export type CategoryProps = {
   id: number;
   name: string;
-  getAllCategories: CategoryProps[]
+  getAllCategories: {
+    id: number;
+    name: string;
+  }[]
 };
 
 export type AdCardProps = {

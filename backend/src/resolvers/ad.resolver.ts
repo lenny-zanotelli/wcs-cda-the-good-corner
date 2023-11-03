@@ -1,6 +1,6 @@
 import { Ad } from "../entities/ad";
 import { Arg, Resolver, Query, Mutation } from "type-graphql";
-// import { CreateAdInput } from "./inputs/CreateAdInput";
+import { CreateAdInput } from "./inputs/CreateAdInput";
 import { Like } from "typeorm";
 import { UpdateAdInput } from "./inputs/UpdateAdInput";
 
@@ -40,7 +40,6 @@ export class AdResolver {
           tags: true 
         } 
       });
-
     }
   }
 
@@ -49,13 +48,26 @@ export class AdResolver {
     return Ad.findOneBy({ id });
   }
 
-  // @Mutation(() => Ad)
-  // async createAd(@Arg("newAd") AdInput: CreateAdInput
-  // ) {
-  //   const newAd = Ad.create();
-  //   await newAd.save();
-  //   return newAd; 
-  // }
+  @Mutation(() => Ad)
+  async createAd(@Arg("newAd") AdInput: CreateAdInput
+  ) {
+    console.log(AdInput);
+    if (AdInput.tags) {
+      return await Ad.save({
+        ...AdInput,
+        category: { id: AdInput.category },
+        tags: AdInput.tags.map((el) => ({ id: el})),
+      });
+    } else {
+      return await Ad.save({
+        ...AdInput,
+        category: { id: AdInput.category },
+        tags: [],
+      });
+      
+
+    }
+  }
 
   @Mutation(() => String)
   async deleteAd(@Arg("id") id: number) {

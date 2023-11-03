@@ -1,38 +1,80 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import axios from 'axios';
-import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
-import styles from '../styles/NewAd.module.css';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import styles from '../../styles/NewAd.module.css';
 import { CategoryProps } from '../../@types';
 
+type Inputs = {
+  title: string;
+  price: string;
+  description: string;
+  owner: string;
+  picture: string;
+  location: string;
+  category: string;
+};
+
+export const GET_ALL_CATEGORIES = gql`
+ query Query {
+  getAllCategories {
+    id
+    name
+  }
+}
+`;
+
+export const CREATE_NEW_AD = gql`
+mutation Mutation($newAd: CreateAdInput!) {
+  createAd(newAd: $newAd) {
+    id
+    description
+    location
+    owner
+    picture
+    price
+    title
+    category {
+      id
+    }
+  }
+}
+`;
+
 function NewAd() {
-  const [categories, setCategories] = useState<CategoryProps[]>([]);
   // React-Hook-Form
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  // Fetch categories
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const result = await axios.get<CategoryProps[]>(
-        'http://localhost:4000/category',
-      );
-      setCategories(result.data);
-    };
-    fetchCategories();
-  }, []);
+  const { handleSubmit, register, formState: { errors } } = useForm<Inputs>();
+
+  const { data: dataCategories } = useQuery<CategoryProps>(GET_ALL_CATEGORIES);
+
+  const [createAd] = useMutation(CREATE_NEW_AD);
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      console.log('data from form', data);
+      const result = await createAd({
+        variables: {
+          newAd: {
+            title: data.title,
+            price: data.price,
+            description: data.description,
+            owner: data.owner,
+            picture: data.picture,
+            location: data.location,
+            category: parseFloat(data.category),
+          },
+        },
+      });
+      toast.success(result.data);
+    } catch (err) {
+      toast.error('Cant ad new Ad');
+    }
+  };
+
+  const categories = dataCategories ? dataCategories.getAllCategories : [];
 
   return (
     <form
-      onSubmit={handleSubmit(async (data) => {
-        try {
-          await axios.post('http://localhost:4000/ad', data);
-          toast.success('New Ad has been submit!');
-          console.log(data);
-        } catch (error) {
-          toast.error('Cant add new Ad');
-          console.log(error);
-        }
-      })}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <label>
         Titre de l&apos;annonce:

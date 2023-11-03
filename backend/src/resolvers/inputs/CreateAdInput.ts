@@ -24,4 +24,10 @@ export class CreateAdInput {
   @Field()
   location: string;
 
+  @Field()
+  category: number;
+
+  @Field(() => [Number], { nullable: true})
+  tags?: [number];
+
 }
