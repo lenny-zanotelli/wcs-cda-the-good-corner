@@ -4,25 +4,21 @@ import { useRouter } from 'next/router';
 import { gql, useQuery } from '@apollo/client';
 import DisplayAds from '../../../components/DisplayAds';
 
-const GET_CATEGORIES_ADS = gql`
-query GetAllCategories {
-  getAllCategories {
+const GET_ALL_ADS_BY_CATEGORY = gql`
+query Query($category: String) {
+  getAllAds(category: $category) {
     id
-    name
-    ads {
+    title
+    price
+    description
+    owner
+    picture
+    location
+    createdAt
+    updatedAt
+    category {
       id
-      title
-      price
-      description
-      owner
-      picture
-      location
-      updatedAt
-      tags {
-        id
-        name
-      }
-      createdAt
+      name
     }
   }
 }
@@ -32,8 +28,8 @@ function CategoryResults() {
   const router = useRouter();
   const categoryName = router.query.category;
 
-  const { data, loading, error } = useQuery(GET_CATEGORIES_ADS, {
-    variables: { categoryName },
+  const { data, loading, error } = useQuery(GET_ALL_ADS_BY_CATEGORY, {
+    variables: { category: categoryName },
   });
 
   if (loading) {
@@ -50,13 +46,24 @@ function CategoryResults() {
     );
   }
 
-  const categoryAds = data?.getAllCategories;
+  const categoryAds = data?.getAllAds;
 
   return (
-    <DisplayAds
-      ads={categoryAds}
-      title={`Displaying category results for : ${router.query.category}`}
-    />
+    <div>
+      {categoryAds.length === 0 ? (
+        <p>
+          No ads found for the category:
+          {' '}
+          {router.query.category}
+        </p>
+      ) : (
+        <DisplayAds
+          ads={categoryAds}
+          title={`Displaying category results for : ${router.query.category}`}
+        />
+
+      )}
+    </div>
 
   );
 }

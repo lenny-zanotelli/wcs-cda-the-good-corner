@@ -69,7 +69,6 @@ function DisplayAds({ ads, title }: DisplayAdsProps) {
               category={ad.category}
               createdAt={ad.createdAt}
               ads={ad.ads}
-              getAllAds={[]}
             />
             <div className={styles.buttonContainer}>
               <button

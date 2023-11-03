@@ -176,6 +176,7 @@ function NewAd() {
         draggable
         pauseOnHover
         theme="light"
+        limit={3}
       />
     </form>
   );
