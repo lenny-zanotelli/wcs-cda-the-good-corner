@@ -4,13 +4,15 @@ import styles from '../styles/DisplayAds.module.css';
 import AdCard from './AdCard';
 import { GET_ALL_ADS } from '../graphql/queries/queries';
 import { DELETE_AD } from '../graphql/mutations/mutations';
+import { Ad } from '../types';
 
 type DisplayAdsProps = {
-  title: string;
+  ads: Ad[];
+  titleDisplay: string;
 };
 
-function DisplayAds({ title }: DisplayAdsProps) {
-  const { data, refetch: refetchAds } = useQuery(GET_ALL_ADS);
+function DisplayAds({ titleDisplay, ads }: DisplayAdsProps) {
+  const { data, refetch } = useQuery(GET_ALL_ADS, { skip: ads.length > 0});
   const [deleteAd] = useMutation(DELETE_AD);
 
   const handleDeleteAd = async (adId: number) => {
@@ -18,18 +20,16 @@ function DisplayAds({ title }: DisplayAdsProps) {
       await deleteAd({
         variables: { deleteAdId: adId },
       });
-      refetchAds();
+      refetch();
       console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const ads = data ? data.getAllAds : [];
-
   return (
     <>
-      <h2>{title}</h2>
+      <h2>{titleDisplay}</h2>
       <section className={styles.recentAds}>
         {ads.map((ad) => (
           <div key={ad.id}>
@@ -43,14 +43,13 @@ function DisplayAds({ title }: DisplayAdsProps) {
               location={ad.location}
               owner={ad.owner}
               category={ad.category}
-              ads={ad.ads}
               createdAt={ad.createdAt}
             />
             <div className={styles.buttonContainer}>
               <button
                 type="button"
                 className="button"
-                onClick={() => handleDeleteAd(ad.id)}
+                onClick={() => handleDeleteAd(Number(ad.id))}
               >
                 Delete
               </button>

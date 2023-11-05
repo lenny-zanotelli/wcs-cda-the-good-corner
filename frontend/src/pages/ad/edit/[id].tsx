@@ -1,11 +1,12 @@
-/* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/router';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import {
+  SubmitHandler, useForm,
+} from 'react-hook-form';
+import { useMutation, useQuery } from '@apollo/client';
 import styles from '@/styles/NewAd.module.css';
-import { AdCardProps, CategoryProps } from '../../../types';
+import { GET_AD_BY_ID, GET_ALL_CATEGORIES } from '../../../graphql/queries/queries';
+import { UPDATE_AD } from '../../../graphql/mutations/mutations';
 
 type Inputs = {
   title: string;
@@ -14,57 +15,57 @@ type Inputs = {
   owner: string;
   picture: string;
   location: string;
-  category: number;
+  category: string;
 };
 
 function EditAd() {
-  const router = useRouter();
-  const [ad, setAd] = useState<AdCardProps>();
-  const [categories, setCategories] = useState<CategoryProps[]>([]);
   const {
-    register, handleSubmit, reset, formState: { errors },
+    register,
+    handleSubmit,
+    reset,
+    formState: {
+      errors,
+    },
   } = useForm<Inputs>();
+  const router = useRouter();
+  const { data: dataAd } = useQuery(GET_AD_BY_ID, {
+    variables: { getAdByIdId: Number(router.query.id) },
+  });
+  const { data: dataCategories } = useQuery(GET_ALL_CATEGORIES);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const result = await axios.get<CategoryProps[]>(
-          'http://localhost:4000/category',
-        );
-        setCategories(result.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchCategories();
-    const fetchAd = async () => {
-      try {
-        const result = await axios.get<AdCardProps>(
-          `http://localhost:4000/ad/${router.query.id}`,
-        );
-        setAd(result.data);
-        reset();
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchAd();
-  }, [router.query.id, reset]);
+  const [updateAd] = useMutation(UPDATE_AD);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      const result = await axios.put('http://localhost:4000/ad', {
-        idToEdit: router.query.id,
-        newAd: data,
+      console.log('data form forn', data);
+      await updateAd({
+        variables: {
+          updateAdId: Number(router.query.id),
+          data: {
+            category: parseInt(data.category, 10),
+            description: data.description,
+            location: data.location,
+            owner: data.owner,
+            picture: data.picture,
+            price: data.price,
+            title: data.title,
+          },
+
+        },
       });
-      toast.success(result.data);
+      toast.success('Ad hase been modified');
       setTimeout(() => {
         router.push('/');
       }, 1000);
+      reset();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.response);
     }
   };
+
+  const ad = dataAd?.getAdById;
+  const categories = dataCategories ? dataCategories.getAllCategories : [];
 
   return (
     <form

@@ -3,6 +3,11 @@ export type Category = {
   name: string;
 };
 
+export type Tag = {
+  id: number;
+  name: string;
+};
+
 export type Ad = {
   id: number;
   title: string;
@@ -11,10 +16,7 @@ export type Ad = {
   owner: string;
   price: number;
   location: string;
-  category: Category | undefined,
-  tags: {
-    id: number;
-    name: string;
-  },
+  category?: Category,
+  tags?: Tag[],
   createdAt: string;
 };

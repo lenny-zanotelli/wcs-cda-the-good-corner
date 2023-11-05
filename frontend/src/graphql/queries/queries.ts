@@ -38,6 +38,9 @@ export const GET_AD_BY_ID = graphql(/* GraphQL */`
       owner
       picture
       location
+      category {
+        id
+    }
     }
   }
 `);

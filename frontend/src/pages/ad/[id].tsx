@@ -4,9 +4,9 @@ import { GET_AD_BY_ID } from '../../graphql/queries/queries';
 
 function AdDetailComponent() {
   const router = useRouter();
-  const { adId } = router.query;
+  const { id } = router.query;
   const { data, loading, error } = useQuery(GET_AD_BY_ID, {
-    variables: { getAdByIdId: Number(adId) },
+    variables: { getAdByIdId: Number(id) },
   });
 
   if (loading) return <p>Loading...</p>;
@@ -25,7 +25,9 @@ function AdDetailComponent() {
       <h2 className="ad-details-title">{data?.getAdById?.title}</h2>
       <section className="ad-details">
         <div className="ad-details-image-container">
-          <img className="ad-details-image" src={data?.getAdById?.picture} alt={data?.getAdById?.title} />
+          <picture>
+            <img className="ad-details-image" src={data?.getAdById?.picture} alt={data?.getAdById?.title} />
+          </picture>
         </div>
         <div className="ad-details-info">
           <div className="ad-details-price">

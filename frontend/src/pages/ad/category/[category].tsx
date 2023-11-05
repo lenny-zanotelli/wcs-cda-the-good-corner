@@ -29,7 +29,7 @@ function CategoryResults() {
 
   return (
     <div>
-      {categoryAds.length === 0 ? (
+      {categoryAds?.length === 0 ? (
         <p>
           No ads found for the category:
           {' '}

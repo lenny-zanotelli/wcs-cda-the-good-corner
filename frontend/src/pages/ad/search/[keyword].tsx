@@ -7,7 +7,7 @@ function SearchResults() {
   const router = useRouter();
   const { keyword } = router.query;
   const { data, loading, error } = useQuery(GET_ADS_SEARCH, {
-    variables: { title: keyword },
+    variables: { title: keyword as string },
   });
 
   if (loading) return <p>Loading...</p>;
@@ -20,10 +20,12 @@ function SearchResults() {
       </p>
     );
   }
+
+  const ads = data ? data.getAllAds : [];
   return (
     <DisplayAds
-      ads={data.getAllAds}
-      title={`Displaying search results for : ${keyword}`}
+      ads={ads}
+      titleDisplay={`Displaying search results for : ${keyword}`}
     />
 
   );

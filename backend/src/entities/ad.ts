@@ -8,7 +8,7 @@ import {
   ManyToOne, 
   PrimaryGeneratedColumn, 
   UpdateDateColumn } from "typeorm";
-import { ObjectType, Field, ID} from "type-graphql";
+import { ObjectType, Field, ID } from "type-graphql";
 import { Category } from "./category";
 import { Tag } from "./tag";
 import { IsDate, IsInt, Length, Min } from "class-validator";
@@ -25,7 +25,7 @@ export class Ad extends BaseEntity{
   @Length(3, 20)
   title: string;
 
-  @Field()
+  @Field(() => Number)
   @Column()
   @IsInt()
   @Min(0)

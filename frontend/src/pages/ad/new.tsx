@@ -1,15 +1,13 @@
-/* eslint-disable import/extensions */
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import { useMutation, useQuery } from '@apollo/client';
 import styles from '../../styles/NewAd.module.css';
 import { CREATE_NEW_AD } from '../../graphql/mutations/mutations';
 import { GET_ALL_CATEGORIES } from '../../graphql/queries/queries';
-import { CategoryProps } from '@/types';
 
 type Inputs = {
   title: string;
-  price: string;
+  price: number;
   description: string;
   owner: string;
   picture: string;
@@ -21,13 +19,12 @@ function NewAd() {
   // React-Hook-Form
   const { handleSubmit, register, formState: { errors } } = useForm<Inputs>();
 
-  const { data: dataCategories } = useQuery<CategoryProps>(GET_ALL_CATEGORIES);
+  const { data: dataCategories } = useQuery(GET_ALL_CATEGORIES);
 
   const [createAd] = useMutation(CREATE_NEW_AD);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      console.log('data from form', data);
       await createAd({
         variables: {
           newAd: {

@@ -11,7 +11,9 @@ function AdCard({
         className={styles.adCardLink}
         href={`/ad/${id}`}
       >
-        <img className={styles.adCardImage} src={picture} alt={title} />
+        <picture>
+          <img className={styles.adCardImage} src={picture} alt={title} />
+        </picture>
         <div className={styles.adCardText}>
           <div className={styles.adCardTitle}>{title}</div>
           <div>

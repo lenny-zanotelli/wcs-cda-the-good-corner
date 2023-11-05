@@ -22,3 +22,20 @@ export const CREATE_NEW_AD = graphql(/* GraphQL */ `
     }
   }
 `);
+
+export const UPDATE_AD = graphql(/* GraphQL */ `
+mutation UpdateAd($data: UpdateAdInput!, $updateAdId: Float!) {
+  updateAd(data: $data, id: $updateAdId) {
+    description
+    id
+    location
+    owner
+    picture
+    price
+    title
+    category {
+      id
+    }
+  }
+}
+`);

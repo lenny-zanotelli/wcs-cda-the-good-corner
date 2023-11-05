@@ -80,17 +80,17 @@ export class AdResolver {
 
   @Mutation(() => Ad)
   async updateAd(@Arg("id") id: number, @Arg("data") data: UpdateAdInput) {
-    const adToUpdate = await Ad.findOneByOrFail({id});
+    console.log(data);
+    const newData: any = { ...data };
     
-    if (data.tags) {
-      const updatedAd = await Ad.save({
-        ...adToUpdate, 
-        ...data,
-        category: { id: data.category}, 
-        tags: data.tags.map(tagId => ({id: tagId}))
-      })
-      return updatedAd;
+    if (data.category) {
+      newData.category = { id: newData.category};
     }
-    return adToUpdate;
+
+    if (data.tags) {
+      newData.tags = data.tags.map((el) => ({ id: el }));
+    }
+
+    return await Ad.save({ id, ...newData});
   }
 }
