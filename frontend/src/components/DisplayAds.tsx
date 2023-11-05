@@ -1,48 +1,22 @@
 import Link from 'next/link';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import styles from '@/styles/DisplayAds.module.css';
+import { useMutation, useQuery } from '@apollo/client';
+import styles from '../styles/DisplayAds.module.css';
 import AdCard from './AdCard';
-import { AdCardProps } from '../@types';
+import { GET_ALL_ADS } from '../graphql/queries/queries';
+import { DELETE_AD } from '../graphql/mutations/mutations';
 
 type DisplayAdsProps = {
-  ads: AdCardProps[];
   title: string;
 };
 
-const DELETE_AD = gql`
-mutation Mutation($deleteAdId: Float!) {
-  deleteAd(id: $deleteAdId)
-}
-`;
-
-const GET_ALL_ADS = gql`
-  query GetAllAds {
-    getAllAds {
-      id
-      title
-      category {
-        id
-        name
-      }
-      description
-      picture
-      location
-      owner
-      price
-    }
-  }
-`;
-
-function DisplayAds({ ads, title }: DisplayAdsProps) {
+function DisplayAds({ title }: DisplayAdsProps) {
   const { data, refetch: refetchAds } = useQuery(GET_ALL_ADS);
   const [deleteAd] = useMutation(DELETE_AD);
 
-  // TODO: find the good type or smth else
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleDeleteAd = async (adId: any) => {
+  const handleDeleteAd = async (adId: number) => {
     try {
       await deleteAd({
-        variables: { deleteAdId: parseFloat(adId) },
+        variables: { deleteAdId: adId },
       });
       refetchAds();
       console.log(data);
@@ -50,6 +24,8 @@ function DisplayAds({ ads, title }: DisplayAdsProps) {
       console.log(error);
     }
   };
+
+  const ads = data ? data.getAllAds : [];
 
   return (
     <>
@@ -67,8 +43,8 @@ function DisplayAds({ ads, title }: DisplayAdsProps) {
               location={ad.location}
               owner={ad.owner}
               category={ad.category}
-              createdAt={ad.createdAt}
               ads={ad.ads}
+              createdAt={ad.createdAt}
             />
             <div className={styles.buttonContainer}>
               <button

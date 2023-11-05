@@ -1,10 +1,10 @@
 import Link from 'next/link';
-import styles from '@/styles/AdCard.module.css';
-import { AdCardProps } from '../@types';
+import styles from '../styles/AdCard.module.css';
+import { Ad } from '../types';
 
 function AdCard({
   id, title, picture, price,
-}: AdCardProps) {
+}: Ad) {
   return (
     <div className={styles.adCardContainer}>
       <Link

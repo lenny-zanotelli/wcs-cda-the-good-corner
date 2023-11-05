@@ -1,28 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import axios from 'axios';
 import { useRouter } from 'next/router';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import DisplayAds from '../../../components/DisplayAds';
-
-const GET_ALL_ADS_BY_CATEGORY = gql`
-query Query($category: String) {
-  getAllAds(category: $category) {
-    id
-    title
-    price
-    description
-    owner
-    picture
-    location
-    createdAt
-    updatedAt
-    category {
-      id
-      name
-    }
-  }
-}
-`;
+import { GET_ALL_ADS_BY_CATEGORY } from '../../../graphql/queries/queries';
 
 function CategoryResults() {
   const router = useRouter();

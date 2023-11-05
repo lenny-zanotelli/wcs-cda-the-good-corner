@@ -1,13 +1,9 @@
-export type CategoryProps = {
+export type Category = {
   id: number;
   name: string;
-  getAllCategories: {
-    id: number;
-    name: string;
-  }[]
 };
 
-export type AdCardProps = {
+export type Ad = {
   id: number;
   title: string;
   picture: string;
@@ -15,11 +11,8 @@ export type AdCardProps = {
   owner: string;
   price: number;
   location: string;
-  category: {
-    id: number;
-    name: string;
-  }
-  ads: {
+  category: Category | undefined,
+  tags: {
     id: number;
     name: string;
   },

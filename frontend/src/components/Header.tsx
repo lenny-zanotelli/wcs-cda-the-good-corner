@@ -1,20 +1,12 @@
+/* eslint-disable import/extensions */
 import { useRouter } from 'next/router';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import styles from '../styles/Header.module.css';
 import NavCategory from './NavCategory';
-import { CategoryProps } from '../@types';
-
-const GET_CATEGORIES = gql`
-query Query {
-  getAllCategories {
-    name
-    id
-  }
-}
-`;
+import { GET_ALL_CATEGORIES } from '../graphql/queries/queries';
 
 function Header() {
-  const { data, loading, error } = useQuery<CategoryProps>(GET_CATEGORIES);
+  const { data, loading, error } = useQuery(GET_ALL_CATEGORIES);
   const router = useRouter();
 
   if (loading) return <p>Loading...</p>;
@@ -88,7 +80,6 @@ function Header() {
             key={category.id}
             id={category.id}
             name={category.name}
-            getAllCategories={[]}
           />
         ))}
       </nav>

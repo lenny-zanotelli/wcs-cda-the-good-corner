@@ -3,10 +3,9 @@
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styles from '@/styles/NewAd.module.css';
-import { AdCardProps, CategoryProps } from '../../../@types';
+import { AdCardProps, CategoryProps } from '../../../types';
 
 type Inputs = {
   title: string;

@@ -1,25 +1,12 @@
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-
-const GET_AD_BY_ID = gql`
-query Query($getAdByIdId: Float!) {
-  getAdById(id: $getAdByIdId) {
-    id
-    title
-    price
-    description
-    owner
-    picture
-    location
-  }
-}
-`;
+import { GET_AD_BY_ID } from '../../graphql/queries/queries';
 
 function AdDetailComponent() {
   const router = useRouter();
   const { adId } = router.query;
   const { data, loading, error } = useQuery(GET_AD_BY_ID, {
-    variables: { getAdById: Number(adId) },
+    variables: { getAdByIdId: Number(adId) },
   });
 
   if (loading) return <p>Loading...</p>;
@@ -35,27 +22,25 @@ function AdDetailComponent() {
 
   return (
     <main className="main-content">
-      <h2 className="ad-details-title">{data?.title}</h2>
+      <h2 className="ad-details-title">{data?.getAdById?.title}</h2>
       <section className="ad-details">
         <div className="ad-details-image-container">
-          <img className="ad-details-image" src={data?.picture} alt={data?.title} />
+          <img className="ad-details-image" src={data?.getAdById?.picture} alt={data?.getAdById?.title} />
         </div>
         <div className="ad-details-info">
           <div className="ad-details-price">
-            {data?.price}
+            {data?.getAdById?.price}
             {' '}
             €
           </div>
           <div className="ad-details-description">
-            {data?.description}
+            {data?.getAdById?.description}
           </div>
           <hr className="separator" />
           <div className="ad-details-owner">
             Annoncée publiée par
             {' '}
-            <b>{data?.owner}</b>
-            {' '}
-            {data?.createdAt}
+            <b>{data?.getAdById?.owner}</b>
           </div>
           <a
             href="mailto:serge@serge.com"

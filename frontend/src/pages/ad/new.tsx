@@ -1,8 +1,11 @@
+/* eslint-disable import/extensions */
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import styles from '../../styles/NewAd.module.css';
-import { CategoryProps } from '../../@types';
+import { CREATE_NEW_AD } from '../../graphql/mutations/mutations';
+import { GET_ALL_CATEGORIES } from '../../graphql/queries/queries';
+import { CategoryProps } from '@/types';
 
 type Inputs = {
   title: string;
@@ -13,32 +16,6 @@ type Inputs = {
   location: string;
   category: string;
 };
-
-export const GET_ALL_CATEGORIES = gql`
- query Query {
-  getAllCategories {
-    id
-    name
-  }
-}
-`;
-
-export const CREATE_NEW_AD = gql`
-mutation Mutation($newAd: CreateAdInput!) {
-  createAd(newAd: $newAd) {
-    id
-    description
-    location
-    owner
-    picture
-    price
-    title
-    category {
-      id
-    }
-  }
-}
-`;
 
 function NewAd() {
   // React-Hook-Form
@@ -51,7 +28,7 @@ function NewAd() {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       console.log('data from form', data);
-      const result = await createAd({
+      await createAd({
         variables: {
           newAd: {
             title: data.title,
@@ -60,11 +37,11 @@ function NewAd() {
             owner: data.owner,
             picture: data.picture,
             location: data.location,
-            category: parseFloat(data.category),
+            category: parseInt(data.category, 10),
           },
         },
       });
-      toast.success(result.data);
+      toast.success('New Ad has been submit!');
     } catch (err) {
       toast.error('Cant ad new Ad');
     }

@@ -1,9 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/router';
-import styles from '@/styles/NewAd.module.css';
+import styles from '../../../styles/NewAd.module.css';
 
 function NewCategory() {
   const { register, handleSubmit, formState: { errors } } = useForm();
