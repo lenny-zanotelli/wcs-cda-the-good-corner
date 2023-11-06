@@ -1,6 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import { useMutation, useQuery } from '@apollo/client';
+import { useRouter } from 'next/router';
 import styles from '../../styles/NewAd.module.css';
 import { CREATE_NEW_AD } from '../../graphql/mutations/mutations';
 import { GET_ALL_CATEGORIES } from '../../graphql/queries/queries';
@@ -16,6 +17,7 @@ type Inputs = {
 };
 
 function NewAd() {
+  const router = useRouter();
   // React-Hook-Form
   const { handleSubmit, register, formState: { errors } } = useForm<Inputs>();
 
@@ -38,6 +40,9 @@ function NewAd() {
           },
         },
       });
+      setTimeout(() => {
+        router.push('/');
+      }, 1000);
       toast.success('New Ad has been submit!');
     } catch (err) {
       toast.error('Cant ad new Ad');

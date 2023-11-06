@@ -15,6 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n  mutation DeleteAd($deleteAdId: Float!) {\n    deleteAd(id: $deleteAdId)\n  }\n": types.DeleteAdDocument,
     "\n  mutation CreateAd($newAd: CreateAdInput!) {\n    createAd(newAd: $newAd) {\n      id\n      description\n      location\n      owner\n      picture\n      price\n      title\n      category {\n        id\n      }\n    }\n  }\n": types.CreateAdDocument,
+    "\nmutation CreateNewCategory($newCategory: CreateCategoryInput!) {\n  createCategory(newCategory: $newCategory) {\n    id\n    name\n  }\n}\n\n": types.CreateNewCategoryDocument,
     "\nmutation UpdateAd($data: UpdateAdInput!, $updateAdId: Float!) {\n  updateAd(data: $data, id: $updateAdId) {\n    description\n    id\n    location\n    owner\n    picture\n    price\n    title\n    category {\n      id\n    }\n  }\n}\n": types.UpdateAdDocument,
     "\n  query GetAllAds {\n    getAllAds {\n      id\n      title\n      description\n      picture\n      location\n      owner\n      price\n      createdAt\n      category {\n        id\n        name\n      }\n    }\n  }\n": types.GetAllAdsDocument,
     "\n  query GetAllCategories {\n    getAllCategories {\n      name\n      id\n    }\n  }\n": types.GetAllCategoriesDocument,
@@ -45,6 +46,10 @@ export function graphql(source: "\n  mutation DeleteAd($deleteAdId: Float!) {\n 
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation CreateAd($newAd: CreateAdInput!) {\n    createAd(newAd: $newAd) {\n      id\n      description\n      location\n      owner\n      picture\n      price\n      title\n      category {\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation CreateAd($newAd: CreateAdInput!) {\n    createAd(newAd: $newAd) {\n      id\n      description\n      location\n      owner\n      picture\n      price\n      title\n      category {\n        id\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\nmutation CreateNewCategory($newCategory: CreateCategoryInput!) {\n  createCategory(newCategory: $newCategory) {\n    id\n    name\n  }\n}\n\n"): (typeof documents)["\nmutation CreateNewCategory($newCategory: CreateCategoryInput!) {\n  createCategory(newCategory: $newCategory) {\n    id\n    name\n  }\n}\n\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

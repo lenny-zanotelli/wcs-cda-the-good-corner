@@ -23,6 +23,16 @@ export const CREATE_NEW_AD = graphql(/* GraphQL */ `
   }
 `);
 
+export const CREATE_NEW_CATEGORY = graphql(/* GraphQL */ `
+mutation CreateNewCategory($newCategory: CreateCategoryInput!) {
+  createCategory(newCategory: $newCategory) {
+    id
+    name
+  }
+}
+
+`);
+
 export const UPDATE_AD = graphql(/* GraphQL */ `
 mutation UpdateAd($data: UpdateAdInput!, $updateAdId: Float!) {
   updateAd(data: $data, id: $updateAdId) {

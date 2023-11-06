@@ -1,28 +1,43 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import { useMutation } from '@apollo/client';
 import styles from '../../../styles/NewAd.module.css';
+import { CREATE_NEW_CATEGORY } from '../../../graphql/mutations/mutations';
+
+type Inputs = {
+  name: string;
+};
 
 function NewCategory() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   const router = useRouter();
+
+  const [createNewCategory] = useMutation(CREATE_NEW_CATEGORY);
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      await createNewCategory({
+        variables: {
+          newCategory: {
+            name: data.name,
+          },
+        },
+      });
+      setTimeout(() => {
+        router.prefetch('/');
+        router.push('/');
+      }, 1000);
+      toast.success('New Category has been submit!');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error('Cant ad new Category');
+    }
+  };
 
   return (
     <form
-      onSubmit={handleSubmit(async (data) => {
-        try {
-          await axios.post('http://localhost:4000/category', data);
-          toast.success('New Category has been submit!');
-          setTimeout(() => {
-            router.push('/');
-          }, 1000);
-          console.log(data);
-        } catch (error) {
-          toast.error('Cant add new Category');
-          console.log(error);
-        }
-      })}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <label>
         Nom de la Categorie :
