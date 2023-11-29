@@ -35,6 +35,9 @@ function AdDetailComponent() {
             {' '}
             €
           </div>
+          <div className="ad-details-price">
+            {data?.getAdById?.location}
+          </div>
           <div className="ad-details-description">
             {data?.getAdById?.description}
           </div>
