@@ -113,7 +113,7 @@ function EditAd() {
         <br />
         <input
           defaultValue={ad?.picture}
-          type="url"
+          type="file"
           {...register('picture', { required: true })}
           className={styles.textField}
         />
