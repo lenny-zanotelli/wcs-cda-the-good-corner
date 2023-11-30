@@ -62,16 +62,23 @@ function NewAd() {
 
   return (
     <div>
-      <input
-        type="file"
-        onChange={(e) => {
-          if (e.target.files) {
-            setFIle(e.target.files[0]);
-          }
-        }}
-      />
+      <label>
+        Picture:
+        <br />
+        <input
+          type="file"
+          {...register('picture', { required: true })}
+          onChange={(e) => {
+            if (e.target.files) {
+              setFIle(e.target.files[0]);
+            }
+          }}
+        />
+        {errors.picture && toast.warning('A picture is required')}
+      </label>
       <button
         type="button"
+        className="button"
         onClick={async (event) => {
           event.preventDefault();
           if (file) {

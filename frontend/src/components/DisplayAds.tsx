@@ -12,7 +12,7 @@ type DisplayAdsProps = {
 };
 
 function DisplayAds({ titleDisplay, ads }: DisplayAdsProps) {
-  const { data, refetch } = useQuery(GET_ALL_ADS, { skip: ads.length > 0});
+  const { data, refetch } = useQuery(GET_ALL_ADS, { skip: ads.length > 0 });
   const [deleteAd] = useMutation(DELETE_AD);
 
   const handleDeleteAd = async (adId: number) => {
