@@ -1,4 +1,5 @@
 services:
+
   backend:
     build: ./backend
     healthcheck:
@@ -34,3 +35,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 20
+
+  imagesupload:
+    build: ./imagesupload
+    ports:
+      - 8000:8000
+    volumes:
+      - ./imagesupload/src/:/app/src
+      - ./imagesupload/uploads/:/app/uploads
