@@ -12,7 +12,7 @@ function AdCard({
         href={`/ad/${id}`}
       >
         <picture>
-          <img className={styles.adCardImage} src={`http://localhost:8000${picture}`} alt={title} />
+          <img className={styles.adCardImage} src={picture} alt={title} />
         </picture>
         <div className={styles.adCardText}>
           <div className={styles.adCardTitle}>{title}</div>

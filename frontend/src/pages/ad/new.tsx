@@ -43,7 +43,7 @@ function NewAd() {
             price: data.price,
             description: data.description,
             owner: data.owner,
-            picture: imageUrl,
+            picture: `http://localhost:8000${imageUrl}`,
             location: data.location,
             category: parseInt(data.category, 10),
           },
