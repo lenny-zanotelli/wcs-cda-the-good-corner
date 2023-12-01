@@ -20,7 +20,20 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + "-" + file.originalname);
   },
 });
-const upload = multer({ storage: storage });
+const upload = multer({ 
+  storage: storage,
+  limits: { fileSize: 1 * 1024 * 1024},
+  fileFilter: function (req, file, cb) {
+    let ext = path.extname(file.originalname);
+    if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+      // TODO : handle validation error
+      cb(null, false);
+      return cb(new Error('Only .png .jpg and .jpeg format allowed!'))
+    } else {
+      cb(null, true);
+    }
+  }
+});
 
 app.post("/upload", upload.single("file"), (req: any, res: Response) => {
   fs.readFile(req.file.path, (err) => {
