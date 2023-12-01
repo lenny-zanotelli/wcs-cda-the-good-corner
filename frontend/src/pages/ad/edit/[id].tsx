@@ -23,7 +23,7 @@ type Inputs = {
 
 function EditAd() {
   const [file, setFile] = useState<File>();
-  const [imageUrl, setImageURL] = useState<string>();
+  const [imageUrl, setImageURL] = useState<string>('No file chosen');
 
   const {
     register,
