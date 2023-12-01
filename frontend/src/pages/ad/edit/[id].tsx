@@ -5,7 +5,7 @@ import {
   SubmitHandler, useForm,
 } from 'react-hook-form';
 import { useMutation, useQuery } from '@apollo/client';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import axios from 'axios';
 import styles from '@/styles/NewAd.module.css';
 import { GET_AD_BY_ID, GET_ALL_CATEGORIES } from '../../../graphql/queries/queries';
@@ -22,7 +22,7 @@ type Inputs = {
 };
 
 function EditAd() {
-  const [file, setFile] = useState<File>();
+  const [, setFile] = useState<File>();
   const [imageUrl, setImageURL] = useState<string>('No file chosen');
 
   const {
@@ -42,55 +42,53 @@ function EditAd() {
   const [updateAd] = useMutation(UPDATE_AD);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    try {
-      console.log('data form forn', data);
-      await updateAd({
-        variables: {
-          updateAdId: Number(router.query.id),
-          data: {
-            title: data.title,
-            description: data.description,
-            location: data.location,
-            owner: data.owner,
-            picture: `http://localhost:8000${imageUrl}`,
-            price: data.price,
-            category: parseInt(data.category, 10),
+    if (imageUrl === undefined) {
+      toast.error('Chose a proper image');
+    } else {
+      try {
+        await updateAd({
+          variables: {
+            updateAdId: Number(router.query.id),
+            data: {
+              title: data.title,
+              description: data.description,
+              location: data.location,
+              owner: data.owner,
+              picture: `http://localhost:8000${imageUrl}`,
+              price: data.price,
+              category: parseInt(data.category, 10),
+            },
           },
-
-        },
-      });
-      toast.success('Ad hase been modified');
-      setTimeout(() => {
-        router.push('/');
-      }, 1000);
-      reset();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      toast.error(error.response);
+        });
+        setTimeout(() => {
+          router.push('/');
+        }, 1000);
+        setFile(undefined);
+        reset();
+        toast.success('Ad hase been modified');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast.error(error.response);
+      }
     }
   };
 
-  const handleChangeFiles = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeFiles = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setFile(event.target.files[0]);
-    }
-  };
-
-  const handleClickFiles = async (event: FormEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    if (file) {
       const url = 'http://localhost:8000/upload';
       const formData = new FormData();
-      formData.append('file', file, file.name);
-
+      formData.append(
+        'file',
+        event.target.files[0],
+        event.target.files[0].name,
+      );
       try {
         const response = await axios.post(url, formData);
         setImageURL(response.data.filename);
       } catch (error) {
         console.log(error);
       }
-    } else {
-      alert('select a file upload');
     }
   };
 
@@ -111,13 +109,6 @@ function EditAd() {
         />
         {errors.picture && toast.warning('A picture is required')}
       </label>
-      <button
-        type="button"
-        className="button"
-        onClick={handleClickFiles}
-      >
-        Upload Image
-      </button>
       {imageUrl ? (
         <>
           <br />

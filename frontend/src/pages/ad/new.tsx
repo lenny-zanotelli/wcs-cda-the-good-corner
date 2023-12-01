@@ -95,6 +95,7 @@ function NewAd() {
             type="file"
             {...register('picture', { required: true })}
             onChange={handleChangeFiles}
+            className={styles.textField}
           />
           {errors.picture && toast.warning('A picture is required')}
         </label>
