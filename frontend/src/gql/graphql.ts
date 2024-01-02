@@ -31,6 +31,7 @@ export type Ad = {
   tags?: Maybe<Array<Tag>>;
   title: Scalars['String']['output'];
   updatedAt: Scalars['DateTimeISO']['output'];
+  user?: Maybe<User>;
 };
 
 export type Category = {
@@ -59,11 +60,17 @@ export type CreateTagInput = {
   name: Scalars['String']['input'];
 };
 
+export type CreateUserInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createAd: Ad;
   createCategory: Category;
   createTag: Tag;
+  createUser: User;
   deleteAd: Scalars['String']['output'];
   deleteCategoryById: Scalars['String']['output'];
   deleteTagById: Scalars['String']['output'];
@@ -85,6 +92,11 @@ export type MutationCreateCategoryArgs = {
 
 export type MutationCreateTagArgs = {
   newTag: CreateTagInput;
+};
+
+
+export type MutationCreateUserArgs = {
+  newUser: CreateUserInput;
 };
 
 
@@ -126,6 +138,8 @@ export type Query = {
   getAllAds: Array<Ad>;
   getAllCategories: Array<Category>;
   getAllTags: Array<Tag>;
+  getUserById: User;
+  login: User;
 };
 
 
@@ -137,6 +151,16 @@ export type QueryGetAdByIdArgs = {
 export type QueryGetAllAdsArgs = {
   category?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetUserByIdArgs = {
+  id: Scalars['Float']['input'];
+};
+
+
+export type QueryLoginArgs = {
+  userInput: CreateUserInput;
 };
 
 export type Tag = {
@@ -163,6 +187,13 @@ export type UpdateCategoryInput = {
 
 export type UpdateTagInput = {
   name: Scalars['String']['input'];
+};
+
+export type User = {
+  __typename?: 'User';
+  ads?: Maybe<Array<Ad>>;
+  email: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
 };
 
 export type DeleteAdMutationVariables = Exact<{

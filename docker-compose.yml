@@ -45,6 +45,11 @@ services:
     volumes:
       - ./imagesupload/src/:/app/src
       - ./imagesupload/uploads/:/app/uploads
-
+  
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+  
 volumes:
   pgdata:

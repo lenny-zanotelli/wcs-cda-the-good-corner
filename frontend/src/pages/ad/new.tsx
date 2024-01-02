@@ -1,5 +1,5 @@
+/* eslint-disable no-console */
 /* eslint-disable @next/next/no-img-element */
-/* eslint-disable import/no-extraneous-dependencies */
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import { useMutation, useQuery } from '@apollo/client';
