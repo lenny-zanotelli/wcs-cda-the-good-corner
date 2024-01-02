@@ -65,6 +65,11 @@ export type CreateUserInput = {
   password: Scalars['String']['input'];
 };
 
+export type LoginUserInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createAd: Ad;
@@ -160,7 +165,7 @@ export type QueryGetUserByIdArgs = {
 
 
 export type QueryLoginArgs = {
-  userInput: CreateUserInput;
+  userLogin: LoginUserInput;
 };
 
 export type Tag = {

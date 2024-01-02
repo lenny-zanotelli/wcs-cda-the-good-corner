@@ -4,6 +4,7 @@ import { CreateUserInput } from "./inputs/CreateUserInput";
 import { LoginUserInput } from "./inputs/LoginUserInput";
 import * as argon2 from "argon2";
 
+
 @Resolver()
 export class UserResolver {
   @Query(() => User)
@@ -11,14 +12,19 @@ export class UserResolver {
     return User.findOneBy({ id })
   }
 
-  @Query(() => User)
+  @Query(() => String)
   async login(@Arg("userLogin") UserInput: LoginUserInput) {
     try {
 
       const user = await User.findOneByOrFail({ email: UserInput.email });
+      if (!user) { throw new Error ("invalid credentials");}
 
-      if ((await argon2.verify(user.hashedPassword, UserInput.password)) === false) {
+      const isPasswordValid = await argon2.verify(user.password, UserInput.password);
+
+      if (isPasswordValid === false) {
+
         throw new Error("invalid password");
+
         } else {
           return "correct credentials";
         }
@@ -29,13 +35,10 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-  async createUser(@Arg("newUser") UserInput: CreateUserInput) {
+  async register(@Arg("newUser") UserInput: CreateUserInput) {
     try {
-      const newUser = new User();
-      newUser.email = UserInput.email;
-      newUser.hashedPassword = await argon2.hash(UserInput.password);
+      const newUser = User.create({...UserInput});
       await newUser.save();
-
       return newUser;
       
     } catch (error) {
