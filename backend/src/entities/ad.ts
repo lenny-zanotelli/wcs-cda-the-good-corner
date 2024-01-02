@@ -12,6 +12,7 @@ import { ObjectType, Field, ID } from "type-graphql";
 import { Category } from "./category";
 import { Tag } from "./tag";
 import { IsDate, IsInt, Length, Min } from "class-validator";
+import { User } from "./user";
 
 @ObjectType()
 @Entity()
@@ -64,7 +65,7 @@ export class Ad extends BaseEntity{
   @ManyToOne(() => Category, (category) => category.ads, {
     onDelete: "SET NULL"
   }) 
-  category: Category
+  category: Category;
 
    // An ad can have multiple tags
   // A tag can have multiple ads
@@ -72,4 +73,11 @@ export class Ad extends BaseEntity{
   @ManyToMany(() => Tag, (tag) => tag.ads)
   @Field(() => [Tag], { nullable: true })
   tags: Tag[];
+
+  // An ad can have ONLY one owner
+  // A user can have MULTIPLE ads
+
+  @Field(() => User, { nullable: true })
+  @ManyToOne(() => User, (user) => user.ads)
+  user: User;
 }

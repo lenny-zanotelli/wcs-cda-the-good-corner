@@ -15,26 +15,8 @@ import { TagResolver } from "./resolvers/tag.resolver";
 const port: number = 4000;
 const app: Express = express();
 
-
 app.use(cors())
 app.use(express.json());
-
-
-// app.get('/ad', adsController.read);
-// app.get('/ad/:id', adsController.findOne);
-// app.post('/ad', adsController.create);
-// app.delete('/ad', adsController.delete);
-// app.put('/ad', adsController.put);
-
-// app.get('/category', categoryController.read);
-// app.post('/category', categoryController.create);
-// app.delete('/category', categoryController.delete);
-// app.put('/category', categoryController.put);
-
-// app.get('/tag', tagController.read);
-// app.post('/tag', tagController.create);
-// app.delete('/tag', tagController.delete);
-// app.put('/tag', tagController.put);
 
 async function start() {
   await dataSource.initialize();
@@ -49,9 +31,3 @@ async function start() {
   console.log(`🚀  Server ready at: ${url}`)
 }
 start();
-
-
-// app.listen(port, async () => {
-//   await dataSource.initialize();
-//   console.log(`Example app listening on port ${port}`)
-// });
