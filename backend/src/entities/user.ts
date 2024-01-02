@@ -11,16 +11,14 @@ export class User extends BaseEntity {
   id: number;
 
   @Field()
-  @Column()
+  @Column({ unique: true })
   email: string;
 
-  @Field()
   @Column()
-  password: string;
+  hashedPassword: string;
 
   @OneToMany(() => Ad, (ads) => ads.owner)
   @Field(() => [Ad], { nullable: true})
   ads: Ad[];
-
 
 }
