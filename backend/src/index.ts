@@ -12,6 +12,7 @@ import { CategoryResolver } from "./resolvers/category.resolver";
 import { TagResolver } from "./resolvers/tag.resolver";
 import { UserResolver } from "./resolvers/user.resolver";
 import Cookies from "cookies";
+import * as jwt from "jsonwebtoken";
 
 
 export interface JWTContext {
@@ -52,10 +53,14 @@ async function start() {
         const cookies = new Cookies(req,res);
         const token = cookies.get("token");
         console.log("token", token);
-        return { req, res};
-
+        if (token) {
+          const payload = jwt.verify(token, "secret");
+          console.log("payload", payload);
+          return { req, res, payload };
+        }
+        return { req, res };
       }
-    })
+    }),
   );
   await dataSource.initialize();
 
