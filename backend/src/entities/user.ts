@@ -7,6 +7,11 @@ import * as argon2 from "argon2";
 @Entity()
 export class User extends BaseEntity {
   @BeforeInsert()
+  /*
+    Diff entre private et protected
+    https://stackoverflow.com/questions/36843357/typescript-difference-between-private-and-protected-variables
+  */
+  
   protected async hashPassword() {
     this.password = await argon2.hash(this.password);
   }

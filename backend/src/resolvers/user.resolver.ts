@@ -3,6 +3,7 @@ import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { CreateUserInput } from "./inputs/CreateUserInput";
 import { LoginUserInput } from "./inputs/LoginUserInput";
 import * as argon2 from "argon2";
+import * as jwt from "jsonwebtoken";
 
 
 @Resolver()
@@ -22,10 +23,12 @@ export class UserResolver {
       const isPasswordValid = await argon2.verify(user.password, UserInput.password);
 
       if (isPasswordValid === false) {
-
         throw new Error("invalid password");
-
         } else {
+          const token = await jwt.sign({
+            data: user.id
+          }, 'secret', { expiresIn: '1h'});
+          console.log('token', token);
           return "correct credentials";
         }
       } catch (err) {
