@@ -1,12 +1,15 @@
 import { useMutation } from '@apollo/client';
 import { FormEvent } from 'react';
+import { useRouter } from 'next/router';
 import { REGISTER } from '../graphql/mutations/mutations';
 import { MutationRegisterArgs } from '../gql/graphql';
 
 function RegisterPage() {
+  const router = useRouter();
   const [handleRegister] = useMutation<MutationRegisterArgs>(REGISTER, {
     onCompleted: (data) => {
       console.log(data);
+      router.push('/');
     },
   });
 
@@ -28,7 +31,7 @@ function RegisterPage() {
 
   return (
     <div>
-      <p>Register Page</p>
+      <h2>Register Page</h2>
       <form
         onSubmit={handleSubmit}
         className="text-field-with-button"
