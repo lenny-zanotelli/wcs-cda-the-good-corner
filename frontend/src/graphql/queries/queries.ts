@@ -88,3 +88,9 @@ query GetAllAdsByTitle($title: String) {
   }
 }
 `);
+
+export const LOGIN = graphql(/* GraphQL */`
+  query Login($userLogin: LoginUserInput!) {
+    login(userLogin: $userLogin)
+  }
+`);

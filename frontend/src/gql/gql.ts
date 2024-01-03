@@ -22,6 +22,7 @@ const documents = {
     "\n  query GetAdById($getAdByIdId: Float!) {\n    getAdById(id: $getAdByIdId) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      category {\n        id\n    }\n    }\n  }\n": types.GetAdByIdDocument,
     "\n  query GetAllAdsByCategory($category: String) {\n    getAllAds(category: $category) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      createdAt\n      updatedAt\n      category {\n        id\n        name\n      }\n    }\n  }\n": types.GetAllAdsByCategoryDocument,
     "\nquery GetAllAdsByTitle($title: String) {\n  getAllAds(title: $title) {\n    id\n    title\n    price\n    description\n    owner\n    picture\n    location\n    createdAt\n    updatedAt\n    category {\n      id\n      name\n    }\n    tags {\n      id\n      name\n    }\n  }\n}\n": types.GetAllAdsByTitleDocument,
+    "\n  query Login($userLogin: LoginUserInput!) {\n    login(userLogin: $userLogin)\n  }\n": types.LoginDocument,
 };
 
 /**
@@ -74,6 +75,10 @@ export function graphql(source: "\n  query GetAllAdsByCategory($category: String
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\nquery GetAllAdsByTitle($title: String) {\n  getAllAds(title: $title) {\n    id\n    title\n    price\n    description\n    owner\n    picture\n    location\n    createdAt\n    updatedAt\n    category {\n      id\n      name\n    }\n    tags {\n      id\n      name\n    }\n  }\n}\n"): (typeof documents)["\nquery GetAllAdsByTitle($title: String) {\n  getAllAds(title: $title) {\n    id\n    title\n    price\n    description\n    owner\n    picture\n    location\n    createdAt\n    updatedAt\n    category {\n      id\n      name\n    }\n    tags {\n      id\n      name\n    }\n  }\n}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query Login($userLogin: LoginUserInput!) {\n    login(userLogin: $userLogin)\n  }\n"): (typeof documents)["\n  query Login($userLogin: LoginUserInput!) {\n    login(userLogin: $userLogin)\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

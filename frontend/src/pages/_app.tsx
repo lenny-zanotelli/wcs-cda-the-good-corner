@@ -8,6 +8,7 @@ import Layout from '../components/Layout';
 const client = new ApolloClient({
   uri: 'http://localhost:4000/',
   cache: new InMemoryCache(),
+  credentials: 'include',
 });
 
 function App({ Component, pageProps }: AppProps) {
