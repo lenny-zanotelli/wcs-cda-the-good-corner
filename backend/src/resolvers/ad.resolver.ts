@@ -1,5 +1,5 @@
 import { Ad } from "../entities/ad";
-import { Arg, Resolver, Query, Mutation } from "type-graphql";
+import { Arg, Resolver, Query, Mutation, Authorized } from "type-graphql";
 import { CreateAdInput } from "./inputs/CreateAdInput";
 import { Like } from "typeorm";
 import { UpdateAdInput } from "./inputs/UpdateAdInput";
@@ -47,7 +47,7 @@ export class AdResolver {
   getAdById(@Arg("id") id: number) {
     return Ad.findOneBy({ id });
   }
-
+  @Authorized()
   @Mutation(() => Ad)
   async createAd(@Arg("newAd") AdInput: CreateAdInput
   ) {

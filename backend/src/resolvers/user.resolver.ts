@@ -1,9 +1,11 @@
 import { User } from "../entities/user";
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Ctx, Query, Resolver } from "type-graphql";
 import { CreateUserInput } from "./inputs/CreateUserInput";
 import { LoginUserInput } from "./inputs/LoginUserInput";
 import * as argon2 from "argon2";
 import * as jwt from "jsonwebtoken";
+import { JWTContext } from "..";
+import Cookies from "cookies";
 
 
 @Resolver()
@@ -14,7 +16,7 @@ export class UserResolver {
   }
 
   @Query(() => String)
-  async login(@Arg("userLogin") UserInput: LoginUserInput) {
+  async login(@Arg("userLogin") UserInput: LoginUserInput, @Ctx() ctx: JWTContext) {
     try {
 
       const user = await User.findOneByOrFail({ email: UserInput.email });
@@ -25,10 +27,16 @@ export class UserResolver {
       if (isPasswordValid === false) {
         throw new Error("invalid password");
         } else {
-          const token = await jwt.sign({
-            data: user.id
-          }, 'secret', { expiresIn: '1h'});
+          const token = jwt.sign({
+            email: user.email
+            }, 'secret',
+            { algorithm: 'HS256', 
+            expiresIn: '1h'
+            }
+          );
           console.log('token', token);
+          let cookies = new Cookies(ctx.req, ctx.res);
+          cookies.set("Token", token, { httpOnly: true })
           return "correct credentials";
         }
       } catch (err) {

@@ -75,10 +75,10 @@ export type Mutation = {
   createAd: Ad;
   createCategory: Category;
   createTag: Tag;
-  createUser: User;
   deleteAd: Scalars['String']['output'];
   deleteCategoryById: Scalars['String']['output'];
   deleteTagById: Scalars['String']['output'];
+  register: User;
   updateAd: Ad;
   updateCategory: Category;
   updateTag: Tag;
@@ -100,11 +100,6 @@ export type MutationCreateTagArgs = {
 };
 
 
-export type MutationCreateUserArgs = {
-  newUser: CreateUserInput;
-};
-
-
 export type MutationDeleteAdArgs = {
   id: Scalars['Float']['input'];
 };
@@ -117,6 +112,11 @@ export type MutationDeleteCategoryByIdArgs = {
 
 export type MutationDeleteTagByIdArgs = {
   id: Scalars['Float']['input'];
+};
+
+
+export type MutationRegisterArgs = {
+  newUser: CreateUserInput;
 };
 
 
@@ -144,7 +144,7 @@ export type Query = {
   getAllCategories: Array<Category>;
   getAllTags: Array<Tag>;
   getUserById: User;
-  login: User;
+  login: Scalars['String']['output'];
 };
 
 
@@ -199,6 +199,7 @@ export type User = {
   ads?: Maybe<Array<Ad>>;
   email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  password: Scalars['String']['output'];
 };
 
 export type DeleteAdMutationVariables = Exact<{
