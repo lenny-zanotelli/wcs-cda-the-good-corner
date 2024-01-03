@@ -52,7 +52,6 @@ async function start() {
       context: async ({ req, res }) => {
         const cookies = new Cookies(req,res);
         const token = cookies.get("token");
-        console.log("token", token);
         if (token) {
           const payload = jwt.verify(token, "secret");
           console.log("payload", payload);

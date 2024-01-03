@@ -49,3 +49,12 @@ mutation UpdateAd($data: UpdateAdInput!, $updateAdId: Float!) {
   }
 }
 `);
+
+export const REGISTER = graphql(/* GraphQL */`
+mutation Mutation($newUser: CreateUserInput!){
+  register(newUser: $newUser) {
+    email
+    password
+  }
+}
+`);

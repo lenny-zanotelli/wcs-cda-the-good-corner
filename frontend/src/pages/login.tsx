@@ -1,10 +1,13 @@
 import { useLazyQuery } from '@apollo/client';
 import { FormEvent } from 'react';
 import { LOGIN } from '../graphql/queries/queries';
-import { LoginUserInput } from '../gql/graphql';
+import { LoginQuery, LoginQueryVariables, LoginUserInput } from '../gql/graphql';
 
 function LoginPage() {
-  const [handleLogin] = useLazyQuery(LOGIN);
+  const [handleLogin] = useLazyQuery<
+  LoginQuery, LoginQueryVariables
+  >(LOGIN);
+
   return (
     <div>
       <p>Login Page</p>
@@ -31,6 +34,7 @@ function LoginPage() {
           name="email"
           className="text-field main-search-field"
           type="text"
+          placeholder="adresse email"
         />
         <input
           name="password"
@@ -38,7 +42,13 @@ function LoginPage() {
           type="password"
           placeholder="mot de passe"
         />
-        <button type="submit" className="button button-primary">Login</button>
+        <button
+          type="submit"
+          className="button button-primary"
+
+        >
+          Login
+        </button>
       </form>
     </div>
   );
