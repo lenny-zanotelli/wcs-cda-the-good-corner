@@ -1,33 +1,42 @@
 import { useLazyQuery } from '@apollo/client';
 import { FormEvent } from 'react';
+import { useRouter } from 'next/router';
 import { LOGIN } from '../graphql/queries/queries';
 import { LoginQuery, LoginQueryVariables, LoginUserInput } from '../gql/graphql';
 
 function LoginPage() {
+  const router = useRouter();
   const [handleLogin] = useLazyQuery<
   LoginQuery, LoginQueryVariables
-  >(LOGIN);
+  >(LOGIN, {
+    onCompleted: () => {
+      router.push('/');
+    },
+  });
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const formJson = Object.fromEntries(formData) as LoginUserInput;
+
+    if (formJson.email && formJson.password) {
+      handleLogin({
+        variables: {
+          userLogin: {
+            email: formJson.email,
+            password: formJson.password,
+          },
+        },
+      });
+    }
+    router.push('/');
+  };
 
   return (
     <div>
       <p>Login Page</p>
       <form
-        onSubmit={async (e: FormEvent<HTMLFormElement>) => {
-          e.preventDefault();
-          const formData = new FormData(e.currentTarget);
-          const formJson = Object.fromEntries(formData) as LoginUserInput;
-
-          if (formJson.email && formJson.password) {
-            handleLogin({
-              variables: {
-                userLogin: {
-                  email: formJson.email,
-                  password: formJson.password,
-                },
-              },
-            });
-          }
-        }}
+        onSubmit={handleSubmit}
         className="text-field-with-button"
       >
         <input

@@ -7,9 +7,8 @@ import { MutationRegisterArgs } from '../gql/graphql';
 function RegisterPage() {
   const router = useRouter();
   const [handleRegister] = useMutation<MutationRegisterArgs>(REGISTER, {
-    onCompleted: (data) => {
-      console.log(data);
-      router.push('/');
+    onCompleted: () => {
+      router.push('/login');
     },
   });
 
