@@ -1,5 +1,5 @@
 import { Ad } from "../entities/ad.entity";
-import { Arg, Resolver, Query, Mutation, Authorized, Ctx } from "type-graphql";
+import { Arg, Resolver, Query, Mutation, Ctx } from "type-graphql";
 import { CreateAdInput } from "./inputs/Ad/CreateAdInput";
 import { Like } from "typeorm";
 import { UpdateAdInput } from "./inputs/Ad/UpdateAdInput";
@@ -48,24 +48,23 @@ export class AdResolver {
     return Ad.findOneBy({ id });
   }
 
-  @Authorized()
   @Mutation(() => Ad)
   async createAd(
   @Arg("newAd") AdInput: CreateAdInput, 
-  @Ctx() ctx: { email: string; role: string }
+  @Ctx() ctx: { email: string, role: string }
   ) {
     console.log("ctx", ctx);
     console.log("adinput", AdInput);
     if (AdInput.tags) {
       return await Ad.save({
         ...AdInput,
+        owner: ctx.email,
         category: { id: AdInput.category },
         tags: AdInput.tags.map((el) => ({ id: el})),
       });
     } else {
       return await Ad.save({
         ...AdInput,
-        owner: ctx.email,
         category: { id: AdInput.category },
         tags: [],
       });
@@ -82,13 +81,16 @@ export class AdResolver {
     adToDelete.remove();
     return "Ad has been deleted";
   }
-  @Authorized()
+
   @Mutation(() => Ad)
   async updateAd(
     @Arg("id") id: number, 
     @Arg("data") data: UpdateAdInput,
     ) {
-    console.log(data);
+      // const adToUpdate = await Ad.findOneByOrFail({ id: id});
+      // if (adToUpdate.owner !== ctx.user?.email && ctx.user?.role !== "admin") {
+      //   throw new Error("YOu cant edit this ad");
+      // }
     const newData: any = { ...data };
     
     if (data.category) {

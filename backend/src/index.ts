@@ -17,15 +17,14 @@ import Cookies from "cookies";
 import cors from 'cors';
 import * as jwt from "jsonwebtoken";
 
-import { User } from "./entities/user.entity";
 import { customAuthChecker } from "./lib/authChecker";
-
+import { User } from "./entities/user.entity";
 
 export interface JWTContext {
   req: express.Request;
   res: express.Response;
   user: User | null;
-}
+} 
 
 const port: number = 4000;
 const app: Express = express();
@@ -51,21 +50,18 @@ async function start() {
     express.json({ limit: '50mb'}),
     expressMiddleware(server, {
       context: async ({ req, res }) => {
-        let user: User | null = null;
+        let user: User | null = new User();
+
         const cookies = new Cookies(req, res);
         const token = cookies.get("token");
         if (token) {
-          try {
-            const verify = jwt.verify(token, 'secret') as string;
-            
-            user = await User.findOneByOrFail({ email: verify });
-            console.log("payload", user);
-          } catch (error) {
-            console.log(error);
-            
-          }
+
+          const payload = jwt.verify(token, 'secret') as jwt.JwtPayload;
+
+          user = await User.findOneByOrFail({ email: payload.email });
+          
         }
-        return { req, res, user };
+        return { req, res, user } as JWTContext;
       }
     }),
   );

@@ -141,7 +141,6 @@ export type MutationUpdateTagArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  adminQuery: Scalars['String']['output'];
   getAdById?: Maybe<Ad>;
   getAllAds: Array<Ad>;
   getAllCategories: Array<Category>;
@@ -424,7 +423,6 @@ export type MutationUpdateTagArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  adminQuery: Scalars['String']['output'];
   getAdById?: Maybe<Ad>;
   getAllAds: Array<Ad>;
   getAllCategories: Array<Category>;

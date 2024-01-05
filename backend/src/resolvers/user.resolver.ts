@@ -1,11 +1,11 @@
 import { User } from "../entities/user.entity";
-import { Arg, Mutation, Ctx, Query, Resolver, Authorized } from "type-graphql";
+import { Arg, Mutation, Ctx, Query, Resolver } from "type-graphql";
 import { CreateUserInput } from "./inputs/User/CreateUserInput";
 import { LoginUserInput } from "./inputs/User/LoginUserInput";
 import * as argon2 from "argon2";
 import * as jwt from "jsonwebtoken";
-import { JWTContext } from "..";
 import Cookies from "cookies";
+import { JWTContext } from "src";
 
 // TODO : creer des services pour l' injection dependance
 
@@ -43,11 +43,12 @@ export class UserResolver {
           expiresIn: '1h'
           }
         );
-        console.log('token', token);
+        console.log("token", token);
         
         let cookies = new Cookies(ctx.req, ctx.res);
-        cookies.set("Token", token, { httpOnly: true })
-        return "correct credentials";
+        cookies.set("token", token, { httpOnly: true })
+        console.log("token user resolver", ctx.req.headers);
+        return token;
 
       } else {
           throw new Error("invalid password");
@@ -62,17 +63,13 @@ export class UserResolver {
     async logout(@Ctx() ctx: JWTContext) {
       if (ctx.user) {
         let cookies = new Cookies(ctx.req, ctx.res);
+        console.log("cookies:", cookies);
         cookies.set("token");
         return "Disconnected";
       }
       return;
     }
   
-  @Authorized("admin")  
-  @Query(() => String)
-    adminQuery() {
-      return "you are admin !"
-    }
 
   @Mutation(() => User)
   async register(@Arg("newUser") UserInput: CreateUserInput) {
