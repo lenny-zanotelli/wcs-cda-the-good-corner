@@ -7,7 +7,11 @@ const config: CodegenConfig = {
   generates: {
     'src/gql/': {
       preset: 'client',
-      plugins: [],
+      plugins: [
+        'typescript',
+        'typescript-operations',
+        'typescript-react-apollo',
+      ],
     },
   },
 };

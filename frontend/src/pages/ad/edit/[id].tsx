@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @next/next/no-img-element */
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/router';

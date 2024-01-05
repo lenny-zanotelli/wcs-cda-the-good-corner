@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Link from 'next/link';
 import { useMutation, useQuery } from '@apollo/client';
 import styles from '../styles/DisplayAds.module.css';
@@ -5,7 +6,6 @@ import AdCard from './AdCard';
 import { GET_ALL_ADS } from '../graphql/queries/queries';
 import { DELETE_AD } from '../graphql/mutations/mutations';
 import { Ad } from '../types';
-import { MutationDeleteAdArgs } from '../gql/graphql';
 
 type DisplayAdsProps = {
   ads: Ad[];
@@ -14,7 +14,7 @@ type DisplayAdsProps = {
 
 function DisplayAds({ titleDisplay, ads }: DisplayAdsProps) {
   const { data, refetch } = useQuery(GET_ALL_ADS, { skip: ads.length > 0 });
-  const [deleteAd] = useMutation<MutationDeleteAdArgs>(DELETE_AD);
+  const [deleteAd] = useMutation(DELETE_AD);
 
   const handleDeleteAd = async (adId: number) => {
     try {

@@ -1,16 +1,33 @@
-import { graphql } from '../../gql';
+import { gql } from '@apollo/client';
 
-export const DELETE_AD = graphql(/* GraphQL */ `
+export const DELETE_AD = gql`
   mutation DeleteAd($deleteAdId: Float!) {
     deleteAd(id: $deleteAdId)
   }
-`);
+`;
 
-export const CREATE_NEW_AD = graphql(/* GraphQL */ `
+export const CREATE_NEW_AD = gql`
   mutation CreateAd($newAd: CreateAdInput!) {
     createAd(newAd: $newAd) {
       id
+    }
+  }
+`;
+
+export const CREATE_NEW_CATEGORY = gql`
+  mutation CreateNewCategory($newCategory: CreateCategoryInput!) {
+    createCategory(newCategory: $newCategory) {
+      id
+      name
+    }
+  }
+`;
+
+export const UPDATE_AD = gql`
+  mutation UpdateAd($data: UpdateAdInput!, $updateAdId: Float!) {
+    updateAd(data: $data, id: $updateAdId) {
       description
+      id
       location
       owner
       picture
@@ -21,40 +38,13 @@ export const CREATE_NEW_AD = graphql(/* GraphQL */ `
       }
     }
   }
-`);
+`;
 
-export const CREATE_NEW_CATEGORY = graphql(/* GraphQL */ `
-mutation CreateNewCategory($newCategory: CreateCategoryInput!) {
-  createCategory(newCategory: $newCategory) {
-    id
-    name
-  }
-}
-
-`);
-
-export const UPDATE_AD = graphql(/* GraphQL */ `
-mutation UpdateAd($data: UpdateAdInput!, $updateAdId: Float!) {
-  updateAd(data: $data, id: $updateAdId) {
-    description
-    id
-    location
-    owner
-    picture
-    price
-    title
-    category {
+export const REGISTER = gql`
+  mutation Register($newUser: CreateUserInput!){
+    register(newUser: $newUser) {
       id
+      email
     }
   }
-}
-`);
-
-export const REGISTER = graphql(/* GraphQL */`
-mutation Mutation($newUser: CreateUserInput!){
-  register(newUser: $newUser) {
-    email
-    password
-  }
-}
-`);
+`;
