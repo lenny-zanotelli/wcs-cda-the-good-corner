@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Category } from "../entities/category";
+import { Category } from "../entities/category.entity";
 import { validate } from "class-validator";
 
 

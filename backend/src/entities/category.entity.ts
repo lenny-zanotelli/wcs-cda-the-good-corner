@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ObjectType, Field, ID} from "type-graphql";
 
-import { Ad } from "./ad";
+import { Ad } from "./ad.entity";
 import { Length } from "class-validator";
 
 @ObjectType()

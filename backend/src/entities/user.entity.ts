@@ -1,6 +1,6 @@
 import { BaseEntity, BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ObjectType, Field, ID} from "type-graphql";
-import { Ad } from "./ad";
+import { Ad } from "./ad.entity";
 import * as argon2 from "argon2";
 
 export type UserRoleType = "admin" | "user";
@@ -26,7 +26,6 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   email: string;
 
-  @Field()
   @Column()
   password: string;
 

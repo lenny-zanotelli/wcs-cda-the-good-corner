@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Tag } from "../entities/tag";
+import { Tag } from "../entities/tag.entity";
 
 
 const categoryController = {

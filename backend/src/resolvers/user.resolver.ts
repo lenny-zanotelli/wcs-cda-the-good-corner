@@ -1,7 +1,7 @@
-import { User } from "../entities/user";
+import { User } from "../entities/user.entity";
 import { Arg, Mutation, Ctx, Query, Resolver, Authorized } from "type-graphql";
-import { CreateUserInput } from "./inputs/CreateUserInput";
-import { LoginUserInput } from "./inputs/LoginUserInput";
+import { CreateUserInput } from "./inputs/User/CreateUserInput";
+import { LoginUserInput } from "./inputs/User/LoginUserInput";
 import * as argon2 from "argon2";
 import * as jwt from "jsonwebtoken";
 import { JWTContext } from "..";
@@ -11,6 +11,12 @@ import Cookies from "cookies";
 
 @Resolver()
 export class UserResolver {
+  @Query(() => [User])
+  async getAllUsers() {
+    const result = User.find();
+    return result;
+  }
+
   @Query(() => User)
   getUserById(@Arg("id") id: number) {
     return User.findOneBy({ id })
@@ -62,10 +68,10 @@ export class UserResolver {
       return;
     }
   
-  @Authorized(["user", "admin"])  
+  @Authorized("admin")  
   @Query(() => String)
-    authorizedQuery() {
-      return "authorized !"
+    adminQuery() {
+      return "you are admin !"
     }
 
   @Mutation(() => User)

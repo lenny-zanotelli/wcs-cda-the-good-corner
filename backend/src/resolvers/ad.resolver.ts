@@ -1,8 +1,8 @@
-import { Ad } from "../entities/ad";
+import { Ad } from "../entities/ad.entity";
 import { Arg, Resolver, Query, Mutation, Authorized, Ctx } from "type-graphql";
-import { CreateAdInput } from "./inputs/CreateAdInput";
+import { CreateAdInput } from "./inputs/Ad/CreateAdInput";
 import { Like } from "typeorm";
-import { UpdateAdInput } from "./inputs/UpdateAdInput";
+import { UpdateAdInput } from "./inputs/Ad/UpdateAdInput";
 
 @Resolver()
 export class AdResolver {

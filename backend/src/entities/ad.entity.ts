@@ -9,10 +9,10 @@ import {
   PrimaryGeneratedColumn, 
   UpdateDateColumn } from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
-import { Category } from "./category";
-import { Tag } from "./tag";
+import { Category } from "./category.entity";
+import { Tag } from "./tag.entity";
 import { IsDate, IsInt, Length, Min } from "class-validator";
-import { User } from "./user";
+import { User } from "./user.entity";
 
 @ObjectType()
 @Entity()

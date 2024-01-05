@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Ad } from "../entities/ad";
+import { Ad } from "../entities/ad.entity";
 import { Like } from "typeorm";
 import { validate } from "class-validator";
 

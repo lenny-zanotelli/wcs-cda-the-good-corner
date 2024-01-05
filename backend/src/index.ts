@@ -1,19 +1,23 @@
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import cors from 'cors';
 import express, { Express } from 'express';
-import http from 'http';
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
+
 import dataSource from "../config/db";
+
+import http from 'http';
 import { AdResolver } from "./resolvers/ad.resolver";
 import { CategoryResolver } from "./resolvers/category.resolver";
 import { TagResolver } from "./resolvers/tag.resolver";
 import { UserResolver } from "./resolvers/user.resolver";
+
 import Cookies from "cookies";
+import cors from 'cors';
 import * as jwt from "jsonwebtoken";
-import { User } from "./entities/user";
+
+import { User } from "./entities/user.entity";
 import { customAuthChecker } from "./lib/authChecker";
 
 
