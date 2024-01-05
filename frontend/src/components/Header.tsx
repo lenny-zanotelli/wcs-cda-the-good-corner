@@ -38,6 +38,14 @@ function Header() {
           <span className={styles.mobileShortLabel}>Categorie</span>
           <span className={styles.desktopLongLabel}>Ajouter une Categorie</span>
         </a>
+        <a href="/auth/login" className={`${styles.button} ${styles.linkButton}`}>
+          <span className={styles.mobileShortLabel}>Register</span>
+          <span className={styles.desktopLongLabel}>Register</span>
+        </a>
+        <a href="/auth/register" className={`${styles.button} ${styles.linkButton}`}>
+          <span className={styles.mobileShortLabel}>Login</span>
+          <span className={styles.desktopLongLabel}>Login</span>
+        </a>
       </div>
       <nav className={styles.categoriesNavigation}>
         {categories.map((category) => (

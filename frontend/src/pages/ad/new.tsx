@@ -14,7 +14,6 @@ type Inputs = {
   title: string;
   price: number;
   description: string;
-  owner: string;
   picture: string;
   location: string;
   category: string;
@@ -46,7 +45,6 @@ function NewAd() {
               title: data.title,
               price: data.price,
               description: data.description,
-              owner: data.owner,
               picture: `http://localhost:8000${imageUrl}`,
               location: data.location,
               category: parseInt(data.category, 10),
@@ -134,17 +132,6 @@ function NewAd() {
               className={styles.textField}
             />
             {errors.description && toast.warning('Description is required')}
-          </label>
-          <br />
-          <label>
-            Owner:
-            {' '}
-            <br />
-            <input
-              {...register('owner', { required: true })}
-              className={styles.textField}
-            />
-            {errors.owner && toast.warning('An Owner is required')}
           </label>
           <br />
           <label>

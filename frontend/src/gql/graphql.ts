@@ -45,7 +45,6 @@ export type CreateAdInput = {
   category: Scalars['Float']['input'];
   description: Scalars['String']['input'];
   location: Scalars['String']['input'];
-  owner: Scalars['String']['input'];
   picture: Scalars['String']['input'];
   price: Scalars['Float']['input'];
   tags?: InputMaybe<Array<Scalars['Float']['input']>>;
@@ -139,12 +138,14 @@ export type MutationUpdateTagArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  authorizedQuery: Scalars['String']['output'];
   getAdById?: Maybe<Ad>;
   getAllAds: Array<Ad>;
   getAllCategories: Array<Category>;
   getAllTags: Array<Tag>;
   getUserById: User;
   login: Scalars['String']['output'];
+  logout: Scalars['String']['output'];
 };
 
 
@@ -200,6 +201,7 @@ export type User = {
   email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   password: Scalars['String']['output'];
+  role: Scalars['String']['output'];
 };
 
 export type DeleteAdMutationVariables = Exact<{

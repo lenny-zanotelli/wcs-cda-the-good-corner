@@ -1,14 +1,17 @@
 import { useMutation } from '@apollo/client';
 import { FormEvent } from 'react';
 import { useRouter } from 'next/router';
-import { REGISTER } from '../graphql/mutations/mutations';
-import { MutationRegisterArgs } from '../gql/graphql';
+import { REGISTER } from '../../graphql/mutations/mutations';
+import { MutationRegisterArgs } from '../../gql/graphql';
 
 function RegisterPage() {
   const router = useRouter();
   const [handleRegister] = useMutation<MutationRegisterArgs>(REGISTER, {
     onCompleted: () => {
-      router.push('/login');
+      router.push('/auth/login');
+    },
+    onError(error) {
+      console.log(error);
     },
   });
 

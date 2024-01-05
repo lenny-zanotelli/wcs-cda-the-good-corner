@@ -6,16 +6,16 @@ function AdCard({
   id, title, picture, price,
 }: Ad) {
   return (
-    <div className={styles.adCardContainer}>
+    <div className={styles.container}>
       <Link
-        className={styles.adCardLink}
+        className={styles.link}
         href={`/ad/${id}`}
       >
         <picture>
-          <img className={styles.adCardImage} src={picture} alt={title} />
+          <img className={styles.image} src={picture} alt={title} />
         </picture>
-        <div className={styles.adCardText}>
-          <div className={styles.adCardTitle}>{title}</div>
+        <div className={styles.text}>
+          <div className={styles.title}>{title}</div>
           <div>
             {price}
             {' '}

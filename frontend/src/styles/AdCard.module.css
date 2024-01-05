@@ -1,28 +1,28 @@
-.adCardContainer {
+.container {
   border-radius: 8px;
   border: 1px solid lightgray;
   color: inherit;
   background-color: white;
 }
  
-.adCardLink {
+.link {
   text-decoration: inherit;
   color: inherit;
 }
  
-.adCardImage {
+.image {
   width: 100%;
   border-radius: 8px;
 }
  
-.adCardText {
+.text {
   padding: 12px;
   font-size: 18px;
   display: flex;
   justify-content: space-between;
 }
  
-.adCardTitle {
+.title {
   font-weight: bold;
 }
  
