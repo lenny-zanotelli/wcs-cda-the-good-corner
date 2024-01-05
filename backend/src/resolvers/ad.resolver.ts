@@ -1,5 +1,5 @@
 import { Ad } from "../entities/ad";
-import { Arg, Resolver, Query, Mutation, Authorized } from "type-graphql";
+import { Arg, Resolver, Query, Mutation, Authorized, Ctx } from "type-graphql";
 import { CreateAdInput } from "./inputs/CreateAdInput";
 import { Like } from "typeorm";
 import { UpdateAdInput } from "./inputs/UpdateAdInput";
@@ -47,11 +47,15 @@ export class AdResolver {
   getAdById(@Arg("id") id: number) {
     return Ad.findOneBy({ id });
   }
+
   @Authorized()
   @Mutation(() => Ad)
-  async createAd(@Arg("newAd") AdInput: CreateAdInput
+  async createAd(
+  @Arg("newAd") AdInput: CreateAdInput, 
+  @Ctx() ctx: { email: string; role: string }
   ) {
-    console.log(AdInput);
+    console.log("ctx", ctx);
+    console.log("adinput", AdInput);
     if (AdInput.tags) {
       return await Ad.save({
         ...AdInput,
@@ -61,6 +65,7 @@ export class AdResolver {
     } else {
       return await Ad.save({
         ...AdInput,
+        owner: ctx.email,
         category: { id: AdInput.category },
         tags: [],
       });
@@ -77,9 +82,12 @@ export class AdResolver {
     adToDelete.remove();
     return "Ad has been deleted";
   }
-
+  @Authorized()
   @Mutation(() => Ad)
-  async updateAd(@Arg("id") id: number, @Arg("data") data: UpdateAdInput) {
+  async updateAd(
+    @Arg("id") id: number, 
+    @Arg("data") data: UpdateAdInput,
+    ) {
     console.log(data);
     const newData: any = { ...data };
     

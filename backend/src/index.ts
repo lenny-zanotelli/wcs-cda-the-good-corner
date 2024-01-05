@@ -13,11 +13,14 @@ import { TagResolver } from "./resolvers/tag.resolver";
 import { UserResolver } from "./resolvers/user.resolver";
 import Cookies from "cookies";
 import * as jwt from "jsonwebtoken";
+import { User } from "./entities/user";
+import { customAuthChecker } from "./lib/authChecker";
 
 
 export interface JWTContext {
   req: express.Request;
   res: express.Response;
+  user: User | null;
 }
 
 const port: number = 4000;
@@ -27,13 +30,7 @@ const httpServer = http.createServer(app);
 async function start() {
   const schema = await buildSchema({
     resolvers: [AdResolver, CategoryResolver, TagResolver, UserResolver],
-    authChecker: ({ context }) => {
-      if (context.email) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    authChecker: customAuthChecker
   });
   const server = new ApolloServer<JWTContext>({ 
     schema,
@@ -50,14 +47,21 @@ async function start() {
     express.json({ limit: '50mb'}),
     expressMiddleware(server, {
       context: async ({ req, res }) => {
-        const cookies = new Cookies(req,res);
+        let user: User | null = null;
+        const cookies = new Cookies(req, res);
         const token = cookies.get("token");
         if (token) {
-          const payload = jwt.verify(token, "secret");
-          console.log("payload", payload);
-          return { req, res, payload };
+          try {
+            const verify = jwt.verify(token, 'secret') as string;
+            
+            user = await User.findOneByOrFail({ email: verify });
+            console.log("payload", user);
+          } catch (error) {
+            console.log(error);
+            
+          }
         }
-        return { req, res };
+        return { req, res, user };
       }
     }),
   );
@@ -71,30 +75,3 @@ async function start() {
 
 start();
 
-// const port: number = 4000;
-// const app: Express = express();
-
-// app.use(cors<cors.CorsRequest>({
-//   origin: ["http://localhost:3000", "http://studio.apollographql.com"],
-//   credentials: true,
-// })
-// );
-// app.use(express.json());
-
-
-// async function start() {
-//   await dataSource.initialize();
-//   const schema = await buildSchema({
-//     resolvers: [AdResolver, CategoryResolver, TagResolver, UserResolver],
-//   })
-//   const server = new ApolloServer({ schema })
-//   const { url } = await startStandaloneServer(server, {
-//     listen: { port: port },
-//     context: async ({ req }) => {
-
-//     },
-//   });
-
-//   console.log(`🚀  Server ready at: ${url}`)
-// }
-// start();

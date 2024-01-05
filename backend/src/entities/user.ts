@@ -3,6 +3,8 @@ import { ObjectType, Field, ID} from "type-graphql";
 import { Ad } from "./ad";
 import * as argon2 from "argon2";
 
+export type UserRoleType = "admin" | "user";
+
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {
@@ -27,6 +29,14 @@ export class User extends BaseEntity {
   @Field()
   @Column()
   password: string;
+
+  @Field()
+  @Column({
+    type: "enum",
+    enum: ["admin", "user"],
+    default: "user"
+  })
+  role: UserRoleType;
 
   @OneToMany(() => Ad, (ads) => ads.owner)
   @Field(() => [Ad], { nullable: true})

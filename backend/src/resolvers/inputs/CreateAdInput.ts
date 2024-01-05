@@ -16,9 +16,6 @@ export class CreateAdInput {
   description: string;
 
   @Field()
-  owner: string;
-
-  @Field()
   picture: string;
 
   @Field()
