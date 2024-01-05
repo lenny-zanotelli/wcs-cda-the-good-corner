@@ -26,6 +26,14 @@ export interface JWTContext {
   user: User | null;
 } 
 
+/*
+  TODO: 
+    - refaire les routes authorized avec les differentes methodes
+    - FRONT: mettre en place le dashboard ADMIN pour modifier le role des users
+    - FRONT: PROTEGER la creation de Ad et son update
+
+ */
+
 const port: number = 4000;
 const app: Express = express();
 const httpServer = http.createServer(app);
@@ -59,7 +67,7 @@ async function start() {
           const payload = jwt.verify(token, 'secret') as jwt.JwtPayload;
 
           user = await User.findOneByOrFail({ email: payload.email });
-          
+
         }
         return { req, res, user } as JWTContext;
       }
