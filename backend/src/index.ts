@@ -28,7 +28,6 @@ export interface JWTContext {
 
 /*
   TODO: 
-    - refaire les routes authorized avec les differentes methodes
     - FRONT: mettre en place le dashboard ADMIN pour modifier le role des users
     - FRONT: PROTEGER la creation de Ad et son update
 

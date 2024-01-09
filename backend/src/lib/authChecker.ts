@@ -5,15 +5,17 @@ export const customAuthChecker: AuthChecker<JWTContext> = (
   {context}, 
   roles
   ) => {
-  if (roles.length > 0 && context.email) {
-    if (roles.includes(context.role)) {
-      return true
-    } else {
-      return false
+    if (context.user) {
+      // if an user is connected
+      // we verify if user has the good role and if roles are present 
+      if (roles.length > 0) {
+        if (roles.includes(context.user.role)) {
+          return true; // let it pass
+        } else {
+          return false; // block
+        }
+      }
+      return true; // if user is connected when Authorized is prensentm, we let it pass
     }
-  }
-  if (roles.length === 0 && context.email) {
-    return true;
-  }
-  return false;
+    return false; // if user is not connected when Auhtorized Decorator is present, we block
 }

@@ -1,5 +1,5 @@
 import { User } from "../entities/user.entity";
-import { Arg, Mutation, Ctx, Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Ctx, Query, Resolver, Authorized } from "type-graphql";
 import { CreateUserInput } from "./inputs/User/CreateUserInput";
 import { LoginUserInput } from "./inputs/User/LoginUserInput";
 import * as argon2 from "argon2";
@@ -11,10 +11,20 @@ import { JWTContext } from "src";
 
 @Resolver()
 export class UserResolver {
+  @Authorized("admin")
   @Query(() => [User])
   async getAllUsers() {
     const result = User.find();
     return result;
+  }
+
+  @Authorized("admin")
+  @Mutation(() => String)
+  async deleteUser(@Arg("id") id: number) {
+    const userToDelete = await User.findOneByOrFail({ id });
+    await userToDelete.remove();
+
+    return "user has been deleted";
   }
 
   @Query(() => User)
