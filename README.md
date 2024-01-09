@@ -9,3 +9,12 @@ Il faut que docker soit installer sur votre machine
 Puis lancer la commande suivant :
 
 `docker compose docker-compose.yml up --build`
+
+## test auth
+
+### admin role
+
+```
+mail: test@test.fr
+password: test
+```

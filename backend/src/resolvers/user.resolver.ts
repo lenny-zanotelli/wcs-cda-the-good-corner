@@ -1,4 +1,4 @@
-import { User } from "../entities/user.entity";
+import { User, UserInfo } from "../entities/user.entity";
 import { Arg, Mutation, Ctx, Query, Resolver, Authorized } from "type-graphql";
 import { CreateUserInput } from "./inputs/User/CreateUserInput";
 import { LoginUserInput } from "./inputs/User/LoginUserInput";
@@ -94,4 +94,15 @@ export class UserResolver {
       
     }
   }
+
+  @Query(() => UserInfo)
+  async whoAmI(@Ctx() ctx: JWTContext) {
+    if (ctx.user) {
+      if (ctx.user.email !== undefined) {
+        return { isLoggedIn: true };
+      }
+    }
+      return { isLoggedIn: false };
+    }
 }
+

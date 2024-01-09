@@ -48,3 +48,9 @@ export const REGISTER = gql`
     }
   }
 `;
+
+export const DELETE_USER = gql`
+  mutation DeleteUser($deleteUserId: Float!) {
+    deleteUser(id: $deleteUserId)
+  }
+`;

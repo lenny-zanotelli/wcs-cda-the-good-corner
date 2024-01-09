@@ -18,12 +18,15 @@ const documents = {
     "\n  mutation CreateNewCategory($newCategory: CreateCategoryInput!) {\n    createCategory(newCategory: $newCategory) {\n      id\n      name\n    }\n  }\n": types.CreateNewCategoryDocument,
     "\n  mutation UpdateAd($data: UpdateAdInput!, $updateAdId: Float!) {\n    updateAd(data: $data, id: $updateAdId) {\n      description\n      id\n      location\n      owner\n      picture\n      price\n      title\n      category {\n        id\n      }\n    }\n  }\n": types.UpdateAdDocument,
     "\n  mutation Register($newUser: CreateUserInput!){\n    register(newUser: $newUser) {\n      id\n      email\n    }\n  }\n": types.RegisterDocument,
+    "\n  mutation DeleteUser($deleteUserId: Float!) {\n    deleteUser(id: $deleteUserId)\n  }\n": types.DeleteUserDocument,
     "\n  query GetAllAds {\n    getAllAds {\n      id\n      title\n      description\n      picture\n      location\n      owner\n      price\n      createdAt\n      category {\n        id\n        name\n      }\n    }\n  }\n": types.GetAllAdsDocument,
     "\n  query GetAllCategories {\n    getAllCategories {\n      name\n      id\n    }\n  }\n": types.GetAllCategoriesDocument,
     "\n  query GetAdById($getAdByIdId: Float!) {\n    getAdById(id: $getAdByIdId) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      category {\n        id\n    }\n    }\n  }\n": types.GetAdByIdDocument,
     "\n  query GetAllAdsByCategory($category: String) {\n    getAllAds(category: $category) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      createdAt\n      updatedAt\n      category {\n        id\n        name\n      }\n    }\n  }\n": types.GetAllAdsByCategoryDocument,
     "\n  query GetAllAdsByTitle($title: String) {\n    getAllAds(title: $title) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      createdAt\n      updatedAt\n      category {\n        id\n        name\n      }\n      tags {\n        id\n        name\n      }\n    }\n  }\n": types.GetAllAdsByTitleDocument,
     "\n  query Login($userLogin: LoginUserInput!) {\n    login(userLogin: $userLogin)\n  }\n": types.LoginDocument,
+    "\n  query WhoAmI {\n    whoAmI {\n      isLoggedIn\n      email\n      role\n    }\n  }\n": types.WhoAmIDocument,
+    "\n  query GetAllUsers {\n    getAllUsers {\n      email\n      id\n    }\n  }\n": types.GetAllUsersDocument,
 };
 
 /**
@@ -63,6 +66,10 @@ export function graphql(source: "\n  mutation Register($newUser: CreateUserInput
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  mutation DeleteUser($deleteUserId: Float!) {\n    deleteUser(id: $deleteUserId)\n  }\n"): (typeof documents)["\n  mutation DeleteUser($deleteUserId: Float!) {\n    deleteUser(id: $deleteUserId)\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  query GetAllAds {\n    getAllAds {\n      id\n      title\n      description\n      picture\n      location\n      owner\n      price\n      createdAt\n      category {\n        id\n        name\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetAllAds {\n    getAllAds {\n      id\n      title\n      description\n      picture\n      location\n      owner\n      price\n      createdAt\n      category {\n        id\n        name\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -84,6 +91,14 @@ export function graphql(source: "\n  query GetAllAdsByTitle($title: String) {\n 
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query Login($userLogin: LoginUserInput!) {\n    login(userLogin: $userLogin)\n  }\n"): (typeof documents)["\n  query Login($userLogin: LoginUserInput!) {\n    login(userLogin: $userLogin)\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query WhoAmI {\n    whoAmI {\n      isLoggedIn\n      email\n      role\n    }\n  }\n"): (typeof documents)["\n  query WhoAmI {\n    whoAmI {\n      isLoggedIn\n      email\n      role\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetAllUsers {\n    getAllUsers {\n      email\n      id\n    }\n  }\n"): (typeof documents)["\n  query GetAllUsers {\n    getAllUsers {\n      email\n      id\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

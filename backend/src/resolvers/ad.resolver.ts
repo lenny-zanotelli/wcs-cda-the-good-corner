@@ -1,5 +1,5 @@
 import { Ad } from "../entities/ad.entity";
-import { Arg, Resolver, Query, Mutation, Ctx } from "type-graphql";
+import { Arg, Resolver, Query, Mutation, Ctx, Authorized } from "type-graphql";
 import { CreateAdInput } from "./inputs/Ad/CreateAdInput";
 import { Like } from "typeorm";
 import { UpdateAdInput } from "./inputs/Ad/UpdateAdInput";
@@ -48,6 +48,7 @@ export class AdResolver {
     return Ad.findOneBy({ id });
   }
 
+  @Authorized()
   @Mutation(() => Ad)
   async createAd(
   @Arg("newAd") AdInput: CreateAdInput, 
@@ -73,6 +74,7 @@ export class AdResolver {
     }
   }
 
+  @Authorized()
   @Mutation(() => String)
   async deleteAd(@Arg("id") id: number) {
     const adToDelete = await Ad.findOneByOrFail({
@@ -82,6 +84,7 @@ export class AdResolver {
     return "Ad has been deleted";
   }
 
+  @Authorized()
   @Mutation(() => Ad)
   async updateAd(
     @Arg("id") id: number, 
