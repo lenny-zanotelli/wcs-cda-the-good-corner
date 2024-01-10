@@ -98,9 +98,9 @@ export const LOGIN = gql`
 export const GET_AUTH_INFO = gql`
   query WhoAmI {
     whoAmI {
-      isLoggedIn
-      email
       role
+      email
+      isLoggedIn
     }
   }
 `;
@@ -110,6 +110,13 @@ export const GET_ALL_USERS = gql`
     getAllUsers {
       email
       id
+      role
     }
+  }
+`;
+
+export const LOGOUT = gql`
+  query Logout {
+    logout
   }
 `;

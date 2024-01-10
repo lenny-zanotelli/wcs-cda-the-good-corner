@@ -25,8 +25,9 @@ const documents = {
     "\n  query GetAllAdsByCategory($category: String) {\n    getAllAds(category: $category) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      createdAt\n      updatedAt\n      category {\n        id\n        name\n      }\n    }\n  }\n": types.GetAllAdsByCategoryDocument,
     "\n  query GetAllAdsByTitle($title: String) {\n    getAllAds(title: $title) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      createdAt\n      updatedAt\n      category {\n        id\n        name\n      }\n      tags {\n        id\n        name\n      }\n    }\n  }\n": types.GetAllAdsByTitleDocument,
     "\n  query Login($userLogin: LoginUserInput!) {\n    login(userLogin: $userLogin)\n  }\n": types.LoginDocument,
-    "\n  query WhoAmI {\n    whoAmI {\n      isLoggedIn\n      email\n      role\n    }\n  }\n": types.WhoAmIDocument,
-    "\n  query GetAllUsers {\n    getAllUsers {\n      email\n      id\n    }\n  }\n": types.GetAllUsersDocument,
+    "\n  query WhoAmI {\n    whoAmI {\n      role\n      email\n      isLoggedIn\n    }\n  }\n": types.WhoAmIDocument,
+    "\n  query GetAllUsers {\n    getAllUsers {\n      email\n      id\n      role\n    }\n  }\n": types.GetAllUsersDocument,
+    "\n  query Logout {\n    logout\n  }\n": types.LogoutDocument,
 };
 
 /**
@@ -94,11 +95,15 @@ export function graphql(source: "\n  query Login($userLogin: LoginUserInput!) {\
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query WhoAmI {\n    whoAmI {\n      isLoggedIn\n      email\n      role\n    }\n  }\n"): (typeof documents)["\n  query WhoAmI {\n    whoAmI {\n      isLoggedIn\n      email\n      role\n    }\n  }\n"];
+export function graphql(source: "\n  query WhoAmI {\n    whoAmI {\n      role\n      email\n      isLoggedIn\n    }\n  }\n"): (typeof documents)["\n  query WhoAmI {\n    whoAmI {\n      role\n      email\n      isLoggedIn\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetAllUsers {\n    getAllUsers {\n      email\n      id\n    }\n  }\n"): (typeof documents)["\n  query GetAllUsers {\n    getAllUsers {\n      email\n      id\n    }\n  }\n"];
+export function graphql(source: "\n  query GetAllUsers {\n    getAllUsers {\n      email\n      id\n      role\n    }\n  }\n"): (typeof documents)["\n  query GetAllUsers {\n    getAllUsers {\n      email\n      id\n      role\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query Logout {\n    logout\n  }\n"): (typeof documents)["\n  query Logout {\n    logout\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
