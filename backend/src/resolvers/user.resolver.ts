@@ -99,10 +99,11 @@ export class UserResolver {
   async whoAmI(@Ctx() ctx: JWTContext) {
     if (ctx.user) {
       if (ctx.user.email !== undefined) {
-        return { isLoggedIn: true };
+        return { ...ctx.user, isLoggedIn: true };
+      } else {
+        return { isLoggedIn: false}
       }
     }
-      return { isLoggedIn: false };
-    }
+    return { ...ctx }
+  }
 }
-
