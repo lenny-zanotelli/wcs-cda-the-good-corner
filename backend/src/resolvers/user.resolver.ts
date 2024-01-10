@@ -104,6 +104,6 @@ export class UserResolver {
         return { isLoggedIn: false}
       }
     }
-    return { ...ctx }
+    return { isLoggedIn: false }
   }
 }
