@@ -3,6 +3,7 @@ import { Arg, Resolver, Query, Mutation, Ctx, Authorized } from "type-graphql";
 import { CreateAdInput } from "./inputs/Ad/CreateAdInput";
 import { Like } from "typeorm";
 import { UpdateAdInput } from "./inputs/Ad/UpdateAdInput";
+import { JWTContext } from "src";
 
 @Resolver()
 export class AdResolver {
@@ -52,20 +53,20 @@ export class AdResolver {
   @Mutation(() => Ad)
   async createAd(
   @Arg("newAd") AdInput: CreateAdInput, 
-  @Ctx() ctx: { email: string, role: string }
+  @Ctx() ctx: JWTContext
   ) {
     console.log("ctx", ctx);
     console.log("adinput", AdInput);
     if (AdInput.tags) {
       return await Ad.save({
         ...AdInput,
-        owner: ctx.email,
         category: { id: AdInput.category },
         tags: AdInput.tags.map((el) => ({ id: el})),
       });
     } else {
       return await Ad.save({
         ...AdInput,
+        owner: ctx.user?.email,
         category: { id: AdInput.category },
         tags: [],
       });

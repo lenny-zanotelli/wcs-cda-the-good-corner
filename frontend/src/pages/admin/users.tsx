@@ -25,7 +25,7 @@ function UserAdminPage() {
       console.error('Error deleting user:', err);
     },
     onCompleted: () => {
-      console.log('Success DElete');
+      console.log('Success Delete');
     },
   });
 

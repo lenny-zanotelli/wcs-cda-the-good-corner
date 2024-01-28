@@ -14,6 +14,7 @@ type Inputs = {
   title: string;
   price: number;
   description: string;
+  owner: string;
   picture: string;
   location: string;
   category: string;

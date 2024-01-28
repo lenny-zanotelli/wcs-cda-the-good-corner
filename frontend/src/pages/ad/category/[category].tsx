@@ -38,7 +38,7 @@ function CategoryResults() {
       ) : (
         <DisplayAds
           ads={categoryAds}
-          title={`Displaying category results for : ${router.query.category}`}
+          titleDisplay={`Displaying category results for : ${router.query.category}`}
         />
 
       )}

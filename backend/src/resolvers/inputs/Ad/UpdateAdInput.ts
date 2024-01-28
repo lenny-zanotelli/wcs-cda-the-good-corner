@@ -14,9 +14,6 @@ export class UpdateAdInput {
 
   @Field({ nullable: true })
   description?: string;
-
-  @Field({ nullable: true })
-  owner?: string;
   
   @Field({ nullable: true })
   picture?: string;
