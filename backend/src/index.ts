@@ -5,7 +5,7 @@ import express, { Express } from 'express';
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 
-import dataSource from "../config/db";
+import dataSource from "../config/datasource";
 
 import http from 'http';
 import { AdResolver } from "./resolvers/ad.resolver";
@@ -63,9 +63,9 @@ async function start() {
         const token = cookies.get("token");
         if (token) {
 
-          const payload = jwt.verify(token, 'secret') as jwt.JwtPayload;
+          // const payload = jwt.verify(token, 'secret') as jwt.JwtPayload;
 
-          user = await User.findOneByOrFail({ email: payload.email });
+          // user = await User.findOneByOrFail({ email: payload.email });
 
         }
         return { req, res, user } as JWTContext;

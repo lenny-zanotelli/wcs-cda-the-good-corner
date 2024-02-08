@@ -12,7 +12,7 @@ export class Tag {
   id: string;
 
   @Field()
-  @Column()
+  @Column({ unique: true })
   @Length(2, 10)
   name: string;
 
