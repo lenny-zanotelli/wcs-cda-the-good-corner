@@ -7,7 +7,6 @@ RUN npm install
 
 COPY public public
 COPY codegen.ts codegen.ts
-COPY next-env.d.ts next-env.d.ts
 COPY next.config.js next.config.js
 COPY tsconfig.json tsconfig.json
 
