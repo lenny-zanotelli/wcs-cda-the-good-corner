@@ -1,5 +1,4 @@
 import { 
-  BaseEntity, 
   Column, 
   CreateDateColumn, 
   Entity, 
@@ -8,7 +7,7 @@ import {
   ManyToOne, 
   PrimaryGeneratedColumn, 
   UpdateDateColumn } from "typeorm";
-import { ObjectType, Field, ID } from "type-graphql";
+import { ObjectType, Field, ID, InputType, Int } from "type-graphql";
 import { Category } from "./category.entity";
 import { Tag } from "./tag.entity";
 import { IsDate, IsInt, Length, Min } from "class-validator";
@@ -16,10 +15,10 @@ import { User } from "./user.entity";
 
 @ObjectType()
 @Entity()
-export class Ad extends BaseEntity{
+export class Ad {
   @Field(() => ID)
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Field()
   @Column()
@@ -76,8 +75,44 @@ export class Ad extends BaseEntity{
 
   // An ad can have ONLY one owner
   // A user can have MULTIPLE ads
-
   @Field(() => User, { nullable: true })
   @ManyToOne(() => User, (user) => user.ads)
   user: User;
+}
+
+@InputType()
+export class CreateAdInput {
+  @Field()
+  title: string;
+  @Field()
+  price: number;
+  @Field()
+  description: string;
+  @Field()
+  picture: string;
+  @Field()
+  location: string;
+  @Field()
+  category: number;
+  @Field(() => [Number], { nullable: true})
+  tags?: [number];
+
+}
+
+@InputType()
+export class UpdateAdInput {
+  @Field({ nullable: true })
+  title?: string;
+  @Field({ nullable: true })
+  price?: number;
+  @Field({ nullable: true })
+  description?: string;
+  @Field({ nullable: true })
+  picture?: string;
+  @Field({ nullable: true })
+  location?: string;
+  @Field({ nullable: true})
+  category?: number
+  @Field(() => [Int], { nullable: true })
+  tags?: number[]
 }
