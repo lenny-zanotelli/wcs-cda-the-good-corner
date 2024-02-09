@@ -1,16 +1,17 @@
-import { 
-  Column, 
-  CreateDateColumn, 
-  Entity, 
-  JoinTable, 
-  ManyToMany, 
-  ManyToOne, 
-  PrimaryGeneratedColumn, 
-  UpdateDateColumn } from "typeorm";
-import { ObjectType, Field, ID, InputType, Int } from "type-graphql";
+import { IsDate, IsInt, Length, Min } from "class-validator";
+import { Field, ID, InputType, ObjectType } from "type-graphql";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from "typeorm";
 import { Category } from "./category.entity";
 import { Tag } from "./tag.entity";
-import { IsDate, IsInt, Length, Min } from "class-validator";
 import { User } from "./user.entity";
 
 @ObjectType()
@@ -60,17 +61,20 @@ export class Ad {
   // One Ad has only 1 category
   // A category can contain multiple ads
   // ManyToOne relationship (many adds one category)
-  @Field(() => Category, { nullable: true})
+  @Field(() => Category)
   @ManyToOne(() => Category, (category) => category.ads, {
-    onDelete: "SET NULL"
+    nullable: false,
+    onDelete: "CASCADE"
   }) 
   category: Category;
 
    // An ad can have multiple tags
   // A tag can have multiple ads
-  @JoinTable()
-  @ManyToMany(() => Tag, (tag) => tag.ads)
   @Field(() => [Tag], { nullable: true })
+  @ManyToMany(() => Tag, (tag) => tag.ads, {
+    cascade: ["insert", "update"]
+  })
+  @JoinTable()
   tags: Tag[];
 
   // An ad can have ONLY one owner
@@ -78,6 +82,12 @@ export class Ad {
   @Field(() => User, { nullable: true })
   @ManyToOne(() => User, (user) => user.ads)
   user: User;
+}
+
+@InputType()
+export class PartialCategoryInput {
+  @Field()
+  id: string;
 }
 
 @InputType()
@@ -93,8 +103,8 @@ export class CreateAdInput {
   @Field()
   location: string;
   @Field()
-  category: string;
-  @Field(() => [Number], { nullable: true})
+  category: PartialCategoryInput;
+  @Field(() => [String], { nullable: true})
   tags?: [string];
 
 }
@@ -112,7 +122,7 @@ export class UpdateAdInput {
   @Field({ nullable: true })
   location?: string;
   @Field({ nullable: true})
-  category?: number
-  @Field(() => [Int], { nullable: true })
-  tags?: number[]
+  category?: PartialCategoryInput;
+  @Field(() => [String], { nullable: true })
+  tags?: [string];
 }

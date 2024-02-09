@@ -1,4 +1,4 @@
-import datasource from "config/datasource";
+import datasource from "../../config/datasource";
 import { Category } from "../entities/category.entity";
 import { Repository } from "typeorm";
 

@@ -1,10 +1,10 @@
-import datasource  from "config/datasource";
 import { Ad, CreateAdInput } from "../entities/ad.entity";
 import { Category } from "../entities/category.entity";
 import { Tag } from "../entities/tag.entity";
 import { Like, Repository } from "typeorm";
 import CategoryService from "./category.service";
 import { TagService } from "./tag.service";
+import datasource from "../../config/datasource";
 
 export default class AdService {
   db: Repository<Ad>;
@@ -17,7 +17,7 @@ export default class AdService {
   }
 
   async create(data: CreateAdInput) {
-    const category = await new CategoryService().find(data.category);
+    const category = await new CategoryService().find(data.category.id);
     let tags: Tag[] = [];
     if (data?.tags?.length) {
       tags = await new TagService().list(data.tags);
@@ -47,5 +47,27 @@ export default class AdService {
       throw new Error('Ad doesnt exist.');
     }
     return ad;
+  }
+
+  async update(id: string, { tags, ...data }: Partial<CreateAdInput>) {
+    const ad = await this.find(id);
+    const newInfos = this.db.merge(ad, data);
+    let listTags: Tag[] = [];
+    if (tags?.length) {
+      listTags = await new TagService().list(tags);
+    }
+
+    const result = listTags.reduce((acc, item) => {
+      return acc.includes(item) ? acc: [...acc, item];
+    }, [] as Tag[]);
+    newInfos.tags = result;
+
+    return await this.db.save(newInfos);
+  }
+
+  async delete(id: string) {
+    const ad = await this.find(id);
+    await this.db.remove(ad);
+    return await this.list();
   }
 } 
