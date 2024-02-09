@@ -6,9 +6,7 @@ import { TagService } from "../services/tag.service";
 export class TagResolver {
   @Mutation(() => Tag)
   async createTag(@Arg("infos") infos: TagInput) {
-    const result: Tag[] = await new TagService().create({
-      name: infos.name,
-    });
+    const result = await new TagService().create(infos);
     return result;
   }
 

@@ -1,3 +1,4 @@
+import { validate } from "class-validator";
 import datasource from "../../config/datasource";
 import { Tag, TagInput } from "../entities/tag.entity";
 import { In, Repository } from "typeorm";
@@ -9,9 +10,18 @@ export class TagService {
   }
 
   async create(data: TagInput) {
-    const newTag = this.db.create(data);
-    await this.db.save(newTag);
-    return await this.list();
+    const errors = await validate(data);
+    if (errors.length > 0) {
+      throw new Error('Invalid input data')
+    }
+    try {
+      const newTag = this.db.create(data);
+      const savedTag = this.db.save(newTag);
+
+      return savedTag;
+    } catch (error) {
+      throw new Error(`Failed to create tag :${error.message}`);
+    }
   }
 
   async list(tagIds?: string[]) {
@@ -33,9 +43,18 @@ export class TagService {
   }
 
   async update(id: string, data: Partial<Tag>) {
-    const tag = await this.find(id);
-    const newInfos = this.db.merge(tag, data);
-    return await this.db.save(newInfos);
+    const errors = await validate(data);
+    if (errors.length > 0) {
+      throw new Error('Invalid input data')
+    }
+    try {
+      const tag = await this.find(id);
+      const newInfos = this.db.merge(tag, data);
+      
+      return await this.db.save(newInfos); 
+    } catch (error) {
+      throw new Error(`Failed to update : ${error.message}`);
+    }
   }
   
   async delete(id: string) {

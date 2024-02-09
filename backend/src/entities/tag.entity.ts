@@ -1,4 +1,4 @@
-import { Length } from "class-validator";
+import { IsUUID, Length } from "class-validator";
 import { Field, ID, InputType, ObjectType } from "type-graphql";
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Ad } from "./ad.entity";
@@ -9,6 +9,7 @@ import { Ad } from "./ad.entity";
 export class Tag {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
+  @IsUUID()
   id: string;
 
   @Field()
@@ -26,5 +27,6 @@ export class Tag {
 @InputType()
 export class TagInput {
   @Field()
+  @Length(2, 10)
   name: string;
 }
