@@ -1,3 +1,4 @@
+import { validate } from "class-validator";
 import datasource from "../../config/datasource";
 import { Category, CategoryInput } from "../entities/category.entity";
 import { Repository } from "typeorm";
@@ -23,15 +24,34 @@ export default class CategoryService {
   }
 
   async create(data: Partial<CategoryInput>) {
-    const newCategory = this.db.create(data);
-    newCategory.ads = [];
-    return await this.db.save(newCategory);
+    const errors = await validate(data);
+    if (errors.length > 0) {
+      throw new Error('Invalid input data')
+    }
+    try {
+      const newCategory = this.db.create(data);
+      newCategory.ads = [];
+
+
+      return await this.db.save(newCategory);
+    } catch (error) {
+      throw new Error(`Failed to create category :${error.message}`);
+    }
   }
 
   async update(id: string, data: Partial<Category>) {
-    const category = await this.find(id);
-    const newInfos = this.db.merge(category, data);
-    return await this.db.save(newInfos);
+    const errors = await validate(data);
+    if (errors.length > 0) {
+      throw new Error('Invalid input data')
+    }
+    try {
+      const category = await this.find(id);
+      const newInfos = this.db.merge(category, data);
+
+      return await this.db.save(newInfos); 
+    } catch (error) {
+      throw new Error(`Failed to update category :${error.message}`);
+    }
   }
 
   async delete(id: string) {

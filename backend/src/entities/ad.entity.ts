@@ -1,4 +1,4 @@
-import { IsDate, IsInt, Length, Min } from "class-validator";
+import { IsDate, IsInt, IsUUID, Length, Min } from "class-validator";
 import { Field, ID, InputType, ObjectType } from "type-graphql";
 import {
   Column,
@@ -19,6 +19,7 @@ import { User } from "./user.entity";
 export class Ad {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
+  @IsUUID()
   id: string;
 
   @Field()
@@ -70,7 +71,7 @@ export class Ad {
 
    // An ad can have multiple tags
   // A tag can have multiple ads
-  @Field(() => [Tag], { nullable: true })
+  @Field(() => [Tag])
   @ManyToMany(() => Tag, (tag) => tag.ads, {
     cascade: ["insert", "update"]
   })
@@ -93,8 +94,11 @@ export class PartialCategoryInput {
 @InputType()
 export class CreateAdInput {
   @Field()
+  @Length(3, 20)
   title: string;
   @Field()
+  @IsInt()
+  @Min(0)
   price: number;
   @Field()
   description: string;
@@ -112,8 +116,11 @@ export class CreateAdInput {
 @InputType()
 export class UpdateAdInput {
   @Field({ nullable: true })
+  @Length(3, 20)
   title?: string;
   @Field({ nullable: true })
+  @IsInt()
+  @Min(0)
   price?: number;
   @Field({ nullable: true })
   description?: string;
