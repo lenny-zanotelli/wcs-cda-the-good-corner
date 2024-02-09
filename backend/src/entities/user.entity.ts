@@ -40,7 +40,7 @@ export class User {
   role: UserRoleType;
 
   @OneToMany(() => Ad, (ads) => ads.owner)
-  @Field(() => [Ad], { nullable: true})
+  @Field(() => [Ad], { nullable: true })
   ads: Ad[];
 
 }
@@ -56,7 +56,6 @@ export class UserInfo {
 }
 
 // INPUT
-
 @InputType()
 export class UserInput implements Partial<User> {
   @Field()

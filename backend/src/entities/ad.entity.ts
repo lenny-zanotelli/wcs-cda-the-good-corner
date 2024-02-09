@@ -105,6 +105,8 @@ export class CreateAdInput {
   @Field()
   picture: string;
   @Field()
+  owner: string;
+  @Field()
   location: string;
   @Field()
   category: PartialCategoryInput;
@@ -128,6 +130,8 @@ export class UpdateAdInput {
   picture?: string;
   @Field({ nullable: true })
   location?: string;
+  @Field({ nullable: true })
+  owner?: string;
   @Field({ nullable: true})
   category?: PartialCategoryInput;
   @Field(() => [String], { nullable: true })
