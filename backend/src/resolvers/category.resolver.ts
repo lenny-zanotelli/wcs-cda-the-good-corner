@@ -1,35 +1,40 @@
-import { Query, Resolver } from "type-graphql";
-import { Category } from "../entities/category.entity";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Category, CategoryInput } from "../entities/category.entity";
 import CategoryService from "../services/category.service";
 
 @Resolver()
 export class CategoryResolver {
+  @Mutation(() => Category)
+  async createCategory(@Arg("infos") infos: CategoryInput) {
+    const newCategory = await new CategoryService().create({...infos});
+    return newCategory;
+  }
+  
   @Query(() => [Category])
   async getAllCategories() {
     const categories: Category[] = await new CategoryService().list();
     return categories;
   }
 
-  // @Mutation(() => String)
-  // async deleteCategoryById(@Arg("id") id: number) {
-  //   const categoryToDelete = await Category.findOneByOrFail({
-  //     id
-  //   });
-  //   categoryToDelete.remove();
-  //   return "The Category has been deleted";
-  // }
+  @Query(() => Category)
+  async getOneCategoryById(@Arg("id") id: string) {
+    const category = await new CategoryService().find(id);
+    return category;
+  }
 
-  // @Mutation(() => Category)
-  // async createCategory(@Arg("newCategory") data: CreateCategoryInput) {
-  //   const newCategory = Category.create({...data});
-  //   await newCategory.save();
-  //   return newCategory;
-  // }
 
-  // @Mutation(() => Category)
-  // async updateCategory(@Arg("id") id: number, @Arg("data") data: UpdateCategoryInput) {
-  //   await Category.update(id, {...data});
-  //   const updateCategory = await Category.findOneBy({ id })
-  //   return updateCategory;
-  // }
+  @Mutation(() => Category)
+  async updateCategory(
+    @Arg("id") id: string,
+    @Arg("infos") infos: CategoryInput
+    ) {
+      const newCategory = await new CategoryService().update(id, infos);
+      return newCategory;
+    }
+  
+  @Mutation(() => [Category])
+  async deleteCategory(@Arg("id") id: string) {
+    const categories: Category[] = await new CategoryService().delete(id);
+    return categories;
+  }
 }

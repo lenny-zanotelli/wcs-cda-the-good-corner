@@ -5,6 +5,12 @@ import AdService from "../services/ad.service";
 
 @Resolver()
 export class AdResolver {
+  @Mutation(() => Ad)
+  async createAd(@Arg("infos") infos: CreateAdInput) {
+    const result: Ad = await new AdService().create(infos);
+    return result;
+  }
+
   @Query(() => [Ad])
   async getAllAds(@Arg("search", { nullable: true }) search: string) {
     const ads: Ad[] = await new AdService().list(search)
@@ -17,12 +23,6 @@ export class AdResolver {
     return ad;
   }
   
-  @Mutation(() => Ad)
-  async createAd(@Arg("infos") infos: CreateAdInput) {
-    const result: Ad = await new AdService().create(infos);
-    return result;
-  }
-
   @Mutation(() => Ad)
   async updateAd(@Arg("id") id: string, @Arg("infos") infos: UpdateAdInput) {
     const ad: Ad = await new AdService().update(id, infos);
