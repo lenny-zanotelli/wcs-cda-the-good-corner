@@ -1,6 +1,6 @@
 import { Query, Resolver } from "type-graphql";
 import { Category } from "../entities/category.entity";
-import CategoryService from "src/services/category.service";
+import CategoryService from "../services/category.service";
 
 @Resolver()
 export class CategoryResolver {

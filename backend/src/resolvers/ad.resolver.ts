@@ -1,7 +1,7 @@
-import { Ad } from "../entities/ad.entity";
-import { Arg, Resolver, Query } from "type-graphql";
+import { Ad, CreateAdInput, UpdateAdInput } from "../entities/ad.entity";
+import { Arg, Resolver, Query, Mutation } from "type-graphql";
 
-import AdService from "src/services/ad.service";
+import AdService from "../services/ad.service";
 
 @Resolver()
 export class AdResolver {
@@ -16,33 +16,26 @@ export class AdResolver {
     const ad: Ad = await new AdService().find(id);
     return ad;
   }
-}
   
-  // @Authorized()
-  // @Mutation(() => Ad)
-  // async createAd(
-  // @Arg("newAd") AdInput: CreateAdInput, 
-  // @Ctx() ctx: JWTContext
-  // ) {
-  //   console.log("ctx", ctx);
-  //   console.log("adinput", AdInput);
-  //   if (AdInput.tags) {
-  //     return await Ad.save({
-  //       ...AdInput,
-  //       category: { id: AdInput.category },
-  //       tags: AdInput.tags.map((el) => ({ id: el})),
-  //     });
-  //   } else {
-  //     return await Ad.save({
-  //       ...AdInput,
-  //       owner: ctx.user?.email,
-  //       category: { id: AdInput.category },
-  //       tags: [],
-  //     });
-      
+  @Mutation(() => Ad)
+  async createAd(@Arg("infos") infos: CreateAdInput) {
+    const result: Ad = await new AdService().create(infos);
+    return result;
+  }
 
-  //   }
-  // }
+  @Mutation(() => Ad)
+  async updateAd(@Arg("id") id: string, @Arg("infos") infos: UpdateAdInput) {
+    const ad: Ad = await new AdService().update(id, infos);
+    return ad;
+  }
+
+  @Mutation(() => [Ad])
+  async deleteAd(@Arg("id") id: string) {
+    const ads: Ad[] = await new AdService().delete(id);
+    return ads;
+  }
+}
+
 
   // @Authorized()
   // @Mutation(() => String)

@@ -1,4 +1,4 @@
-import datasource from "config/datasource";
+import datasource from "../../config/datasource";
 import { Tag } from "../entities/tag.entity";
 import { In, Repository } from "typeorm";
 
