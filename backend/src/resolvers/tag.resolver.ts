@@ -1,34 +1,34 @@
-import { Query, Resolver } from "type-graphql";
-import { Tag } from "../entities/tag.entity";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Tag, TagInput } from "../entities/tag.entity";
+import { TagService } from "../services/tag.service";
 
 @Resolver()
 export class TagResolver {
-  @Query(() => [Tag])
-  getAllTags() {
-
+  @Mutation(() => Tag)
+  async createTag(@Arg("infos") infos: TagInput) {
+    const result: Tag[] = await new TagService().create({
+      name: infos.name,
+    });
+    return result;
   }
 
-  // @Mutation(() => String)
-  // async deleteTagById(@Arg("id") id: number) {
-  //   const tagToDelete = await Tag.findOneByOrFail({
-  //     id
-  //   });
-  //   tagToDelete.remove();
-  //   return "The Tag has been deleted"
-  // }
+  @Query(() => [Tag])
+  async getAllTags() {
+    return await new TagService().list();
+  }
 
-  // @Mutation(() => Tag)
-  // async createTag(@Arg("newTag") data: CreateTagInput) {
-  //   const newTag = Tag.create({...data});
-  //   await newTag.save();
-  //   return newTag;
-  // }
+  @Query(() => Tag)
+  async getTagById(@Arg("id") id: string) {
+    return await new TagService().find(id);
+  }
 
-  // @Mutation(() => Tag)
-  // async updateTag(@Arg("id") id: number, @Arg("data") data: UpdateTagInput) {
-  //   await Tag.update(id, {...data});
-  //   const updateTag = await Tag.findOneBy({ id });
-  //   return updateTag;
-  // }
+  @Mutation(() => Tag)
+  async updateTag(@Arg("id") id: string, @Arg("infos") infos: TagInput) {
+    return await new TagService().update(id, infos);
+  }
 
+  @Mutation(() => Tag)
+  async deleteTag(@Arg("id") id: string) {
+    return await new TagService().delete(id);
+  }
 }

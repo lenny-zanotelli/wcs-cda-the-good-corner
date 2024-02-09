@@ -24,7 +24,7 @@ export class Tag {
 // INPUT
 
 @InputType()
-export class CreateUpdateTagInput {
+export class TagInput {
   @Field()
   name: string;
 }
