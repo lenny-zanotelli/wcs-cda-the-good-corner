@@ -16,7 +16,7 @@ export class TagService {
     }
     try {
       const newTag = this.db.create(data);
-      const savedTag = this.db.save(newTag);
+      const savedTag = await this.db.save(newTag);
 
       return savedTag;
     } catch (error) {
@@ -27,7 +27,10 @@ export class TagService {
   async list(tagIds?: string[]) {
     return await this.db.find({
       where: {
-        id: tagIds && tagIds.length > 0 ? In(tagIds.map((tagId) => +tagId)) : undefined,
+        id: tagIds && tagIds.length > 0 ? In(tagIds.map((tagId) => tagId)) : undefined,
+      },
+      relations: {
+        ads: true
       }
     });
   }
