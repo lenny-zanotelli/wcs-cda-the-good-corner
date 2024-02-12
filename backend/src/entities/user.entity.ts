@@ -55,6 +55,14 @@ export class UserInfo {
   role: string;
 }
 
+@ObjectType()
+export class Message {
+  @Field()
+  success: boolean;
+
+  @Field()
+  message: string;
+}
 
 @ObjectType()
 export class UserWithoutPassword implements Omit<User, "password" | "ads"> {

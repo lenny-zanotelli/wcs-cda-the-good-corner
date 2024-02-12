@@ -3,6 +3,7 @@ import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import express, { Express } from 'express';
 import "reflect-metadata";
+import * as jwt from "jsonwebtoken";
 import { buildSchema } from "type-graphql";
 
 import dataSource from "../config/datasource";
@@ -18,6 +19,7 @@ import cors from 'cors';
 
 import { customAuthChecker } from "./lib/authChecker";
 import { User } from "./entities/user.entity";
+import UserService from "./services/user.service";
 
 export interface JWTContext {
   req: express.Request;
@@ -62,9 +64,10 @@ async function start() {
         const token = cookies.get("token");
         if (token) {
 
-          // const payload = jwt.verify(token, 'secret') as jwt.JwtPayload;
+          const payload = jwt.verify(token, 'secret') as jwt.JwtPayload;
 
-          // user = await User.findOneByOrFail({ email: payload.email });
+          user = await new UserService().find(payload.email);
+          console.log("user email", user);
 
         }
         return { req, res, user } as JWTContext;
