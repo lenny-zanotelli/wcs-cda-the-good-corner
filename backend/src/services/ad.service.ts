@@ -22,13 +22,16 @@ export default class AdService {
     }
     try {
       const category = await new CategoryService().find(data.category.id);
-      console.log(category);
+      if (!category) {
+        throw new Error('Category not found');
+      }
+
       let tags: Tag[] = [];
-      if (data?.tags?.length) {
+      if (data.tags) {
         tags = await new TagService().list(data.tags);
       }
       console.log('tag:', tags);
-      const newAd = this.db.save({ ...data, category, tags });
+      const newAd = await this.db.save({ ...data, category, tags });
       
       return newAd; 
     } catch (error) {

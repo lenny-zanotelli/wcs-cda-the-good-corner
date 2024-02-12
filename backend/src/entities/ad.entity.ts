@@ -73,7 +73,8 @@ export class Ad {
   // A tag can have multiple ads
   @Field(() => [Tag])
   @ManyToMany(() => Tag, (tag) => tag.ads, {
-    cascade: ["insert", "update"]
+    nullable: true,
+    cascade: ['insert', 'update']
   })
   @JoinTable()
   tags: Tag[];
@@ -90,6 +91,7 @@ export class PartialCategoryInput {
   @Field()
   id: string;
 }
+
 
 @InputType()
 export class CreateAdInput {
