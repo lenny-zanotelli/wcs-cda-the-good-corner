@@ -55,6 +55,19 @@ export class UserInfo {
   role: string;
 }
 
+
+@ObjectType()
+export class UserWithoutPassword implements Omit<User, "password" | "ads"> {
+  @Field()
+  id: string;
+
+  @Field()
+  email: string;
+
+  @Field()
+  role: UserRoleType;
+}
+
 // INPUT
 @InputType()
 export class UserInput implements Partial<User> {
@@ -64,3 +77,4 @@ export class UserInput implements Partial<User> {
   @Field()
   password: string;
 }
+
