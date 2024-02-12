@@ -1,6 +1,25 @@
+import { User, UserInput, UserWithoutPassword } from "../entities/user.entity";
+import UserService from "../services/user.service";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
 
-// TODO : creer des services pour l' injection dependance
+@Resolver()
+export default class UserResolver {
+  @Query(() => [User])
+  async getAllUsers() {
+    return await new UserService().list();
+  }
 
+  @Mutation(() => UserWithoutPassword)
+  async register(@Arg("infos") infos: UserInput) {
+    console.log("Mes infos: ", infos);
+    const user = await new UserService().find(infos.email);
+    if (user) {
+      throw new Error("This email is already taken");
+    }
+    const newUser = await new UserService().create(infos);
+    return newUser;
+  }
+}
 // @Resolver()
 // export class UserResolver {
 //   @Authorized("admin")
