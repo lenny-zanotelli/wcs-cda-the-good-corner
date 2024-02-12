@@ -11,6 +11,7 @@ import http from 'http';
 import { AdResolver } from "./resolvers/ad.resolver";
 import { CategoryResolver } from "./resolvers/category.resolver";
 import { TagResolver } from "./resolvers/tag.resolver";
+import { UserResolver } from "./resolvers/user.resolver";
 
 import Cookies from "cookies";
 import cors from 'cors';
@@ -37,7 +38,7 @@ const httpServer = http.createServer(app);
 
 async function start() {
   const schema = await buildSchema({
-    resolvers: [AdResolver, CategoryResolver, TagResolver],
+    resolvers: [AdResolver, CategoryResolver, TagResolver, UserResolver],
     authChecker: customAuthChecker
   });
   const server = new ApolloServer<JWTContext>({ 
