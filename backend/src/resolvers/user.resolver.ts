@@ -3,7 +3,7 @@ import UserService from "../services/user.service";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 
 @Resolver()
-export default class UserResolver {
+export class UserResolver {
   @Query(() => [User])
   async getAllUsers() {
     return await new UserService().list();

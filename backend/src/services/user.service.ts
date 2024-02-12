@@ -1,4 +1,4 @@
-import datasource from "config/datasource";
+import datasource from "../../config/datasource";
 import { User, UserInput } from "../entities/user.entity";
 import { Repository } from "typeorm";
 
@@ -18,8 +18,6 @@ export default class UserService {
   }
 
   async list() {
-    return this.db.find({
-      relations: { ads: true }
-    });
+    return this.db.find();
   }
 }
