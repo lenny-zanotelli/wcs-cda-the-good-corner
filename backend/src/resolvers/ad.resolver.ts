@@ -1,13 +1,20 @@
 import { Ad, CreateAdInput, UpdateAdInput } from "../entities/ad.entity";
-import { Arg, Resolver, Query, Mutation } from "type-graphql";
+import { Arg, Resolver, Query, Mutation, Ctx } from "type-graphql";
 
 import AdService from "../services/ad.service";
+import { JWTContext } from "src";
 
 @Resolver()
 export class AdResolver {
   @Mutation(() => Ad)
-  async createAd(@Arg("infos") infos: CreateAdInput) {
-    const result: Ad = await new AdService().create(infos);
+  async createAd(
+  @Arg("infos") infos: CreateAdInput,
+  @Ctx() ctx: JWTContext
+  ) {
+    const result: Ad = await new AdService().create({
+      ...infos,
+      owner: ctx.user?.email
+    });
     return result;
   }
 
@@ -24,7 +31,9 @@ export class AdResolver {
   }
   
   @Mutation(() => Ad)
-  async updateAd(@Arg("id") id: string, @Arg("infos") infos: UpdateAdInput) {
+  async updateAd(
+    @Arg("id") id: string, @Arg("infos") infos: UpdateAdInput,
+    ) {
     const ad: Ad = await new AdService().update(id, infos);
     return ad;
   }
@@ -35,37 +44,3 @@ export class AdResolver {
     return ads;
   }
 }
-
-
-  // @Authorized()
-  // @Mutation(() => String)
-  // async deleteAd(@Arg("id") id: number) {
-  //   const adToDelete = await Ad.findOneByOrFail({
-  //     id
-  //   });
-  //   adToDelete.remove();
-  //   return "Ad has been deleted";
-  // }
-
-  // @Authorized()
-  // @Mutation(() => Ad)
-  // async updateAd(
-  //   @Arg("id") id: number, 
-  //   @Arg("data") data: UpdateAdInput,
-  //   ) {
-  //     // const adToUpdate = await Ad.findOneByOrFail({ id: id});
-  //     // if (adToUpdate.owner !== ctx.user?.email && ctx.user?.role !== "admin") {
-  //     //   throw new Error("YOu cant edit this ad");
-  //     // }
-  //   const newData: any = { ...data };
-    
-  //   if (data.category) {
-  //     newData.category = { id: newData.category};
-  //   }
-
-  //   if (data.tags) {
-  //     newData.tags = data.tags.map((el) => ({ id: el }));
-  //   }
-
-  //   return await Ad.save({ id, ...newData});
-  // }
