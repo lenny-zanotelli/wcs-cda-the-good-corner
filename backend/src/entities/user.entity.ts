@@ -59,7 +59,6 @@ export class UserInfo {
 export class Message {
   @Field()
   success: boolean;
-
   @Field()
   message: string;
 }
@@ -68,10 +67,8 @@ export class Message {
 export class UserWithoutPassword implements Omit<User, "password" | "ads"> {
   @Field()
   id: string;
-
   @Field()
   email: string;
-
   @Field()
   role: UserRoleType;
 }

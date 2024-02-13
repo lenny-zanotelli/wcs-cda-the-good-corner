@@ -85,4 +85,9 @@ export class UserResolver {
     }
     return { isLoggedIn: false }
   }
+
+  @Mutation(() => User)
+  async deleteUser(@Arg("email") email: string) {
+    return await new UserService().delete(email);
+  }
 }

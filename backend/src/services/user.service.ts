@@ -20,4 +20,16 @@ export default class UserService {
   async list() {
     return this.db.find();
   }
+
+
+  async delete(email: string) {
+    const user = await this.find(email);
+
+    if (!user) {
+      throw new Error("User with this email doesnt exist");
+    }
+    await this.db.remove(user);
+    return await this.list();
+
+  }
 }
