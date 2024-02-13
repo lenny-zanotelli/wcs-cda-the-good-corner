@@ -86,14 +86,3 @@ export class UserResolver {
     return { isLoggedIn: false }
   }
 }
-
-//   @Authorized("admin")
-//   @Mutation(() => String)
-//   async deleteUser(@Arg("id") id: number) {
-//     const userToDelete = await User.findOneByOrFail({ id });
-//     await userToDelete.remove();
-
-//     return "user has been deleted";
-//   }
-  
-
