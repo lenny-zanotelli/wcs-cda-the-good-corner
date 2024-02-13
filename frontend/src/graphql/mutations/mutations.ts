@@ -1,22 +1,22 @@
 import { gql } from '@apollo/client';
 
 export const DELETE_AD = gql`
-  mutation DeleteAd($deleteAdId: Float!) {
+  mutation DeleteAd($deleteAdId: String!) {
     deleteAd(id: $deleteAdId)
   }
 `;
 
 export const CREATE_NEW_AD = gql`
-  mutation CreateAd($newAd: CreateAdInput!) {
-    createAd(newAd: $newAd) {
+  mutation CreateAd($infos: CreateAdInput!) {
+    createAd(infos: $infos) {
       id
     }
   }
 `;
 
 export const CREATE_NEW_CATEGORY = gql`
-  mutation CreateNewCategory($newCategory: CreateCategoryInput!) {
-    createCategory(newCategory: $newCategory) {
+  mutation CreateCategory($infos: CategoryInput!) {
+    createCategory(infos: $infos) {
       id
       name
     }
@@ -24,8 +24,8 @@ export const CREATE_NEW_CATEGORY = gql`
 `;
 
 export const UPDATE_AD = gql`
-  mutation UpdateAd($data: UpdateAdInput!, $updateAdId: Float!) {
-    updateAd(data: $data, id: $updateAdId) {
+  mutation UpdateAd($infos: UpdateAdInput!, $updateAdId: String!) {
+    updateAd(infos: $data, id: $updateAdId) {
       description
       id
       location
@@ -36,21 +36,25 @@ export const UPDATE_AD = gql`
       category {
         id
       }
+      tags {
+        id
+      }
     }
   }
 `;
 
 export const REGISTER = gql`
-  mutation Register($newUser: CreateUserInput!){
-    register(newUser: $newUser) {
+  mutation Register($infos: UserInput!){
+    register(infos: $infos) {
       id
       email
+      role
     }
   }
 `;
 
 export const DELETE_USER = gql`
-  mutation DeleteUser($deleteUserId: Float!) {
+  mutation DeleteUser($deleteUserId: String!) {
     deleteUser(id: $deleteUserId)
   }
 `;

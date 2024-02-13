@@ -15,6 +15,10 @@ export const GET_ALL_ADS = gql`
         id
         name
       }
+      tags {
+        id
+        name
+      }
     }
   }
 `;
@@ -29,7 +33,7 @@ export const GET_ALL_CATEGORIES = gql`
 `;
 
 export const GET_AD_BY_ID = gql`
-  query GetAdById($getAdByIdId: Float!) {
+  query GetAdById($getAdByIdId: String!) {
     getAdById(id: $getAdByIdId) {
       id
       title
@@ -40,7 +44,12 @@ export const GET_AD_BY_ID = gql`
       location
       category {
         id
-    }
+        name
+      }
+      tags {
+        id
+        name
+      }
     }
   }
 `;
@@ -66,8 +75,8 @@ export const GET_ALL_ADS_BY_CATEGORY = gql`
 `;
 
 export const GET_ADS_SEARCH = gql`
-  query GetAllAdsByTitle($title: String) {
-    getAllAds(title: $title) {
+  query Search($search: String) {
+    getAllAds(search: $search) {
       id
       title
       price
@@ -90,8 +99,11 @@ export const GET_ADS_SEARCH = gql`
 `;
 
 export const LOGIN = gql`
-  query Login($userLogin: LoginUserInput!) {
-    login(userLogin: $userLogin)
+  query Login($infos: UserInput!) {
+    login(infos: $infos) {
+      message
+      success
+    }
   }
 `;
 
@@ -117,6 +129,9 @@ export const GET_ALL_USERS = gql`
 
 export const LOGOUT = gql`
   query Logout {
-    logout
+    logout {
+      message
+      success
+    }
   }
 `;
