@@ -2,7 +2,7 @@
 import { useMutation } from '@apollo/client';
 import { FormEvent } from 'react';
 import { useRouter } from 'next/router';
-import { REGISTER } from '../../graphql/mutations/mutations';
+import { REGISTER } from '@/graphql/mutations/auth.mutations';
 
 function RegisterPage() {
   const router = useRouter();
