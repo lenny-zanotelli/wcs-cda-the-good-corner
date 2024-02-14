@@ -1,9 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/router';
-import { useMutation } from '@apollo/client';
-import styles from '../../../styles/NewAd.module.css';
-import { CREATE_NEW_CATEGORY } from '../../../graphql/mutations/mutations';
+import { useCreateCategoryMutation } from '../../../types/graphql';
 
 type Inputs = {
   name: string;
@@ -13,13 +11,13 @@ function NewCategory() {
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   const router = useRouter();
 
-  const [createNewCategory] = useMutation(CREATE_NEW_CATEGORY);
+  const [createNewCategory] = useCreateCategoryMutation();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       await createNewCategory({
         variables: {
-          newCategory: {
+          infos: {
             name: data.name,
           },
         },
@@ -45,7 +43,7 @@ function NewCategory() {
         <br />
         <input
           {...register('name', { required: true })}
-          className={styles.textField}
+          className="text-field"
         />
         {errors.name && toast.warning('Name is required')}
       </label>
