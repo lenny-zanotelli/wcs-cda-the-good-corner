@@ -10,7 +10,6 @@ export const GET_ALL_ADS = gql`
       location
       owner
       price
-      createdAt
       category {
         id
         name
@@ -79,7 +78,6 @@ export const GET_ADS_SEARCH = gql`
       updatedAt
       category {
         id
-        name
       }
       tags {
         id
