@@ -1,15 +1,12 @@
-/* eslint-disable import/extensions */
-/* eslint-disable @next/next/no-html-link-for-pages */
 import Link from 'next/link';
-import styles from '../styles/NavCategory.module.css';
-import { Category } from '../types';
+import { Category } from '../types/graphql';
 
 function NavCategory({ name }: Category) {
   return (
     <>
       <Link
         href={`/ad/category/${name}`}
-        className={styles.categoryNavigationLink}
+        className="category-navigation-link"
       >
         {name}
       </Link>

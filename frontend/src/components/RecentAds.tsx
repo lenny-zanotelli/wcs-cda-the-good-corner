@@ -1,21 +1,20 @@
-import { useQuery } from '@apollo/client';
+import { useGetAllAdsQuery } from '../types/graphql';
 import DisplayAds from './DisplayAds';
-import { GET_ALL_ADS } from '../graphql/queries/queries';
 
 function RecentAds() {
-  const { loading, error, data } = useQuery(GET_ALL_ADS);
+  const { loading, error, data } = useGetAllAdsQuery();
 
   if (loading) return <p>Loading...</p>;
   if (error) {
     return (
       <p>
+        
         Error:
         {' '}
         {error.message}
       </p>
     );
   }
-
   return (
     <DisplayAds
       ads={data?.getAllAds}

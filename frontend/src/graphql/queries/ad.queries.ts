@@ -14,10 +14,6 @@ export const GET_ALL_ADS = gql`
         id
         name
       }
-      tags {
-        id
-        name
-      }
     }
   }
 `;

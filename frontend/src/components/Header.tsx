@@ -1,12 +1,10 @@
-import { useQuery } from '@apollo/client';
 import Link from 'next/link';
-import styles from '../styles/Header.module.css';
 import NavCategory from './NavCategory';
-import { GET_ALL_CATEGORIES } from '../graphql/queries/queries';
 import SearchBar from './SearchBar';
+import { useGetAllCategoriesQuery } from '../types/graphql';
 
 function Header() {
-  const { data, loading, error } = useQuery(GET_ALL_CATEGORIES);
+  const { data, loading, error } = useGetAllCategoriesQuery();
 
   if (loading) return <p>Loading...</p>;
   if (error) {
@@ -22,41 +20,41 @@ function Header() {
   const categories = data ? data.getAllCategories : [];
 
   return (
-    <header className={styles.header}>
-      <div className={styles.mainMenu}>
+    <header className="header">
+      <div className="main-menu">
         <h1>
-          <Link href="/" className={`${styles.button} ${styles.logo} ${styles.linkButton}`}>
-            <span className={styles.mobileShortLabel}>TGC</span>
-            <span className={styles.desktopLongLabel}> THE GOOD CORNER</span>
+          <Link href="/" className="button logo link-button">
+            <span className="mobile-short-label">TGC</span>
+            <span className="desktop-long-label"> THE GOOD CORNER</span>
           </Link>
         </h1>
         <SearchBar />
-        <Link href="/ad/new" className={`${styles.button} ${styles.linkButton}`}>
-          <span className={styles.mobileShortLabel}>Publier</span>
-          <span className={styles.desktopLongLabel}>Publier une annonce</span>
+        <Link href="/ad/new" className="button link-button">
+          <span className="mobile-short-label">Publier</span>
+          <span className="desktop-long-label">Publier une annonce</span>
         </Link>
-        <Link href="/ad/category/new" className={`${styles.button} ${styles.linkButton}`}>
-          <span className={styles.mobileShortLabel}>Categorie</span>
-          <span className={styles.desktopLongLabel}>Ajouter une Categorie</span>
+        <Link href="/ad/category/new" className="button link-button">
+          <span className="mobile-short-label">Categorie</span>
+          <span className="desktop-long-label">Ajouter une Categorie</span>
         </Link>
-        <Link href="/auth/register" className={`${styles.button} ${styles.linkButton}`}>
-          <span className={styles.mobileShortLabel}>Register</span>
-          <span className={styles.desktopLongLabel}>Register</span>
+        <Link href="/auth/register" className="button link-button">
+          <span className="mobile-short-label">Register</span>
+          <span className="desktop-long-label">Register</span>
         </Link>
-        <Link href="/auth/login" className={`${styles.button} ${styles.linkButton}`}>
-          <span className={styles.mobileShortLabel}>Login</span>
-          <span className={styles.desktopLongLabel}>Login</span>
+        <Link href="/auth/login" className="button link-button">
+          <span className="mobile-short-label">Login</span>
+          <span className="desktop-long-label">Login</span>
         </Link>
-        <Link href="/auth/logout" className={`${styles.button} ${styles.linkButton}`}>
-          <span className={styles.mobileShortLabel}>Logout</span>
-          <span className={styles.desktopLongLabel}>Logout</span>
+        <Link href="/auth/logout" className="button link-button">
+          <span className="mobile-short-label">Logout</span>
+          <span className="desktop-long-label">Logout</span>
         </Link>
       </div>
-      <nav className={styles.categoriesNavigation}>
+      <nav className="categories-navigation">
         {categories.map((category) => (
           <NavCategory
             key={category.id}
-            id={parseInt(category.id, 10)}
+            id={category.id}
             name={category.name}
           />
         ))}

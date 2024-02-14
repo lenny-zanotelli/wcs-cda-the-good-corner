@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import { FormEvent } from 'react';
-import styles from '../styles/Header.module.css';
 
 function SearchBar() {
   const router = useRouter();
@@ -15,15 +14,15 @@ function SearchBar() {
   };
   return (
     <form
-      className={styles.textFieldWithButton}
+      className="text-field-with-button"
       onSubmit={handleSearch}
     >
       <input
-        className={`${styles.textField} ${styles.mainSearchField}`}
+        className="text-field main-search-field"
         type="search"
         name="keyword"
       />
-      <button type="submit" className={`${styles.button} ${styles.butonPrimary}`}>
+      <button type="submit" className="button button-primary">
         <svg
           aria-hidden="true"
           width="16"

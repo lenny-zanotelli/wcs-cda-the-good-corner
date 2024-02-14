@@ -1,11 +1,7 @@
 /* eslint-disable no-console */
 import Link from 'next/link';
-import { useMutation, useQuery } from '@apollo/client';
-import styles from '../styles/DisplayAds.module.css';
 import AdCard from './AdCard';
-import { GET_ALL_ADS } from '../graphql/queries/queries';
-import { DELETE_AD } from '../graphql/mutations/mutations';
-import { Ad } from '../types';
+import { Ad, useDeleteAdMutation, useGetAllAdsQuery } from '../types/graphql';
 
 type DisplayAdsProps = {
   ads: Ad[];
@@ -13,10 +9,10 @@ type DisplayAdsProps = {
 };
 
 function DisplayAds({ titleDisplay, ads }: DisplayAdsProps) {
-  const { data, refetch } = useQuery(GET_ALL_ADS, { skip: ads.length > 0 });
-  const [deleteAd] = useMutation(DELETE_AD);
+  const { data, refetch } = useGetAllAdsQuery({ skip: ads.length > 0 });
+  const [deleteAd] = useDeleteAdMutation();
 
-  const handleDeleteAd = async (adId: number) => {
+  const handleDeleteAd = async (adId: string) => {
     try {
       await deleteAd({
         variables: { deleteAdId: adId },
@@ -31,7 +27,7 @@ function DisplayAds({ titleDisplay, ads }: DisplayAdsProps) {
   return (
     <>
       <h2>{titleDisplay}</h2>
-      <section className={styles.recentAds}>
+      <section className="recent-ads">
         {ads.map((ad) => (
           <div key={ad.id}>
             <AdCard
@@ -45,12 +41,14 @@ function DisplayAds({ titleDisplay, ads }: DisplayAdsProps) {
               owner={ad.owner}
               category={ad.category}
               createdAt={ad.createdAt}
+              updatedAt={ad.updatedAt}
+              tags={ad.tags}
             />
-            <div className={styles.buttonContainer}>
+            <div className="button-container">
               <button
                 type="button"
                 className="button"
-                onClick={() => handleDeleteAd(Number(ad.id))}
+                onClick={() => handleDeleteAd(ad.id)}
               >
                 Delete
               </button>
