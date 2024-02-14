@@ -38,7 +38,7 @@ function UserAdminPage() {
   }
 
   if (data) {
-    console.log('data', data.getAllUsers);
+    // console.log('data', data.getAllUsers);
     return (
       <>
         <p>Administrator User Page</p>
@@ -49,7 +49,7 @@ function UserAdminPage() {
               type="submit"
               aria-label="Delete"
               onClick={() => deleteUser({
-                variables: { deleteUserId: Number.parseInt(user.id, 10) },
+                variables: { email: user.email },
               })}
             />
           </div>

@@ -2,7 +2,7 @@ import { useLazyQuery } from '@apollo/client';
 import { FormEvent } from 'react';
 import { useRouter } from 'next/router';
 import { LOGIN } from '../../graphql/queries/queries';
-import { LoginQuery, LoginQueryVariables, LoginUserInput } from '../../gql/graphql';
+import { LoginQuery, LoginQueryVariables, UserInput } from '../../gql/graphql';
 
 function LoginPage() {
   const router = useRouter();
@@ -17,12 +17,12 @@ function LoginPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const formJson = Object.fromEntries(formData) as LoginUserInput;
+    const formJson = Object.fromEntries(formData) as UserInput;
 
     if (formJson.email && formJson.password) {
       handleLogin({
         variables: {
-          userLogin: {
+          infos: {
             email: formJson.email,
             password: formJson.password,
           },
