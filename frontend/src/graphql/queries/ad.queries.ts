@@ -23,15 +23,6 @@ export const GET_ALL_ADS = gql`
   }
 `;
 
-export const GET_ALL_CATEGORIES = gql`
-  query GetAllCategories {
-    getAllCategories {
-      name
-      id
-    }
-  }
-`;
-
 export const GET_AD_BY_ID = gql`
   query GetAdById($getAdByIdId: String!) {
     getAdById(id: $getAdByIdId) {
@@ -94,44 +85,6 @@ export const GET_ADS_SEARCH = gql`
         id
         name
       }
-    }
-  }
-`;
-
-export const LOGIN = gql`
-  query Login($infos: UserInput!) {
-    login(infos: $infos) {
-      message
-      success
-    }
-  }
-`;
-
-export const GET_AUTH_INFO = gql`
-  query WhoAmI {
-    whoAmI {
-      role
-      email
-      isLoggedIn
-    }
-  }
-`;
-
-export const GET_ALL_USERS = gql`
-  query GetAllUsers {
-    getAllUsers {
-      email
-      id
-      role
-    }
-  }
-`;
-
-export const LOGOUT = gql`
-  query Logout {
-    logout {
-      message
-      success
     }
   }
 `;

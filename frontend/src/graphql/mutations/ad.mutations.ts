@@ -14,15 +14,6 @@ export const CREATE_NEW_AD = gql`
   }
 `;
 
-export const CREATE_NEW_CATEGORY = gql`
-  mutation CreateCategory($infos: CategoryInput!) {
-    createCategory(infos: $infos) {
-      id
-      name
-    }
-  }
-`;
-
 export const UPDATE_AD = gql`
   mutation UpdateAd($infos: UpdateAdInput!, $updateAdId: String!) {
     updateAd(infos: $data, id: $updateAdId) {
@@ -39,16 +30,6 @@ export const UPDATE_AD = gql`
       tags {
         id
       }
-    }
-  }
-`;
-
-export const REGISTER = gql`
-  mutation Register($infos: UserInput!){
-    register(infos: $infos) {
-      id
-      email
-      role
     }
   }
 `;
