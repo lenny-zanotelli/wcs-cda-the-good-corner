@@ -23,7 +23,7 @@ export type Scalars = {
 
 export type Ad = {
   __typename?: 'Ad';
-  category?: Maybe<Category>;
+  category: Category;
   createdAt: Scalars['DateTimeISO']['output'];
   description: Scalars['String']['output'];
   id: Scalars['ID']['output'];
@@ -31,7 +31,7 @@ export type Ad = {
   owner: Scalars['String']['output'];
   picture: Scalars['String']['output'];
   price: Scalars['Float']['output'];
-  tags?: Maybe<Array<Tag>>;
+  tags: Array<Tag>;
   title: Scalars['String']['output'];
   updatedAt: Scalars['DateTimeISO']['output'];
   user?: Maybe<User>;
@@ -44,32 +44,25 @@ export type Category = {
   name: Scalars['String']['output'];
 };
 
+export type CategoryInput = {
+  name: Scalars['String']['input'];
+};
+
 export type CreateAdInput = {
-  category: Scalars['Float']['input'];
+  category: PartialCategoryInput;
   description: Scalars['String']['input'];
   location: Scalars['String']['input'];
+  owner?: InputMaybe<Scalars['String']['input']>;
   picture: Scalars['String']['input'];
   price: Scalars['Float']['input'];
-  tags?: InputMaybe<Array<Scalars['Float']['input']>>;
+  tags?: InputMaybe<Array<Scalars['String']['input']>>;
   title: Scalars['String']['input'];
 };
 
-export type CreateCategoryInput = {
-  name: Scalars['String']['input'];
-};
-
-export type CreateTagInput = {
-  name: Scalars['String']['input'];
-};
-
-export type CreateUserInput = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-};
-
-export type LoginUserInput = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
+export type Message = {
+  __typename?: 'Message';
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
 };
 
 export type Mutation = {
@@ -77,11 +70,11 @@ export type Mutation = {
   createAd: Ad;
   createCategory: Category;
   createTag: Tag;
-  deleteAd: Scalars['String']['output'];
-  deleteCategoryById: Scalars['String']['output'];
-  deleteTagById: Scalars['String']['output'];
-  deleteUser: Scalars['String']['output'];
-  register: User;
+  deleteAd: Array<Ad>;
+  deleteCategory: Array<Category>;
+  deleteTag: Tag;
+  deleteUser: User;
+  register: UserWithoutPassword;
   updateAd: Ad;
   updateCategory: Category;
   updateTag: Tag;
@@ -89,94 +82,103 @@ export type Mutation = {
 
 
 export type MutationCreateAdArgs = {
-  newAd: CreateAdInput;
+  infos: CreateAdInput;
 };
 
 
 export type MutationCreateCategoryArgs = {
-  newCategory: CreateCategoryInput;
+  infos: CategoryInput;
 };
 
 
 export type MutationCreateTagArgs = {
-  newTag: CreateTagInput;
+  infos: TagInput;
 };
 
 
 export type MutationDeleteAdArgs = {
-  id: Scalars['Float']['input'];
+  id: Scalars['String']['input'];
 };
 
 
-export type MutationDeleteCategoryByIdArgs = {
-  id: Scalars['Float']['input'];
+export type MutationDeleteCategoryArgs = {
+  id: Scalars['String']['input'];
 };
 
 
-export type MutationDeleteTagByIdArgs = {
-  id: Scalars['Float']['input'];
+export type MutationDeleteTagArgs = {
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDeleteUserArgs = {
-  id: Scalars['Float']['input'];
+  email: Scalars['String']['input'];
 };
 
 
 export type MutationRegisterArgs = {
-  newUser: CreateUserInput;
+  infos: UserInput;
 };
 
 
 export type MutationUpdateAdArgs = {
-  data: UpdateAdInput;
-  id: Scalars['Float']['input'];
+  id: Scalars['String']['input'];
+  infos: UpdateAdInput;
 };
 
 
 export type MutationUpdateCategoryArgs = {
-  data: UpdateCategoryInput;
-  id: Scalars['Float']['input'];
+  id: Scalars['String']['input'];
+  infos: CategoryInput;
 };
 
 
 export type MutationUpdateTagArgs = {
-  data: UpdateTagInput;
-  id: Scalars['Float']['input'];
+  id: Scalars['String']['input'];
+  infos: TagInput;
+};
+
+export type PartialCategoryInput = {
+  id: Scalars['String']['input'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  getAdById?: Maybe<Ad>;
+  getAdById: Ad;
   getAllAds: Array<Ad>;
   getAllCategories: Array<Category>;
   getAllTags: Array<Tag>;
   getAllUsers: Array<User>;
-  getUserById: User;
-  login: Scalars['String']['output'];
-  logout: Scalars['String']['output'];
+  getOneCategoryById: Category;
+  getTagById: Tag;
+  login: Message;
+  logout: Message;
   whoAmI: UserInfo;
 };
 
 
 export type QueryGetAdByIdArgs = {
-  id: Scalars['Float']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryGetAllAdsArgs = {
-  category?: InputMaybe<Scalars['String']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-export type QueryGetUserByIdArgs = {
-  id: Scalars['Float']['input'];
+export type QueryGetOneCategoryByIdArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryGetTagByIdArgs = {
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryLoginArgs = {
-  userLogin: LoginUserInput;
+  infos: UserInput;
 };
 
 export type Tag = {
@@ -186,22 +188,18 @@ export type Tag = {
   name: Scalars['String']['output'];
 };
 
+export type TagInput = {
+  name: Scalars['String']['input'];
+};
+
 export type UpdateAdInput = {
-  category?: InputMaybe<Scalars['Float']['input']>;
+  category?: InputMaybe<PartialCategoryInput>;
   description?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   picture?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<Scalars['Float']['input']>;
-  tags?: InputMaybe<Array<Scalars['Int']['input']>>;
+  tags?: InputMaybe<Array<Scalars['String']['input']>>;
   title?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type UpdateCategoryInput = {
-  name: Scalars['String']['input'];
-};
-
-export type UpdateTagInput = {
-  name: Scalars['String']['input'];
 };
 
 export type User = {
@@ -219,53 +217,65 @@ export type UserInfo = {
   role?: Maybe<Scalars['String']['output']>;
 };
 
+export type UserInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+export type UserWithoutPassword = {
+  __typename?: 'UserWithoutPassword';
+  email: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  role: Scalars['String']['output'];
+};
+
 export type DeleteAdMutationVariables = Exact<{
-  deleteAdId: Scalars['Float']['input'];
+  deleteAdId: Scalars['String']['input'];
 }>;
 
 
-export type DeleteAdMutation = { __typename?: 'Mutation', deleteAd: string };
+export type DeleteAdMutation = { __typename?: 'Mutation', deleteAd: Array<{ __typename?: 'Ad', id: string }> };
 
 export type CreateAdMutationVariables = Exact<{
-  newAd: CreateAdInput;
+  infos: CreateAdInput;
 }>;
 
 
 export type CreateAdMutation = { __typename?: 'Mutation', createAd: { __typename?: 'Ad', id: string } };
 
-export type CreateNewCategoryMutationVariables = Exact<{
-  newCategory: CreateCategoryInput;
+export type CreateCategoryMutationVariables = Exact<{
+  infos: CategoryInput;
 }>;
 
 
-export type CreateNewCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'Category', id: string, name: string } };
+export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'Category', id: string, name: string } };
 
 export type UpdateAdMutationVariables = Exact<{
-  data: UpdateAdInput;
-  updateAdId: Scalars['Float']['input'];
+  infos: UpdateAdInput;
+  updateAdId: Scalars['String']['input'];
 }>;
 
 
-export type UpdateAdMutation = { __typename?: 'Mutation', updateAd: { __typename?: 'Ad', description: string, id: string, location: string, owner: string, picture: string, price: number, title: string, category?: { __typename?: 'Category', id: string } | null } };
+export type UpdateAdMutation = { __typename?: 'Mutation', updateAd: { __typename?: 'Ad', description: string, id: string, location: string, owner: string, picture: string, price: number, title: string, category: { __typename?: 'Category', id: string }, tags: Array<{ __typename?: 'Tag', id: string }> } };
 
 export type RegisterMutationVariables = Exact<{
-  newUser: CreateUserInput;
+  infos: UserInput;
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', id: string, email: string } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserWithoutPassword', id: string, email: string, role: string } };
 
 export type DeleteUserMutationVariables = Exact<{
-  deleteUserId: Scalars['Float']['input'];
+  email: Scalars['String']['input'];
 }>;
 
 
-export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: string };
+export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'User', email: string } };
 
 export type GetAllAdsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllAdsQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: string, title: string, description: string, picture: string, location: string, owner: string, price: number, createdAt: any, category?: { __typename?: 'Category', id: string, name: string } | null }> };
+export type GetAllAdsQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: string, title: string, description: string, picture: string, location: string, owner: string, price: number, createdAt: any, updatedAt: any, tags: Array<{ __typename?: 'Tag', id: string, name: string }> }> };
 
 export type GetAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -273,32 +283,25 @@ export type GetAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetAllCategoriesQuery = { __typename?: 'Query', getAllCategories: Array<{ __typename?: 'Category', name: string, id: string }> };
 
 export type GetAdByIdQueryVariables = Exact<{
-  getAdByIdId: Scalars['Float']['input'];
+  getAdByIdId: Scalars['String']['input'];
 }>;
 
 
-export type GetAdByIdQuery = { __typename?: 'Query', getAdById?: { __typename?: 'Ad', id: string, title: string, price: number, description: string, owner: string, picture: string, location: string, category?: { __typename?: 'Category', id: string } | null } | null };
+export type GetAdByIdQuery = { __typename?: 'Query', getAdById: { __typename?: 'Ad', id: string, title: string, price: number, description: string, owner: string, picture: string, location: string, category: { __typename?: 'Category', id: string, name: string }, tags: Array<{ __typename?: 'Tag', id: string, name: string }> } };
 
-export type GetAllAdsByCategoryQueryVariables = Exact<{
-  category?: InputMaybe<Scalars['String']['input']>;
+export type SearchQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type GetAllAdsByCategoryQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: string, title: string, price: number, description: string, owner: string, picture: string, location: string, createdAt: any, updatedAt: any, category?: { __typename?: 'Category', id: string, name: string } | null }> };
-
-export type GetAllAdsByTitleQueryVariables = Exact<{
-  title?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type GetAllAdsByTitleQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: string, title: string, price: number, description: string, owner: string, picture: string, location: string, createdAt: any, updatedAt: any, category?: { __typename?: 'Category', id: string, name: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name: string }> | null }> };
+export type SearchQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: string, title: string, price: number, description: string, owner: string, picture: string, location: string, createdAt: any, updatedAt: any, category: { __typename?: 'Category', id: string, name: string }, tags: Array<{ __typename?: 'Tag', id: string, name: string }> }> };
 
 export type LoginQueryVariables = Exact<{
-  userLogin: LoginUserInput;
+  infos: UserInput;
 }>;
 
 
-export type LoginQuery = { __typename?: 'Query', login: string };
+export type LoginQuery = { __typename?: 'Query', login: { __typename?: 'Message', message: string, success: boolean } };
 
 export type WhoAmIQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -313,24 +316,23 @@ export type GetAllUsersQuery = { __typename?: 'Query', getAllUsers: Array<{ __ty
 export type LogoutQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LogoutQuery = { __typename?: 'Query', logout: string };
+export type LogoutQuery = { __typename?: 'Query', logout: { __typename?: 'Message', message: string, success: boolean } };
 
 
-export const DeleteAdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteAd"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"deleteAdId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteAd"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"deleteAdId"}}}]}]}}]} as unknown as DocumentNode<DeleteAdMutation, DeleteAdMutationVariables>;
-export const CreateAdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateAd"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"newAd"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateAdInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createAd"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"newAd"},"value":{"kind":"Variable","name":{"kind":"Name","value":"newAd"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateAdMutation, CreateAdMutationVariables>;
-export const CreateNewCategoryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateNewCategory"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"newCategory"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateCategoryInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createCategory"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"newCategory"},"value":{"kind":"Variable","name":{"kind":"Name","value":"newCategory"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<CreateNewCategoryMutation, CreateNewCategoryMutationVariables>;
-export const UpdateAdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateAd"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateAdInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateAdId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateAd"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}},{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateAdId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"category"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<UpdateAdMutation, UpdateAdMutationVariables>;
-export const RegisterDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Register"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"newUser"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"register"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"newUser"},"value":{"kind":"Variable","name":{"kind":"Name","value":"newUser"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<RegisterMutation, RegisterMutationVariables>;
-export const DeleteUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"deleteUserId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"deleteUserId"}}}]}]}}]} as unknown as DocumentNode<DeleteUserMutation, DeleteUserMutationVariables>;
-export const GetAllAdsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllAds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllAds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"category"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetAllAdsQuery, GetAllAdsQueryVariables>;
+export const DeleteAdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteAd"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"deleteAdId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteAd"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"deleteAdId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DeleteAdMutation, DeleteAdMutationVariables>;
+export const CreateAdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateAd"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"infos"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateAdInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createAd"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"infos"},"value":{"kind":"Variable","name":{"kind":"Name","value":"infos"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateAdMutation, CreateAdMutationVariables>;
+export const CreateCategoryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateCategory"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"infos"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CategoryInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createCategory"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"infos"},"value":{"kind":"Variable","name":{"kind":"Name","value":"infos"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<CreateCategoryMutation, CreateCategoryMutationVariables>;
+export const UpdateAdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateAd"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"infos"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateAdInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateAdId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateAd"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"infos"},"value":{"kind":"Variable","name":{"kind":"Name","value":"infos"}}},{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateAdId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"category"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<UpdateAdMutation, UpdateAdMutationVariables>;
+export const RegisterDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Register"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"infos"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"register"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"infos"},"value":{"kind":"Variable","name":{"kind":"Name","value":"infos"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"role"}}]}}]}}]} as unknown as DocumentNode<RegisterMutation, RegisterMutationVariables>;
+export const DeleteUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<DeleteUserMutation, DeleteUserMutationVariables>;
+export const GetAllAdsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllAds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllAds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetAllAdsQuery, GetAllAdsQueryVariables>;
 export const GetAllCategoriesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllCategories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllCategories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<GetAllCategoriesQuery, GetAllCategoriesQueryVariables>;
-export const GetAdByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAdById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"getAdByIdId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAdById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"getAdByIdId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"category"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<GetAdByIdQuery, GetAdByIdQueryVariables>;
-export const GetAllAdsByCategoryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllAdsByCategory"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"category"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllAds"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"category"},"value":{"kind":"Variable","name":{"kind":"Name","value":"category"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"category"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetAllAdsByCategoryQuery, GetAllAdsByCategoryQueryVariables>;
-export const GetAllAdsByTitleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllAdsByTitle"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"title"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllAds"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"title"},"value":{"kind":"Variable","name":{"kind":"Name","value":"title"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"category"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetAllAdsByTitleQuery, GetAllAdsByTitleQueryVariables>;
-export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userLogin"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"userLogin"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userLogin"}}}]}]}}]} as unknown as DocumentNode<LoginQuery, LoginQueryVariables>;
+export const GetAdByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAdById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"getAdByIdId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAdById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"getAdByIdId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"category"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetAdByIdQuery, GetAdByIdQueryVariables>;
+export const SearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Search"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"search"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllAds"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"search"},"value":{"kind":"Variable","name":{"kind":"Name","value":"search"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"category"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<SearchQuery, SearchQueryVariables>;
+export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"infos"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"infos"},"value":{"kind":"Variable","name":{"kind":"Name","value":"infos"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"success"}}]}}]}}]} as unknown as DocumentNode<LoginQuery, LoginQueryVariables>;
 export const WhoAmIDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"WhoAmI"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"whoAmI"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"isLoggedIn"}}]}}]}}]} as unknown as DocumentNode<WhoAmIQuery, WhoAmIQueryVariables>;
 export const GetAllUsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"role"}}]}}]}}]} as unknown as DocumentNode<GetAllUsersQuery, GetAllUsersQueryVariables>;
-export const LogoutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Logout"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logout"}}]}}]} as unknown as DocumentNode<LogoutQuery, LogoutQueryVariables>;
+export const LogoutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Logout"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logout"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"success"}}]}}]}}]} as unknown as DocumentNode<LogoutQuery, LogoutQueryVariables>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -344,7 +346,7 @@ export type Scalars = {
 
 export type Ad = {
   __typename?: 'Ad';
-  category?: Maybe<Category>;
+  category: Category;
   createdAt: Scalars['DateTimeISO']['output'];
   description: Scalars['String']['output'];
   id: Scalars['ID']['output'];
@@ -352,7 +354,7 @@ export type Ad = {
   owner: Scalars['String']['output'];
   picture: Scalars['String']['output'];
   price: Scalars['Float']['output'];
-  tags?: Maybe<Array<Tag>>;
+  tags: Array<Tag>;
   title: Scalars['String']['output'];
   updatedAt: Scalars['DateTimeISO']['output'];
   user?: Maybe<User>;
@@ -365,32 +367,25 @@ export type Category = {
   name: Scalars['String']['output'];
 };
 
+export type CategoryInput = {
+  name: Scalars['String']['input'];
+};
+
 export type CreateAdInput = {
-  category: Scalars['Float']['input'];
+  category: PartialCategoryInput;
   description: Scalars['String']['input'];
   location: Scalars['String']['input'];
+  owner?: InputMaybe<Scalars['String']['input']>;
   picture: Scalars['String']['input'];
   price: Scalars['Float']['input'];
-  tags?: InputMaybe<Array<Scalars['Float']['input']>>;
+  tags?: InputMaybe<Array<Scalars['String']['input']>>;
   title: Scalars['String']['input'];
 };
 
-export type CreateCategoryInput = {
-  name: Scalars['String']['input'];
-};
-
-export type CreateTagInput = {
-  name: Scalars['String']['input'];
-};
-
-export type CreateUserInput = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-};
-
-export type LoginUserInput = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
+export type Message = {
+  __typename?: 'Message';
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
 };
 
 export type Mutation = {
@@ -398,11 +393,11 @@ export type Mutation = {
   createAd: Ad;
   createCategory: Category;
   createTag: Tag;
-  deleteAd: Scalars['String']['output'];
-  deleteCategoryById: Scalars['String']['output'];
-  deleteTagById: Scalars['String']['output'];
-  deleteUser: Scalars['String']['output'];
-  register: User;
+  deleteAd: Array<Ad>;
+  deleteCategory: Array<Category>;
+  deleteTag: Tag;
+  deleteUser: User;
+  register: UserWithoutPassword;
   updateAd: Ad;
   updateCategory: Category;
   updateTag: Tag;
@@ -410,94 +405,103 @@ export type Mutation = {
 
 
 export type MutationCreateAdArgs = {
-  newAd: CreateAdInput;
+  infos: CreateAdInput;
 };
 
 
 export type MutationCreateCategoryArgs = {
-  newCategory: CreateCategoryInput;
+  infos: CategoryInput;
 };
 
 
 export type MutationCreateTagArgs = {
-  newTag: CreateTagInput;
+  infos: TagInput;
 };
 
 
 export type MutationDeleteAdArgs = {
-  id: Scalars['Float']['input'];
+  id: Scalars['String']['input'];
 };
 
 
-export type MutationDeleteCategoryByIdArgs = {
-  id: Scalars['Float']['input'];
+export type MutationDeleteCategoryArgs = {
+  id: Scalars['String']['input'];
 };
 
 
-export type MutationDeleteTagByIdArgs = {
-  id: Scalars['Float']['input'];
+export type MutationDeleteTagArgs = {
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDeleteUserArgs = {
-  id: Scalars['Float']['input'];
+  email: Scalars['String']['input'];
 };
 
 
 export type MutationRegisterArgs = {
-  newUser: CreateUserInput;
+  infos: UserInput;
 };
 
 
 export type MutationUpdateAdArgs = {
-  data: UpdateAdInput;
-  id: Scalars['Float']['input'];
+  id: Scalars['String']['input'];
+  infos: UpdateAdInput;
 };
 
 
 export type MutationUpdateCategoryArgs = {
-  data: UpdateCategoryInput;
-  id: Scalars['Float']['input'];
+  id: Scalars['String']['input'];
+  infos: CategoryInput;
 };
 
 
 export type MutationUpdateTagArgs = {
-  data: UpdateTagInput;
-  id: Scalars['Float']['input'];
+  id: Scalars['String']['input'];
+  infos: TagInput;
+};
+
+export type PartialCategoryInput = {
+  id: Scalars['String']['input'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  getAdById?: Maybe<Ad>;
+  getAdById: Ad;
   getAllAds: Array<Ad>;
   getAllCategories: Array<Category>;
   getAllTags: Array<Tag>;
   getAllUsers: Array<User>;
-  getUserById: User;
-  login: Scalars['String']['output'];
-  logout: Scalars['String']['output'];
+  getOneCategoryById: Category;
+  getTagById: Tag;
+  login: Message;
+  logout: Message;
   whoAmI: UserInfo;
 };
 
 
 export type QueryGetAdByIdArgs = {
-  id: Scalars['Float']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryGetAllAdsArgs = {
-  category?: InputMaybe<Scalars['String']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-export type QueryGetUserByIdArgs = {
-  id: Scalars['Float']['input'];
+export type QueryGetOneCategoryByIdArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryGetTagByIdArgs = {
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryLoginArgs = {
-  userLogin: LoginUserInput;
+  infos: UserInput;
 };
 
 export type Tag = {
@@ -507,22 +511,18 @@ export type Tag = {
   name: Scalars['String']['output'];
 };
 
+export type TagInput = {
+  name: Scalars['String']['input'];
+};
+
 export type UpdateAdInput = {
-  category?: InputMaybe<Scalars['Float']['input']>;
+  category?: InputMaybe<PartialCategoryInput>;
   description?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   picture?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<Scalars['Float']['input']>;
-  tags?: InputMaybe<Array<Scalars['Int']['input']>>;
+  tags?: InputMaybe<Array<Scalars['String']['input']>>;
   title?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type UpdateCategoryInput = {
-  name: Scalars['String']['input'];
-};
-
-export type UpdateTagInput = {
-  name: Scalars['String']['input'];
 };
 
 export type User = {
@@ -540,53 +540,65 @@ export type UserInfo = {
   role?: Maybe<Scalars['String']['output']>;
 };
 
+export type UserInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+export type UserWithoutPassword = {
+  __typename?: 'UserWithoutPassword';
+  email: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  role: Scalars['String']['output'];
+};
+
 export type DeleteAdMutationVariables = Exact<{
-  deleteAdId: Scalars['Float']['input'];
+  deleteAdId: Scalars['String']['input'];
 }>;
 
 
-export type DeleteAdMutation = { __typename?: 'Mutation', deleteAd: string };
+export type DeleteAdMutation = { __typename?: 'Mutation', deleteAd: Array<{ __typename?: 'Ad', id: string }> };
 
 export type CreateAdMutationVariables = Exact<{
-  newAd: CreateAdInput;
+  infos: CreateAdInput;
 }>;
 
 
 export type CreateAdMutation = { __typename?: 'Mutation', createAd: { __typename?: 'Ad', id: string } };
 
-export type CreateNewCategoryMutationVariables = Exact<{
-  newCategory: CreateCategoryInput;
+export type CreateCategoryMutationVariables = Exact<{
+  infos: CategoryInput;
 }>;
 
 
-export type CreateNewCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'Category', id: string, name: string } };
+export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'Category', id: string, name: string } };
 
 export type UpdateAdMutationVariables = Exact<{
-  data: UpdateAdInput;
-  updateAdId: Scalars['Float']['input'];
+  infos: UpdateAdInput;
+  updateAdId: Scalars['String']['input'];
 }>;
 
 
-export type UpdateAdMutation = { __typename?: 'Mutation', updateAd: { __typename?: 'Ad', description: string, id: string, location: string, owner: string, picture: string, price: number, title: string, category?: { __typename?: 'Category', id: string } | null } };
+export type UpdateAdMutation = { __typename?: 'Mutation', updateAd: { __typename?: 'Ad', description: string, id: string, location: string, owner: string, picture: string, price: number, title: string, category: { __typename?: 'Category', id: string }, tags: Array<{ __typename?: 'Tag', id: string }> } };
 
 export type RegisterMutationVariables = Exact<{
-  newUser: CreateUserInput;
+  infos: UserInput;
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', id: string, email: string } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserWithoutPassword', id: string, email: string, role: string } };
 
 export type DeleteUserMutationVariables = Exact<{
-  deleteUserId: Scalars['Float']['input'];
+  email: Scalars['String']['input'];
 }>;
 
 
-export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: string };
+export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'User', email: string } };
 
 export type GetAllAdsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllAdsQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: string, title: string, description: string, picture: string, location: string, owner: string, price: number, createdAt: any, category?: { __typename?: 'Category', id: string, name: string } | null }> };
+export type GetAllAdsQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: string, title: string, description: string, picture: string, location: string, owner: string, price: number, createdAt: any, updatedAt: any, tags: Array<{ __typename?: 'Tag', id: string, name: string }> }> };
 
 export type GetAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -594,32 +606,25 @@ export type GetAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetAllCategoriesQuery = { __typename?: 'Query', getAllCategories: Array<{ __typename?: 'Category', name: string, id: string }> };
 
 export type GetAdByIdQueryVariables = Exact<{
-  getAdByIdId: Scalars['Float']['input'];
+  getAdByIdId: Scalars['String']['input'];
 }>;
 
 
-export type GetAdByIdQuery = { __typename?: 'Query', getAdById?: { __typename?: 'Ad', id: string, title: string, price: number, description: string, owner: string, picture: string, location: string, category?: { __typename?: 'Category', id: string } | null } | null };
+export type GetAdByIdQuery = { __typename?: 'Query', getAdById: { __typename?: 'Ad', id: string, title: string, price: number, description: string, owner: string, picture: string, location: string, category: { __typename?: 'Category', id: string, name: string }, tags: Array<{ __typename?: 'Tag', id: string, name: string }> } };
 
-export type GetAllAdsByCategoryQueryVariables = Exact<{
-  category?: InputMaybe<Scalars['String']['input']>;
+export type SearchQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type GetAllAdsByCategoryQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: string, title: string, price: number, description: string, owner: string, picture: string, location: string, createdAt: any, updatedAt: any, category?: { __typename?: 'Category', id: string, name: string } | null }> };
-
-export type GetAllAdsByTitleQueryVariables = Exact<{
-  title?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type GetAllAdsByTitleQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: string, title: string, price: number, description: string, owner: string, picture: string, location: string, createdAt: any, updatedAt: any, category?: { __typename?: 'Category', id: string, name: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name: string }> | null }> };
+export type SearchQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: string, title: string, price: number, description: string, owner: string, picture: string, location: string, createdAt: any, updatedAt: any, category: { __typename?: 'Category', id: string, name: string }, tags: Array<{ __typename?: 'Tag', id: string, name: string }> }> };
 
 export type LoginQueryVariables = Exact<{
-  userLogin: LoginUserInput;
+  infos: UserInput;
 }>;
 
 
-export type LoginQuery = { __typename?: 'Query', login: string };
+export type LoginQuery = { __typename?: 'Query', login: { __typename?: 'Message', message: string, success: boolean } };
 
 export type WhoAmIQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -634,12 +639,14 @@ export type GetAllUsersQuery = { __typename?: 'Query', getAllUsers: Array<{ __ty
 export type LogoutQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LogoutQuery = { __typename?: 'Query', logout: string };
+export type LogoutQuery = { __typename?: 'Query', logout: { __typename?: 'Message', message: string, success: boolean } };
 
 
 export const DeleteAdDocument = gql`
-    mutation DeleteAd($deleteAdId: Float!) {
-  deleteAd(id: $deleteAdId)
+    mutation DeleteAd($deleteAdId: String!) {
+  deleteAd(id: $deleteAdId) {
+    id
+  }
 }
     `;
 export type DeleteAdMutationFn = Apollo.MutationFunction<DeleteAdMutation, DeleteAdMutationVariables>;
@@ -669,8 +676,8 @@ export type DeleteAdMutationHookResult = ReturnType<typeof useDeleteAdMutation>;
 export type DeleteAdMutationResult = Apollo.MutationResult<DeleteAdMutation>;
 export type DeleteAdMutationOptions = Apollo.BaseMutationOptions<DeleteAdMutation, DeleteAdMutationVariables>;
 export const CreateAdDocument = gql`
-    mutation CreateAd($newAd: CreateAdInput!) {
-  createAd(newAd: $newAd) {
+    mutation CreateAd($infos: CreateAdInput!) {
+  createAd(infos: $infos) {
     id
   }
 }
@@ -690,7 +697,7 @@ export type CreateAdMutationFn = Apollo.MutationFunction<CreateAdMutation, Creat
  * @example
  * const [createAdMutation, { data, loading, error }] = useCreateAdMutation({
  *   variables: {
- *      newAd: // value for 'newAd'
+ *      infos: // value for 'infos'
  *   },
  * });
  */
@@ -701,43 +708,43 @@ export function useCreateAdMutation(baseOptions?: Apollo.MutationHookOptions<Cre
 export type CreateAdMutationHookResult = ReturnType<typeof useCreateAdMutation>;
 export type CreateAdMutationResult = Apollo.MutationResult<CreateAdMutation>;
 export type CreateAdMutationOptions = Apollo.BaseMutationOptions<CreateAdMutation, CreateAdMutationVariables>;
-export const CreateNewCategoryDocument = gql`
-    mutation CreateNewCategory($newCategory: CreateCategoryInput!) {
-  createCategory(newCategory: $newCategory) {
+export const CreateCategoryDocument = gql`
+    mutation CreateCategory($infos: CategoryInput!) {
+  createCategory(infos: $infos) {
     id
     name
   }
 }
     `;
-export type CreateNewCategoryMutationFn = Apollo.MutationFunction<CreateNewCategoryMutation, CreateNewCategoryMutationVariables>;
+export type CreateCategoryMutationFn = Apollo.MutationFunction<CreateCategoryMutation, CreateCategoryMutationVariables>;
 
 /**
- * __useCreateNewCategoryMutation__
+ * __useCreateCategoryMutation__
  *
- * To run a mutation, you first call `useCreateNewCategoryMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateNewCategoryMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCategoryMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createNewCategoryMutation, { data, loading, error }] = useCreateNewCategoryMutation({
+ * const [createCategoryMutation, { data, loading, error }] = useCreateCategoryMutation({
  *   variables: {
- *      newCategory: // value for 'newCategory'
+ *      infos: // value for 'infos'
  *   },
  * });
  */
-export function useCreateNewCategoryMutation(baseOptions?: Apollo.MutationHookOptions<CreateNewCategoryMutation, CreateNewCategoryMutationVariables>) {
+export function useCreateCategoryMutation(baseOptions?: Apollo.MutationHookOptions<CreateCategoryMutation, CreateCategoryMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateNewCategoryMutation, CreateNewCategoryMutationVariables>(CreateNewCategoryDocument, options);
+        return Apollo.useMutation<CreateCategoryMutation, CreateCategoryMutationVariables>(CreateCategoryDocument, options);
       }
-export type CreateNewCategoryMutationHookResult = ReturnType<typeof useCreateNewCategoryMutation>;
-export type CreateNewCategoryMutationResult = Apollo.MutationResult<CreateNewCategoryMutation>;
-export type CreateNewCategoryMutationOptions = Apollo.BaseMutationOptions<CreateNewCategoryMutation, CreateNewCategoryMutationVariables>;
+export type CreateCategoryMutationHookResult = ReturnType<typeof useCreateCategoryMutation>;
+export type CreateCategoryMutationResult = Apollo.MutationResult<CreateCategoryMutation>;
+export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<CreateCategoryMutation, CreateCategoryMutationVariables>;
 export const UpdateAdDocument = gql`
-    mutation UpdateAd($data: UpdateAdInput!, $updateAdId: Float!) {
-  updateAd(data: $data, id: $updateAdId) {
+    mutation UpdateAd($infos: UpdateAdInput!, $updateAdId: String!) {
+  updateAd(infos: $infos, id: $updateAdId) {
     description
     id
     location
@@ -746,6 +753,9 @@ export const UpdateAdDocument = gql`
     price
     title
     category {
+      id
+    }
+    tags {
       id
     }
   }
@@ -766,7 +776,7 @@ export type UpdateAdMutationFn = Apollo.MutationFunction<UpdateAdMutation, Updat
  * @example
  * const [updateAdMutation, { data, loading, error }] = useUpdateAdMutation({
  *   variables: {
- *      data: // value for 'data'
+ *      infos: // value for 'infos'
  *      updateAdId: // value for 'updateAdId'
  *   },
  * });
@@ -779,10 +789,11 @@ export type UpdateAdMutationHookResult = ReturnType<typeof useUpdateAdMutation>;
 export type UpdateAdMutationResult = Apollo.MutationResult<UpdateAdMutation>;
 export type UpdateAdMutationOptions = Apollo.BaseMutationOptions<UpdateAdMutation, UpdateAdMutationVariables>;
 export const RegisterDocument = gql`
-    mutation Register($newUser: CreateUserInput!) {
-  register(newUser: $newUser) {
+    mutation Register($infos: UserInput!) {
+  register(infos: $infos) {
     id
     email
+    role
   }
 }
     `;
@@ -801,7 +812,7 @@ export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, Regis
  * @example
  * const [registerMutation, { data, loading, error }] = useRegisterMutation({
  *   variables: {
- *      newUser: // value for 'newUser'
+ *      infos: // value for 'infos'
  *   },
  * });
  */
@@ -813,8 +824,10 @@ export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
 export const DeleteUserDocument = gql`
-    mutation DeleteUser($deleteUserId: Float!) {
-  deleteUser(id: $deleteUserId)
+    mutation DeleteUser($email: String!) {
+  deleteUser(email: $email) {
+    email
+  }
 }
     `;
 export type DeleteUserMutationFn = Apollo.MutationFunction<DeleteUserMutation, DeleteUserMutationVariables>;
@@ -832,7 +845,7 @@ export type DeleteUserMutationFn = Apollo.MutationFunction<DeleteUserMutation, D
  * @example
  * const [deleteUserMutation, { data, loading, error }] = useDeleteUserMutation({
  *   variables: {
- *      deleteUserId: // value for 'deleteUserId'
+ *      email: // value for 'email'
  *   },
  * });
  */
@@ -854,7 +867,8 @@ export const GetAllAdsDocument = gql`
     owner
     price
     createdAt
-    category {
+    updatedAt
+    tags {
       id
       name
     }
@@ -934,7 +948,7 @@ export type GetAllCategoriesLazyQueryHookResult = ReturnType<typeof useGetAllCat
 export type GetAllCategoriesSuspenseQueryHookResult = ReturnType<typeof useGetAllCategoriesSuspenseQuery>;
 export type GetAllCategoriesQueryResult = Apollo.QueryResult<GetAllCategoriesQuery, GetAllCategoriesQueryVariables>;
 export const GetAdByIdDocument = gql`
-    query GetAdById($getAdByIdId: Float!) {
+    query GetAdById($getAdByIdId: String!) {
   getAdById(id: $getAdByIdId) {
     id
     title
@@ -945,6 +959,11 @@ export const GetAdByIdDocument = gql`
     location
     category {
       id
+      name
+    }
+    tags {
+      id
+      name
     }
   }
 }
@@ -982,61 +1001,9 @@ export type GetAdByIdQueryHookResult = ReturnType<typeof useGetAdByIdQuery>;
 export type GetAdByIdLazyQueryHookResult = ReturnType<typeof useGetAdByIdLazyQuery>;
 export type GetAdByIdSuspenseQueryHookResult = ReturnType<typeof useGetAdByIdSuspenseQuery>;
 export type GetAdByIdQueryResult = Apollo.QueryResult<GetAdByIdQuery, GetAdByIdQueryVariables>;
-export const GetAllAdsByCategoryDocument = gql`
-    query GetAllAdsByCategory($category: String) {
-  getAllAds(category: $category) {
-    id
-    title
-    price
-    description
-    owner
-    picture
-    location
-    createdAt
-    updatedAt
-    category {
-      id
-      name
-    }
-  }
-}
-    `;
-
-/**
- * __useGetAllAdsByCategoryQuery__
- *
- * To run a query within a React component, call `useGetAllAdsByCategoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllAdsByCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAllAdsByCategoryQuery({
- *   variables: {
- *      category: // value for 'category'
- *   },
- * });
- */
-export function useGetAllAdsByCategoryQuery(baseOptions?: Apollo.QueryHookOptions<GetAllAdsByCategoryQuery, GetAllAdsByCategoryQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAllAdsByCategoryQuery, GetAllAdsByCategoryQueryVariables>(GetAllAdsByCategoryDocument, options);
-      }
-export function useGetAllAdsByCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllAdsByCategoryQuery, GetAllAdsByCategoryQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAllAdsByCategoryQuery, GetAllAdsByCategoryQueryVariables>(GetAllAdsByCategoryDocument, options);
-        }
-export function useGetAllAdsByCategorySuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllAdsByCategoryQuery, GetAllAdsByCategoryQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAllAdsByCategoryQuery, GetAllAdsByCategoryQueryVariables>(GetAllAdsByCategoryDocument, options);
-        }
-export type GetAllAdsByCategoryQueryHookResult = ReturnType<typeof useGetAllAdsByCategoryQuery>;
-export type GetAllAdsByCategoryLazyQueryHookResult = ReturnType<typeof useGetAllAdsByCategoryLazyQuery>;
-export type GetAllAdsByCategorySuspenseQueryHookResult = ReturnType<typeof useGetAllAdsByCategorySuspenseQuery>;
-export type GetAllAdsByCategoryQueryResult = Apollo.QueryResult<GetAllAdsByCategoryQuery, GetAllAdsByCategoryQueryVariables>;
-export const GetAllAdsByTitleDocument = gql`
-    query GetAllAdsByTitle($title: String) {
-  getAllAds(title: $title) {
+export const SearchDocument = gql`
+    query Search($search: String) {
+  getAllAds(search: $search) {
     id
     title
     price
@@ -1059,40 +1026,43 @@ export const GetAllAdsByTitleDocument = gql`
     `;
 
 /**
- * __useGetAllAdsByTitleQuery__
+ * __useSearchQuery__
  *
- * To run a query within a React component, call `useGetAllAdsByTitleQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllAdsByTitleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetAllAdsByTitleQuery({
+ * const { data, loading, error } = useSearchQuery({
  *   variables: {
- *      title: // value for 'title'
+ *      search: // value for 'search'
  *   },
  * });
  */
-export function useGetAllAdsByTitleQuery(baseOptions?: Apollo.QueryHookOptions<GetAllAdsByTitleQuery, GetAllAdsByTitleQueryVariables>) {
+export function useSearchQuery(baseOptions?: Apollo.QueryHookOptions<SearchQuery, SearchQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAllAdsByTitleQuery, GetAllAdsByTitleQueryVariables>(GetAllAdsByTitleDocument, options);
+        return Apollo.useQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
       }
-export function useGetAllAdsByTitleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllAdsByTitleQuery, GetAllAdsByTitleQueryVariables>) {
+export function useSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchQuery, SearchQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAllAdsByTitleQuery, GetAllAdsByTitleQueryVariables>(GetAllAdsByTitleDocument, options);
+          return Apollo.useLazyQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
         }
-export function useGetAllAdsByTitleSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllAdsByTitleQuery, GetAllAdsByTitleQueryVariables>) {
+export function useSearchSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SearchQuery, SearchQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAllAdsByTitleQuery, GetAllAdsByTitleQueryVariables>(GetAllAdsByTitleDocument, options);
+          return Apollo.useSuspenseQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
         }
-export type GetAllAdsByTitleQueryHookResult = ReturnType<typeof useGetAllAdsByTitleQuery>;
-export type GetAllAdsByTitleLazyQueryHookResult = ReturnType<typeof useGetAllAdsByTitleLazyQuery>;
-export type GetAllAdsByTitleSuspenseQueryHookResult = ReturnType<typeof useGetAllAdsByTitleSuspenseQuery>;
-export type GetAllAdsByTitleQueryResult = Apollo.QueryResult<GetAllAdsByTitleQuery, GetAllAdsByTitleQueryVariables>;
+export type SearchQueryHookResult = ReturnType<typeof useSearchQuery>;
+export type SearchLazyQueryHookResult = ReturnType<typeof useSearchLazyQuery>;
+export type SearchSuspenseQueryHookResult = ReturnType<typeof useSearchSuspenseQuery>;
+export type SearchQueryResult = Apollo.QueryResult<SearchQuery, SearchQueryVariables>;
 export const LoginDocument = gql`
-    query Login($userLogin: LoginUserInput!) {
-  login(userLogin: $userLogin)
+    query Login($infos: UserInput!) {
+  login(infos: $infos) {
+    message
+    success
+  }
 }
     `;
 
@@ -1108,7 +1078,7 @@ export const LoginDocument = gql`
  * @example
  * const { data, loading, error } = useLoginQuery({
  *   variables: {
- *      userLogin: // value for 'userLogin'
+ *      infos: // value for 'infos'
  *   },
  * });
  */
@@ -1212,7 +1182,10 @@ export type GetAllUsersSuspenseQueryHookResult = ReturnType<typeof useGetAllUser
 export type GetAllUsersQueryResult = Apollo.QueryResult<GetAllUsersQuery, GetAllUsersQueryVariables>;
 export const LogoutDocument = gql`
     query Logout {
-  logout
+  logout {
+    message
+    success
+  }
 }
     `;
 
