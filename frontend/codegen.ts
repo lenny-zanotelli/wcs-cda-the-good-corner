@@ -4,12 +4,12 @@ const config: CodegenConfig = {
   overwrite: true,
   schema: 'http://backend:4000',
   documents: [
-    'src/graphql/*.queries.ts',
-    'src/graphql/*.mutations.ts',
+    'src/graphql/queries/*.queries.ts',
+    'src/graphql/mutations/*.mutations.ts',
   ],
   generates: {
-    'src/types/graphql.ts': {
-      preset: 'client',
+    './src/types/graphql.ts': {
+      // preset: 'client',
       plugins: [
         'typescript',
         'typescript-operations',
