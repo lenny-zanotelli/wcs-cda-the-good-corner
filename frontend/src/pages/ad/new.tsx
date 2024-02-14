@@ -2,13 +2,12 @@
 /* eslint-disable @next/next/no-img-element */
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 import axios from 'axios';
-import styles from '../../styles/NewAd.module.css';
-import { CREATE_NEW_AD } from '../../graphql/mutations/mutations';
 import { GET_ALL_CATEGORIES } from '../../graphql/queries/queries';
+import { GetAllCategoriesQuery, useCreateAdMutation } from '../../gql/graphql';
 
 type Inputs = {
   title: string;
@@ -17,7 +16,9 @@ type Inputs = {
   owner: string;
   picture: string;
   location: string;
-  category: string;
+  category: {
+    id: string;
+  };
 };
 
 function NewAd() {
@@ -30,10 +31,9 @@ function NewAd() {
     handleSubmit, register, reset, formState: { errors },
   } = useForm<Inputs>();
 
-  const { data: dataCategories } = useQuery(GET_ALL_CATEGORIES);
-  const categories = dataCategories ? dataCategories.getAllCategories : [];
+  const { data: categories } = useQuery<GetAllCategoriesQuery>(GET_ALL_CATEGORIES);
 
-  const [createAd] = useMutation(CREATE_NEW_AD);
+  const [createAd] = useCreateAdMutation();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     if (imageUrl === undefined) {
@@ -42,13 +42,13 @@ function NewAd() {
       try {
         await createAd({
           variables: {
-            newAd: {
+            infos: {
               title: data.title,
               price: data.price,
               description: data.description,
               picture: `http://localhost:8000${imageUrl}`,
               location: data.location,
-              category: parseInt(data.category, 10),
+              category: data.category,
             },
           },
         });
@@ -94,7 +94,7 @@ function NewAd() {
             type="file"
             {...register('picture', { required: true })}
             onChange={handleChangeFiles}
-            className={styles.textField}
+            className="textField"
           />
           {errors.picture && toast.warning('A picture is required')}
         </label>
@@ -119,7 +119,7 @@ function NewAd() {
             <br />
             <input
               {...register('title', { required: true })}
-              className={styles.textField}
+              className="textField"
             />
             {errors.title && toast.warning('Name is required')}
           </label>
@@ -130,7 +130,7 @@ function NewAd() {
             <br />
             <input
               {...register('description', { required: true })}
-              className={styles.textField}
+              className="textField"
             />
             {errors.description && toast.warning('Description is required')}
           </label>
@@ -141,7 +141,7 @@ function NewAd() {
             <br />
             <input
               {...register('location', { required: true })}
-              className={styles.textField}
+              className="textField"
             />
             {errors.location && toast.warning('A location is required')}
           </label>
@@ -156,7 +156,7 @@ function NewAd() {
                 valueAsNumber: true,
                 min: 1,
               })}
-              className={styles.textField}
+              className="textField"
               name="price"
             />
             {errors.price && toast.warning('Positive price is required')}
@@ -164,7 +164,7 @@ function NewAd() {
           <br />
           <select {...register('category', { required: true })}>
             {errors.category && toast.warning('A category is required')}
-            {categories.map((category) => (
+            {categories.getAllCategories.map((category) => (
 
               <option
                 value={category.id}
