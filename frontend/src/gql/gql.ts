@@ -13,21 +13,20 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  mutation DeleteAd($deleteAdId: Float!) {\n    deleteAd(id: $deleteAdId)\n  }\n": types.DeleteAdDocument,
-    "\n  mutation CreateAd($newAd: CreateAdInput!) {\n    createAd(newAd: $newAd) {\n      id\n    }\n  }\n": types.CreateAdDocument,
-    "\n  mutation CreateNewCategory($newCategory: CreateCategoryInput!) {\n    createCategory(newCategory: $newCategory) {\n      id\n      name\n    }\n  }\n": types.CreateNewCategoryDocument,
-    "\n  mutation UpdateAd($data: UpdateAdInput!, $updateAdId: Float!) {\n    updateAd(data: $data, id: $updateAdId) {\n      description\n      id\n      location\n      owner\n      picture\n      price\n      title\n      category {\n        id\n      }\n    }\n  }\n": types.UpdateAdDocument,
-    "\n  mutation Register($newUser: CreateUserInput!){\n    register(newUser: $newUser) {\n      id\n      email\n    }\n  }\n": types.RegisterDocument,
-    "\n  mutation DeleteUser($deleteUserId: Float!) {\n    deleteUser(id: $deleteUserId)\n  }\n": types.DeleteUserDocument,
-    "\n  query GetAllAds {\n    getAllAds {\n      id\n      title\n      description\n      picture\n      location\n      owner\n      price\n      createdAt\n      category {\n        id\n        name\n      }\n    }\n  }\n": types.GetAllAdsDocument,
+    "\n  mutation DeleteAd($deleteAdId: String!) {\n    deleteAd(id: $deleteAdId) {\n      id\n    }\n  }\n": types.DeleteAdDocument,
+    "\n  mutation CreateAd($infos: CreateAdInput!) {\n    createAd(infos: $infos) {\n      id\n    }\n  }\n": types.CreateAdDocument,
+    "\n  mutation CreateCategory($infos: CategoryInput!) {\n    createCategory(infos: $infos) {\n      id\n      name\n    }\n  }\n": types.CreateCategoryDocument,
+    "\n  mutation UpdateAd($infos: UpdateAdInput!, $updateAdId: String!) {\n    updateAd(infos: $infos, id: $updateAdId) {\n      description\n      id\n      location\n      owner\n      picture\n      price\n      title\n      category {\n        id\n      }\n      tags {\n        id\n      }\n    }\n  }\n": types.UpdateAdDocument,
+    "\n  mutation Register($infos: UserInput!){\n    register(infos: $infos) {\n      id\n      email\n      role\n    }\n  }\n": types.RegisterDocument,
+    "\n  mutation DeleteUser($email: String!) {\n    deleteUser(email: $email) {\n      email\n    }\n  }\n": types.DeleteUserDocument,
+    "\n  query GetAllAds {\n    getAllAds {\n      id\n      title\n      description\n      picture\n      location\n      owner\n      price\n      createdAt\n      updatedAt\n      tags {\n        id\n        name\n      }\n    }\n  }\n": types.GetAllAdsDocument,
     "\n  query GetAllCategories {\n    getAllCategories {\n      name\n      id\n    }\n  }\n": types.GetAllCategoriesDocument,
-    "\n  query GetAdById($getAdByIdId: Float!) {\n    getAdById(id: $getAdByIdId) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      category {\n        id\n    }\n    }\n  }\n": types.GetAdByIdDocument,
-    "\n  query GetAllAdsByCategory($category: String) {\n    getAllAds(category: $category) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      createdAt\n      updatedAt\n      category {\n        id\n        name\n      }\n    }\n  }\n": types.GetAllAdsByCategoryDocument,
-    "\n  query GetAllAdsByTitle($title: String) {\n    getAllAds(title: $title) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      createdAt\n      updatedAt\n      category {\n        id\n        name\n      }\n      tags {\n        id\n        name\n      }\n    }\n  }\n": types.GetAllAdsByTitleDocument,
-    "\n  query Login($userLogin: LoginUserInput!) {\n    login(userLogin: $userLogin)\n  }\n": types.LoginDocument,
+    "\n  query GetAdById($getAdByIdId: String!) {\n    getAdById(id: $getAdByIdId) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      category {\n        id\n        name\n      }\n      tags {\n        id\n        name\n      }\n    }\n  }\n": types.GetAdByIdDocument,
+    "\n  query Search($search: String) {\n    getAllAds(search: $search) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      createdAt\n      updatedAt\n      category {\n        id\n        name\n      }\n      tags {\n        id\n        name\n      }\n    }\n  }\n": types.SearchDocument,
+    "\n  query Login($infos: UserInput!) {\n    login(infos: $infos) {\n      message\n      success\n    }\n  }\n": types.LoginDocument,
     "\n  query WhoAmI {\n    whoAmI {\n      role\n      email\n      isLoggedIn\n    }\n  }\n": types.WhoAmIDocument,
     "\n  query GetAllUsers {\n    getAllUsers {\n      email\n      id\n      role\n    }\n  }\n": types.GetAllUsersDocument,
-    "\n  query Logout {\n    logout\n  }\n": types.LogoutDocument,
+    "\n  query Logout {\n    logout {\n      message\n      success\n    }\n  }\n": types.LogoutDocument,
 };
 
 /**
@@ -47,31 +46,31 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation DeleteAd($deleteAdId: Float!) {\n    deleteAd(id: $deleteAdId)\n  }\n"): (typeof documents)["\n  mutation DeleteAd($deleteAdId: Float!) {\n    deleteAd(id: $deleteAdId)\n  }\n"];
+export function graphql(source: "\n  mutation DeleteAd($deleteAdId: String!) {\n    deleteAd(id: $deleteAdId) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation DeleteAd($deleteAdId: String!) {\n    deleteAd(id: $deleteAdId) {\n      id\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateAd($newAd: CreateAdInput!) {\n    createAd(newAd: $newAd) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation CreateAd($newAd: CreateAdInput!) {\n    createAd(newAd: $newAd) {\n      id\n    }\n  }\n"];
+export function graphql(source: "\n  mutation CreateAd($infos: CreateAdInput!) {\n    createAd(infos: $infos) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation CreateAd($infos: CreateAdInput!) {\n    createAd(infos: $infos) {\n      id\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateNewCategory($newCategory: CreateCategoryInput!) {\n    createCategory(newCategory: $newCategory) {\n      id\n      name\n    }\n  }\n"): (typeof documents)["\n  mutation CreateNewCategory($newCategory: CreateCategoryInput!) {\n    createCategory(newCategory: $newCategory) {\n      id\n      name\n    }\n  }\n"];
+export function graphql(source: "\n  mutation CreateCategory($infos: CategoryInput!) {\n    createCategory(infos: $infos) {\n      id\n      name\n    }\n  }\n"): (typeof documents)["\n  mutation CreateCategory($infos: CategoryInput!) {\n    createCategory(infos: $infos) {\n      id\n      name\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateAd($data: UpdateAdInput!, $updateAdId: Float!) {\n    updateAd(data: $data, id: $updateAdId) {\n      description\n      id\n      location\n      owner\n      picture\n      price\n      title\n      category {\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateAd($data: UpdateAdInput!, $updateAdId: Float!) {\n    updateAd(data: $data, id: $updateAdId) {\n      description\n      id\n      location\n      owner\n      picture\n      price\n      title\n      category {\n        id\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  mutation UpdateAd($infos: UpdateAdInput!, $updateAdId: String!) {\n    updateAd(infos: $infos, id: $updateAdId) {\n      description\n      id\n      location\n      owner\n      picture\n      price\n      title\n      category {\n        id\n      }\n      tags {\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateAd($infos: UpdateAdInput!, $updateAdId: String!) {\n    updateAd(infos: $infos, id: $updateAdId) {\n      description\n      id\n      location\n      owner\n      picture\n      price\n      title\n      category {\n        id\n      }\n      tags {\n        id\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation Register($newUser: CreateUserInput!){\n    register(newUser: $newUser) {\n      id\n      email\n    }\n  }\n"): (typeof documents)["\n  mutation Register($newUser: CreateUserInput!){\n    register(newUser: $newUser) {\n      id\n      email\n    }\n  }\n"];
+export function graphql(source: "\n  mutation Register($infos: UserInput!){\n    register(infos: $infos) {\n      id\n      email\n      role\n    }\n  }\n"): (typeof documents)["\n  mutation Register($infos: UserInput!){\n    register(infos: $infos) {\n      id\n      email\n      role\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation DeleteUser($deleteUserId: Float!) {\n    deleteUser(id: $deleteUserId)\n  }\n"): (typeof documents)["\n  mutation DeleteUser($deleteUserId: Float!) {\n    deleteUser(id: $deleteUserId)\n  }\n"];
+export function graphql(source: "\n  mutation DeleteUser($email: String!) {\n    deleteUser(email: $email) {\n      email\n    }\n  }\n"): (typeof documents)["\n  mutation DeleteUser($email: String!) {\n    deleteUser(email: $email) {\n      email\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetAllAds {\n    getAllAds {\n      id\n      title\n      description\n      picture\n      location\n      owner\n      price\n      createdAt\n      category {\n        id\n        name\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetAllAds {\n    getAllAds {\n      id\n      title\n      description\n      picture\n      location\n      owner\n      price\n      createdAt\n      category {\n        id\n        name\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  query GetAllAds {\n    getAllAds {\n      id\n      title\n      description\n      picture\n      location\n      owner\n      price\n      createdAt\n      updatedAt\n      tags {\n        id\n        name\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetAllAds {\n    getAllAds {\n      id\n      title\n      description\n      picture\n      location\n      owner\n      price\n      createdAt\n      updatedAt\n      tags {\n        id\n        name\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -79,19 +78,15 @@ export function graphql(source: "\n  query GetAllCategories {\n    getAllCategor
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetAdById($getAdByIdId: Float!) {\n    getAdById(id: $getAdByIdId) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      category {\n        id\n    }\n    }\n  }\n"): (typeof documents)["\n  query GetAdById($getAdByIdId: Float!) {\n    getAdById(id: $getAdByIdId) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      category {\n        id\n    }\n    }\n  }\n"];
+export function graphql(source: "\n  query GetAdById($getAdByIdId: String!) {\n    getAdById(id: $getAdByIdId) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      category {\n        id\n        name\n      }\n      tags {\n        id\n        name\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetAdById($getAdByIdId: String!) {\n    getAdById(id: $getAdByIdId) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      category {\n        id\n        name\n      }\n      tags {\n        id\n        name\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetAllAdsByCategory($category: String) {\n    getAllAds(category: $category) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      createdAt\n      updatedAt\n      category {\n        id\n        name\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetAllAdsByCategory($category: String) {\n    getAllAds(category: $category) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      createdAt\n      updatedAt\n      category {\n        id\n        name\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  query Search($search: String) {\n    getAllAds(search: $search) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      createdAt\n      updatedAt\n      category {\n        id\n        name\n      }\n      tags {\n        id\n        name\n      }\n    }\n  }\n"): (typeof documents)["\n  query Search($search: String) {\n    getAllAds(search: $search) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      createdAt\n      updatedAt\n      category {\n        id\n        name\n      }\n      tags {\n        id\n        name\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetAllAdsByTitle($title: String) {\n    getAllAds(title: $title) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      createdAt\n      updatedAt\n      category {\n        id\n        name\n      }\n      tags {\n        id\n        name\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetAllAdsByTitle($title: String) {\n    getAllAds(title: $title) {\n      id\n      title\n      price\n      description\n      owner\n      picture\n      location\n      createdAt\n      updatedAt\n      category {\n        id\n        name\n      }\n      tags {\n        id\n        name\n      }\n    }\n  }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  query Login($userLogin: LoginUserInput!) {\n    login(userLogin: $userLogin)\n  }\n"): (typeof documents)["\n  query Login($userLogin: LoginUserInput!) {\n    login(userLogin: $userLogin)\n  }\n"];
+export function graphql(source: "\n  query Login($infos: UserInput!) {\n    login(infos: $infos) {\n      message\n      success\n    }\n  }\n"): (typeof documents)["\n  query Login($infos: UserInput!) {\n    login(infos: $infos) {\n      message\n      success\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -103,7 +98,7 @@ export function graphql(source: "\n  query GetAllUsers {\n    getAllUsers {\n   
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Logout {\n    logout\n  }\n"): (typeof documents)["\n  query Logout {\n    logout\n  }\n"];
+export function graphql(source: "\n  query Logout {\n    logout {\n      message\n      success\n    }\n  }\n"): (typeof documents)["\n  query Logout {\n    logout {\n      message\n      success\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
