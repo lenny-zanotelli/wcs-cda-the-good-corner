@@ -44,26 +44,6 @@ export const GET_AD_BY_ID = gql`
   }
 `;
 
-export const GET_ALL_ADS_BY_CATEGORY = gql`
-  query GetAllAdsByCategory($category: String) {
-    getAllAds(category: $category) {
-      id
-      title
-      price
-      description
-      owner
-      picture
-      location
-      createdAt
-      updatedAt
-      category {
-        id
-        name
-      }
-    }
-  }
-`;
-
 export const GET_ADS_SEARCH = gql`
   query Search($search: String) {
     getAllAds(search: $search) {
