@@ -1,10 +1,8 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import Head from 'next/head';
 import { ReactNode, createContext } from 'react';
-import { useQuery } from '@apollo/client';
-import styles from '../styles/Layout.module.css';
 import Header from './Header';
-import { GET_AUTH_INFO } from '../graphql/queries/queries';
+import { useWhoAmIQuery } from '../types/graphql';
 
 export const UserContext = createContext({
   isLoggedIn: false,
@@ -15,7 +13,7 @@ export const UserContext = createContext({
 function Layout({ children }: { children: ReactNode }) {
   const {
     data, loading, error, refetch,
-  } = useQuery(GET_AUTH_INFO);
+  } = useWhoAmIQuery();
 
   if (loading) {
     return <p>Loading</p>;
@@ -24,8 +22,8 @@ function Layout({ children }: { children: ReactNode }) {
     return <p>Error</p>;
   }
 
-  if (data) {
-    console.log('whoami', data);
+  if (data?.whoAmI.role) {
+    // console.log('whoami', data);
 
     return (
 
@@ -43,7 +41,7 @@ function Layout({ children }: { children: ReactNode }) {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Header />
-        <main className={styles.mainContent}>{children}</main>
+        <main className="main-content">{children}</main>
       </UserContext.Provider>
     );
   }

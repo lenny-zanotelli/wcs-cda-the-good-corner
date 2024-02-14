@@ -1,21 +1,20 @@
 import Link from 'next/link';
-import styles from '../styles/AdCard.module.css';
-import { Ad } from '../types';
+import { Ad } from '../types/graphql';
 
 function AdCard({
   id, title, picture, price,
 }: Ad) {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Link
-        className={styles.link}
+        className="link"
         href={`/ad/${id}`}
       >
         <picture>
-          <img className={styles.image} src={picture} alt={title} />
+          <img className="image" src={picture} alt={title} />
         </picture>
-        <div className={styles.text}>
-          <div className={styles.title}>{title}</div>
+        <div className="text">
+          <div className="style">{title}</div>
           <div>
             {price}
             {' '}
