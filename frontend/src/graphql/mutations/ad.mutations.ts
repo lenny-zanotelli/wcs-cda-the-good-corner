@@ -2,7 +2,9 @@ import { gql } from '@apollo/client';
 
 export const DELETE_AD = gql`
   mutation DeleteAd($deleteAdId: String!) {
-    deleteAd(id: $deleteAdId)
+    deleteAd(id: $deleteAdId) {
+      id
+    }
   }
 `;
 
@@ -16,7 +18,7 @@ export const CREATE_NEW_AD = gql`
 
 export const UPDATE_AD = gql`
   mutation UpdateAd($infos: UpdateAdInput!, $updateAdId: String!) {
-    updateAd(infos: $data, id: $updateAdId) {
+    updateAd(infos: $infos, id: $updateAdId) {
       description
       id
       location
@@ -31,11 +33,5 @@ export const UPDATE_AD = gql`
         id
       }
     }
-  }
-`;
-
-export const DELETE_USER = gql`
-  mutation DeleteUser($deleteUserId: String!) {
-    deleteUser(id: $deleteUserId)
   }
 `;
