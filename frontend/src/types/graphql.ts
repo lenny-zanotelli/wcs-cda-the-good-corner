@@ -269,6 +269,25 @@ export type DeleteUserMutationVariables = Exact<{
 
 export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'User', email: string } };
 
+export type GetAllAdsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllAdsQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: string, title: string, description: string, picture: string, location: string, owner: string, price: number, category: { __typename?: 'Category', id: string, name: string }, tags: Array<{ __typename?: 'Tag', id: string, name: string }> }> };
+
+export type GetAdByIdQueryVariables = Exact<{
+  getAdByIdId: Scalars['String']['input'];
+}>;
+
+
+export type GetAdByIdQuery = { __typename?: 'Query', getAdById: { __typename?: 'Ad', id: string, title: string, price: number, description: string, owner: string, picture: string, location: string, category: { __typename?: 'Category', id: string, name: string }, tags: Array<{ __typename?: 'Tag', id: string, name: string }> } };
+
+export type SearchQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type SearchQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: string, title: string, price: number, description: string, owner: string, picture: string, location: string, createdAt: any, updatedAt: any, category: { __typename?: 'Category', id: string }, tags: Array<{ __typename?: 'Tag', id: string, name: string }> }> };
+
 export type LoginQueryVariables = Exact<{
   infos: UserInput;
 }>;
@@ -511,6 +530,168 @@ export function useDeleteUserMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteUserMutationHookResult = ReturnType<typeof useDeleteUserMutation>;
 export type DeleteUserMutationResult = Apollo.MutationResult<DeleteUserMutation>;
 export type DeleteUserMutationOptions = Apollo.BaseMutationOptions<DeleteUserMutation, DeleteUserMutationVariables>;
+export const GetAllAdsDocument = gql`
+    query GetAllAds {
+  getAllAds {
+    id
+    title
+    description
+    picture
+    location
+    owner
+    price
+    category {
+      id
+      name
+    }
+    tags {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllAdsQuery__
+ *
+ * To run a query within a React component, call `useGetAllAdsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllAdsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllAdsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllAdsQuery(baseOptions?: Apollo.QueryHookOptions<GetAllAdsQuery, GetAllAdsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllAdsQuery, GetAllAdsQueryVariables>(GetAllAdsDocument, options);
+      }
+export function useGetAllAdsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllAdsQuery, GetAllAdsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllAdsQuery, GetAllAdsQueryVariables>(GetAllAdsDocument, options);
+        }
+export function useGetAllAdsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllAdsQuery, GetAllAdsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllAdsQuery, GetAllAdsQueryVariables>(GetAllAdsDocument, options);
+        }
+export type GetAllAdsQueryHookResult = ReturnType<typeof useGetAllAdsQuery>;
+export type GetAllAdsLazyQueryHookResult = ReturnType<typeof useGetAllAdsLazyQuery>;
+export type GetAllAdsSuspenseQueryHookResult = ReturnType<typeof useGetAllAdsSuspenseQuery>;
+export type GetAllAdsQueryResult = Apollo.QueryResult<GetAllAdsQuery, GetAllAdsQueryVariables>;
+export const GetAdByIdDocument = gql`
+    query GetAdById($getAdByIdId: String!) {
+  getAdById(id: $getAdByIdId) {
+    id
+    title
+    price
+    description
+    owner
+    picture
+    location
+    category {
+      id
+      name
+    }
+    tags {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAdByIdQuery__
+ *
+ * To run a query within a React component, call `useGetAdByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAdByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAdByIdQuery({
+ *   variables: {
+ *      getAdByIdId: // value for 'getAdByIdId'
+ *   },
+ * });
+ */
+export function useGetAdByIdQuery(baseOptions: Apollo.QueryHookOptions<GetAdByIdQuery, GetAdByIdQueryVariables> & ({ variables: GetAdByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAdByIdQuery, GetAdByIdQueryVariables>(GetAdByIdDocument, options);
+      }
+export function useGetAdByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAdByIdQuery, GetAdByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAdByIdQuery, GetAdByIdQueryVariables>(GetAdByIdDocument, options);
+        }
+export function useGetAdByIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAdByIdQuery, GetAdByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAdByIdQuery, GetAdByIdQueryVariables>(GetAdByIdDocument, options);
+        }
+export type GetAdByIdQueryHookResult = ReturnType<typeof useGetAdByIdQuery>;
+export type GetAdByIdLazyQueryHookResult = ReturnType<typeof useGetAdByIdLazyQuery>;
+export type GetAdByIdSuspenseQueryHookResult = ReturnType<typeof useGetAdByIdSuspenseQuery>;
+export type GetAdByIdQueryResult = Apollo.QueryResult<GetAdByIdQuery, GetAdByIdQueryVariables>;
+export const SearchDocument = gql`
+    query Search($search: String) {
+  getAllAds(search: $search) {
+    id
+    title
+    price
+    description
+    owner
+    picture
+    location
+    createdAt
+    updatedAt
+    category {
+      id
+    }
+    tags {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchQuery__
+ *
+ * To run a query within a React component, call `useSearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchQuery({
+ *   variables: {
+ *      search: // value for 'search'
+ *   },
+ * });
+ */
+export function useSearchQuery(baseOptions?: Apollo.QueryHookOptions<SearchQuery, SearchQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
+      }
+export function useSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchQuery, SearchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
+        }
+export function useSearchSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SearchQuery, SearchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
+        }
+export type SearchQueryHookResult = ReturnType<typeof useSearchQuery>;
+export type SearchLazyQueryHookResult = ReturnType<typeof useSearchLazyQuery>;
+export type SearchSuspenseQueryHookResult = ReturnType<typeof useSearchSuspenseQuery>;
+export type SearchQueryResult = Apollo.QueryResult<SearchQuery, SearchQueryVariables>;
 export const LoginDocument = gql`
     query Login($infos: UserInput!) {
   login(infos: $infos) {
