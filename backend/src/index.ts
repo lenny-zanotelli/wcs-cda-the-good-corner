@@ -64,7 +64,7 @@ async function start() {
         const token = cookies.get("token");
         if (token) {
 
-          const payload = jwt.verify(token, 'secret') as jwt.JwtPayload;
+          const payload = jwt.verify(token, `${process.env.JWT_SECRET_KEY}`) as jwt.JwtPayload;
 
           user = await new UserService().find(payload.email);
           console.log("user email", user);

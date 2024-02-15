@@ -30,7 +30,7 @@ export class UserResolver {
           email: user.email,
           role: user.role,
           }, 
-          'secret',
+          `${process.env.JWT_SECRET_KEY}`,
           { 
           algorithm: 'HS256', 
           expiresIn: '1h'
