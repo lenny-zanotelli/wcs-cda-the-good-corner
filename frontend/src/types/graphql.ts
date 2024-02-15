@@ -238,7 +238,7 @@ export type CreateAdMutationVariables = Exact<{
 }>;
 
 
-export type CreateAdMutation = { __typename?: 'Mutation', createAd: { __typename?: 'Ad', id: string } };
+export type CreateAdMutation = { __typename?: 'Mutation', createAd: { __typename?: 'Ad', id: string, title: string, price: number, description: string, owner: string, picture: string, location: string, createdAt: any, updatedAt: any, category: { __typename?: 'Category', id: string } } };
 
 export type UpdateAdMutationVariables = Exact<{
   infos: UpdateAdInput;
@@ -353,6 +353,17 @@ export const CreateAdDocument = gql`
     mutation CreateAd($infos: CreateAdInput!) {
   createAd(infos: $infos) {
     id
+    title
+    price
+    description
+    owner
+    picture
+    location
+    createdAt
+    updatedAt
+    category {
+      id
+    }
   }
 }
     `;
