@@ -24,7 +24,7 @@
     "files": ["src/**/store/**/*.ts"],
     "rules": { "no-param-reassign": ["error", { "props": false }] }
   }],
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["react", "@typescript-eslint", "react-hooks"],
   "rules": {
     "react/prop-types": "off",
     "react/jsx-props-no-spreading": "off",
