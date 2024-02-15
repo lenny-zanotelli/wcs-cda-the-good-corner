@@ -1,13 +1,12 @@
 /* eslint-disable no-console */
-import { useMutation } from '@apollo/client';
 import { FormEvent } from 'react';
 import { useRouter } from 'next/router';
-import { REGISTER } from '@/graphql/mutations/auth.mutations';
+import { UserInput, useRegisterMutation } from '../../types/graphql';
 
 function RegisterPage() {
   const router = useRouter();
 
-  const [handleRegister] = useMutation(REGISTER, {
+  const [handleRegister] = useRegisterMutation({
     onCompleted: () => {
       router.push('/auth/login');
     },
@@ -19,11 +18,11 @@ function RegisterPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const formJson = Object.fromEntries(formData);
+    const formJson = Object.fromEntries(formData) as UserInput;
     if (formJson.email && formJson.password) {
       handleRegister({
         variables: {
-          newUser: {
+          infos: {
             email: formJson.email,
             password: formJson.password,
           },
