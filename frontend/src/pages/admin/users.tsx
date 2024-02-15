@@ -1,31 +1,24 @@
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
-import { GET_ALL_USERS } from '../../graphql/queries/queries';
-import { DELETE_USER } from '../../graphql/mutations/mutations';
-import {
-  DeleteUserMutation, DeleteUserMutationVariables, GetAllUsersQuery, GetAllUsersQueryVariables,
-} from '../../gql/graphql';
 import { UserContext } from '../../components/Layout';
+import { useDeleteUserMutation, useGetAllUsersQuery } from '../../types/graphql';
+import GET_ALL_USERS from '@/graphql/queries/user.queries';
 
 function UserAdminPage() {
   const router = useRouter();
   const authinfo = useContext(UserContext);
   if (authinfo.role !== 'admin') {
-    router.push('/login');
+    router.push('/auth/login');
   }
+  const { loading, error, data } = useGetAllUsersQuery();
 
-  const { loading, error, data } = useQuery<
-  GetAllUsersQuery, GetAllUsersQueryVariables
-  >(GET_ALL_USERS);
-
-  const [deleteUser] = useMutation<DeleteUserMutation, DeleteUserMutationVariables>(DELETE_USER, {
+  const [deleteUser] = useDeleteUserMutation({
     refetchQueries: [{ query: GET_ALL_USERS }],
-    onError: (err) => {
-      console.error('Error deleting user:', err);
-    },
     onCompleted: () => {
-      console.log('Success Delete');
+      console.log('Succces Delete');
+    },
+    onError: (err) => {
+      console.error('error deleting user:', err);
     },
   });
 
