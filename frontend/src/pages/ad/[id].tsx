@@ -1,12 +1,11 @@
 import { useRouter } from 'next/router';
-import { useQuery } from '@apollo/client';
-import { GET_AD_BY_ID } from '@/graphql/queries/ad.queries';
+import { useGetAdByIdQuery } from '../../types/graphql';
 
 function AdDetailComponent() {
   const router = useRouter();
   const { id } = router.query;
-  const { data, loading, error } = useQuery(GET_AD_BY_ID, {
-    variables: { getAdByIdId: id },
+  const { data, loading, error } = useGetAdByIdQuery({
+    variables: { getAdByIdId: id as string },
   });
 
   if (loading) return <p>Loading...</p>;

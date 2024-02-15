@@ -1,16 +1,12 @@
-/* eslint-disable no-console */
-/* eslint-disable @next/next/no-img-element */
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import {
   SubmitHandler, useForm,
 } from 'react-hook-form';
-import { useMutation, useQuery } from '@apollo/client';
 import { ChangeEvent, useState } from 'react';
 import axios from 'axios';
-import styles from '@/styles/NewAd.module.css';
-import { GET_AD_BY_ID, GET_ALL_CATEGORIES } from '../../../graphql/queries/queries';
-import { UPDATE_AD } from '../../../graphql/mutations/mutations';
+import Image from 'next/image';
+import { useGetAdByIdQuery, useGetAllCategoriesQuery, useUpdateAdMutation } from '../../../types/graphql';
 
 type Inputs = {
   title: string;
@@ -19,9 +15,10 @@ type Inputs = {
   owner: string;
   picture: string;
   location: string;
-  category: string;
+  category: {
+    id: string;
+  };
 };
-
 function EditAd() {
   const [, setFile] = useState<File>();
   const [imageUrl, setImageURL] = useState<string>('No file chosen');
@@ -35,12 +32,12 @@ function EditAd() {
     },
   } = useForm<Inputs>();
   const router = useRouter();
-  const { data: dataAd } = useQuery(GET_AD_BY_ID, {
-    variables: { getAdByIdId: Number(router.query.id) },
+  const { data: dataAd } = useGetAdByIdQuery({
+    variables: { getAdByIdId: router.query.id as string },
   });
-  const { data: dataCategories } = useQuery(GET_ALL_CATEGORIES);
+  const { data: dataCategories } = useGetAllCategoriesQuery();
 
-  const [updateAd] = useMutation(UPDATE_AD);
+  const [updateAd] = useUpdateAdMutation();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     if (imageUrl === undefined) {
@@ -49,15 +46,14 @@ function EditAd() {
       try {
         await updateAd({
           variables: {
-            updateAdId: Number(router.query.id),
-            data: {
+            updateAdId: router.query.id as string,
+            infos: {
               title: data.title,
               description: data.description,
               location: data.location,
-              owner: data.owner,
               picture: `http://localhost:8000${imageUrl}`,
               price: data.price,
-              category: parseInt(data.category, 10),
+              category: data.category,
             },
           },
         });
@@ -88,7 +84,7 @@ function EditAd() {
         const response = await axios.post(url, formData);
         setImageURL(response.data.filename);
       } catch (error) {
-        console.log(error);
+        throw new Error(`Error when post image to service ${error}`);
       }
     }
   };
@@ -106,17 +102,17 @@ function EditAd() {
           defaultValue={ad?.picture}
           {...register('picture', { required: true })}
           onChange={handleChangeFiles}
-          className={styles.textField}
+          className="text-field"
         />
         {errors.picture && toast.warning('A picture is required')}
       </label>
       {imageUrl ? (
         <>
           <br />
-          <img
-            width="500"
-            alt="uploadedImg"
+          <Image
             src={`http://localhost:8000${imageUrl}`}
+            width={500}
+            alt="Uploaded Image"
           />
           <br />
         </>
@@ -131,7 +127,7 @@ function EditAd() {
           <input
             defaultValue={ad?.title}
             {...register('title', { required: true })}
-            className={styles.textField}
+            className="text-field"
           />
           {errors.title && toast.warning('Title with 3 characters at least required')}
         </label>
@@ -143,7 +139,7 @@ function EditAd() {
           <input
             defaultValue={ad?.description}
             {...register('description', { required: true })}
-            className={styles.textField}
+            className="text-field"
           />
           {errors.description && toast.warning('Description required')}
         </label>
@@ -155,7 +151,7 @@ function EditAd() {
           <input
             defaultValue={ad?.owner}
             {...register('owner', { required: true })}
-            className={styles.textField}
+            className="text-field"
           />
           {errors.owner && toast.warning('Description required')}
         </label>
@@ -180,7 +176,7 @@ function EditAd() {
           <input
             defaultValue={ad?.location}
             {...register('location', { required: true })}
-            className={styles.textField}
+            className="text-field"
           />
           {errors.location && toast.warning('Location required')}
         </label>
@@ -196,7 +192,7 @@ function EditAd() {
               valueAsNumber: true,
               min: 1,
             })}
-            className={styles.textField}
+            className="text-field"
             name="price"
           />
           {errors.price && toast.warning('Positive Price required')}
