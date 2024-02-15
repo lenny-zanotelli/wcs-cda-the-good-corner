@@ -1,14 +1,10 @@
-import { useLazyQuery } from '@apollo/client';
 import { FormEvent } from 'react';
 import { useRouter } from 'next/router';
-import { LOGIN } from '../../graphql/queries/queries';
-import { LoginQuery, LoginQueryVariables, UserInput } from '../../gql/graphql';
+import { UserInput, useLoginLazyQuery } from '../../types/graphql';
 
 function LoginPage() {
   const router = useRouter();
-  const [handleLogin] = useLazyQuery<
-  LoginQuery, LoginQueryVariables
-  >(LOGIN, {
+  const [handleLogin] = useLoginLazyQuery({
     onCompleted: () => {
       router.push('/');
     },

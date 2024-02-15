@@ -1,14 +1,12 @@
-import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import { LOGOUT } from '../../graphql/queries/queries';
-import { LogoutQuery, LogoutQueryVariables } from '../../gql/graphql';
 import { UserContext } from '../../components/Layout';
+import { useLogoutQuery } from '../../types/graphql';
 
 function Logout() {
   const authInfo = useContext(UserContext);
   const router = useRouter();
-  const { loading } = useQuery<LogoutQuery, LogoutQueryVariables>(LOGOUT, {
+  const { loading } = useLogoutQuery({
     onCompleted: () => {
       authInfo.refetchLogin();
       router.push('/auth/login');
