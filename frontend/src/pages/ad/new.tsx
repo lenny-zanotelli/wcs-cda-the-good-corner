@@ -1,13 +1,10 @@
-/* eslint-disable no-console */
-/* eslint-disable @next/next/no-img-element */
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
-import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 import axios from 'axios';
-import { GET_ALL_CATEGORIES } from '../../graphql/queries/queries';
-import { GetAllCategoriesQuery, useCreateAdMutation } from '../../gql/graphql';
+import Image from 'next/image';
+import { useCreateAdMutation, useGetAllCategoriesQuery } from '../../types/graphql';
 
 type Inputs = {
   title: string;
@@ -31,7 +28,7 @@ function NewAd() {
     handleSubmit, register, reset, formState: { errors },
   } = useForm<Inputs>();
 
-  const { data: categories } = useQuery<GetAllCategoriesQuery>(GET_ALL_CATEGORIES);
+  const { data: categories } = useGetAllCategoriesQuery();
 
   const [createAd] = useCreateAdMutation();
 
@@ -80,7 +77,7 @@ function NewAd() {
         const response = await axios.post(url, formData);
         setImageURL(response.data.filename);
       } catch (error) {
-        console.log(error);
+        throw new Error(`Error when post image to service ${error}`);
       }
     }
   };
@@ -101,10 +98,10 @@ function NewAd() {
         {imageUrl ? (
           <>
             <br />
-            <img
-              width="500"
-              alt="uploadedImg"
+            <Image
               src={`http://localhost:8000${imageUrl}`}
+              width={500}
+              alt="Uploaded Image"
             />
             <br />
           </>
