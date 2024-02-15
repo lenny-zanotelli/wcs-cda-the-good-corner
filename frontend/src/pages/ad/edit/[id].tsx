@@ -112,6 +112,7 @@ function EditAd() {
           <Image
             src={`http://localhost:8000${imageUrl}`}
             width={500}
+            height={500}
             alt="Uploaded Image"
           />
           <br />

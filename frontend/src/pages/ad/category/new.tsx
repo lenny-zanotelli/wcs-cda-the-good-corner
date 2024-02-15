@@ -21,14 +21,13 @@ function NewCategory() {
             name: data.name,
           },
         },
+        onCompleted() {
+          router.prefetch('/');
+          router.push('/');
+        },
       });
-      setTimeout(() => {
-        router.prefetch('/');
-        router.push('/');
-      }, 1000);
       toast.success('New Category has been submit!');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
+    } catch (error) {
       toast.error('Cant ad new Category');
     }
   };
