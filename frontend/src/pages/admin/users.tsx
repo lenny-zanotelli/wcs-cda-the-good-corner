@@ -10,6 +10,9 @@ function UserAdminPage() {
   if (authinfo.role !== 'admin') {
     router.push('/auth/login');
   }
+  if (authinfo.role === 'user') {
+    router.push('/');
+  }
   const { loading, error, data } = useGetAllUsersQuery();
 
   const [deleteUser] = useDeleteUserMutation({
