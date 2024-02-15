@@ -8,7 +8,7 @@ function CategoryResults() {
 
   const { data, loading, error } = useSearchQuery({
     variables: {
-      search: categoryName,
+      search: categoryName as string,
     },
   });
 

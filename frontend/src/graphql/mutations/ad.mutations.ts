@@ -12,6 +12,17 @@ export const CREATE_NEW_AD = gql`
   mutation CreateAd($infos: CreateAdInput!) {
     createAd(infos: $infos) {
       id
+      title
+      price
+      description
+      owner
+      picture
+      location
+      createdAt
+      updatedAt
+      category {
+        id
+      }
     }
   }
 `;

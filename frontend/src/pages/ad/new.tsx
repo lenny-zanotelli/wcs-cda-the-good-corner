@@ -13,9 +13,7 @@ type Inputs = {
   owner: string;
   picture: string;
   location: string;
-  category: {
-    id: string;
-  };
+  category: string;
 };
 
 function NewAd() {
@@ -37,6 +35,7 @@ function NewAd() {
       toast.error('Chose a proper image');
     } else {
       try {
+        console.log('submit handler;', data);
         await createAd({
           variables: {
             infos: {
@@ -45,7 +44,7 @@ function NewAd() {
               description: data.description,
               picture: `http://localhost:8000${imageUrl}`,
               location: data.location,
-              category: data.category,
+              category: { id: data.category },
             },
           },
         });
@@ -101,6 +100,7 @@ function NewAd() {
             <Image
               src={`http://localhost:8000${imageUrl}`}
               width={500}
+              height={500}
               alt="Uploaded Image"
             />
             <br />

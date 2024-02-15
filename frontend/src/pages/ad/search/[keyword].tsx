@@ -9,9 +9,6 @@ function SearchResults() {
   const { data, loading, error } = useSearchQuery({
     variables: { search: keyword as string },
   });
-  // const { data, loading, error } = useQuery(GET_ADS_SEARCH, {
-  //   variables: { title: keyword as string },
-  // });
 
   if (loading) return <p>Loading...</p>;
   if (error) {
