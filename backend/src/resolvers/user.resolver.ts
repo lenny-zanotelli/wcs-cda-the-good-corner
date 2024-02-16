@@ -2,12 +2,14 @@ import * as argon2 from "argon2";
 import * as jwt from "jsonwebtoken";
 import { Message, User, UserInfo, UserInput, UserWithoutPassword } from "../entities/user.entity";
 import UserService from "../services/user.service";
-import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import Cookies from "cookies";
 import { JWTContext } from "src";
 
 @Resolver()
 export class UserResolver {
+
+  @Authorized("admin", "manager")
   @Query(() => [User])
   async getAllUsers() {
     return await new UserService().list();
@@ -86,6 +88,7 @@ export class UserResolver {
     return { isLoggedIn: false }
   }
 
+  @Authorized("admin")
   @Mutation(() => User)
   async deleteUser(@Arg("email") email: string) {
     return await new UserService().delete(email);

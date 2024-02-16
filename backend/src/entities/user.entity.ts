@@ -4,7 +4,7 @@ import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 
 import { Ad } from "./ad.entity";
 import { IsUUID } from "class-validator";
 
-export type UserRoleType = "admin" | "user";
+export type UserRoleType = "admin" | "user" | "manager";
 
 @ObjectType()
 @Entity()
@@ -34,7 +34,7 @@ export class User {
   @Field()
   @Column({
     type: "enum",
-    enum: ["admin", "user"],
+    enum: ["admin", "user", "manager"],
     default: "user"
   })
   role: UserRoleType;
