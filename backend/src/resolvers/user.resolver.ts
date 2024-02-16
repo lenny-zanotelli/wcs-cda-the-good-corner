@@ -1,10 +1,10 @@
 import * as argon2 from "argon2";
+import Cookies from "cookies";
 import * as jwt from "jsonwebtoken";
+import { JWTContext } from "src";
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { Message, User, UserInfo, UserInput, UserWithoutPassword } from "../entities/user.entity";
 import UserService from "../services/user.service";
-import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
-import Cookies from "cookies";
-import { JWTContext } from "src";
 
 @Resolver()
 export class UserResolver {
