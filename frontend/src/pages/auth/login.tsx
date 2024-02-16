@@ -1,12 +1,19 @@
 import { FormEvent } from 'react';
 import { useRouter } from 'next/router';
+import { ToastContainer, toast } from 'react-toastify';
 import { UserInput, useLoginLazyQuery } from '../../types/graphql';
 
 function LoginPage() {
   const router = useRouter();
   const [handleLogin] = useLoginLazyQuery({
-    onCompleted: () => {
-      router.push('/');
+    onCompleted: (data) => {
+      setTimeout(() => {
+        router.push('/');
+        return data.login.success && toast.success(`${data.login.message}`);
+      }, 2000);
+    },
+    onError(error) {
+      return error.message && toast.error(`${error.message}`);
     },
   });
 
@@ -38,13 +45,13 @@ function LoginPage() {
           name="email"
           className="text-field main-search-field"
           type="text"
-          placeholder="adresse email"
+          placeholder="Indiquez votre email"
         />
         <input
           name="password"
           className="text-field main-search-field"
           type="password"
-          placeholder="mot de passe"
+          placeholder="Indiquez votre mot de passe"
         />
         <button
           type="submit"
@@ -54,6 +61,19 @@ function LoginPage() {
           Login
         </button>
       </form>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        limit={3}
+      />
     </div>
   );
 }
