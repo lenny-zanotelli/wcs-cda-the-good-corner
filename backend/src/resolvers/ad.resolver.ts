@@ -38,7 +38,7 @@ export class AdResolver {
     const ad: Ad = await new AdService().update(id, infos);
     return ad;
   }
-  
+
   @Authorized()
   @Mutation(() => [Ad])
   async deleteAd(@Arg("id") id: string) {
