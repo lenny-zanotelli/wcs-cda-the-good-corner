@@ -6,11 +6,8 @@ import { UserInput, useLoginLazyQuery } from '../../types/graphql';
 function LoginPage() {
   const router = useRouter();
   const [handleLogin] = useLoginLazyQuery({
-    onCompleted: (data) => {
-      setTimeout(() => {
-        router.push('/');
-        return data.login.success && toast.success(`${data.login.message}`);
-      }, 2000);
+    onCompleted: () => {
+      router.push('/');
     },
     onError(error) {
       return error.message && toast.error(`${error.message}`);
