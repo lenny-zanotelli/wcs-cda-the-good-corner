@@ -1,5 +1,5 @@
 import { Ad, CreateAdInput, UpdateAdInput } from "../entities/ad.entity";
-import { Arg, Resolver, Query, Mutation, Ctx, Authorized } from "type-graphql";
+import { Arg, Resolver, Query, Mutation, Ctx } from "type-graphql";
 
 import AdService from "../services/ad.service";
 import { JWTContext } from "src";
@@ -30,7 +30,6 @@ export class AdResolver {
     return ad;
   }
 
-  @Authorized()
   @Mutation(() => Ad)
   async updateAd(
     @Arg("id") id: string, @Arg("infos") infos: UpdateAdInput,
@@ -39,7 +38,6 @@ export class AdResolver {
     return ad;
   }
 
-  @Authorized()
   @Mutation(() => [Ad])
   async deleteAd(@Arg("id") id: string) {
     const ads: Ad[] = await new AdService().delete(id);
