@@ -52,7 +52,7 @@ async function start() {
   app.use(
     "/",
     cors<cors.CorsRequest>({
-      origin: ["http://localhost:3000", "https://studio.apollographql.com"],
+      origin: ["http://localhost:3000", "http://frontend:3000", "https://studio.apollographql.com"],
       credentials: true,
     }),
     express.json({ limit: '50mb'}),

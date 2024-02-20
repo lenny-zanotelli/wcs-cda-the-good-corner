@@ -6,7 +6,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import Layout from '../components/Layout';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/',
+  uri: process.env.NEXT_PUBLIC_BACKEND_URL,
   cache: new InMemoryCache({
     addTypename: false,
   }),
