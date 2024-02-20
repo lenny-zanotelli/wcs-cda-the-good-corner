@@ -1,6 +1,7 @@
 {
   "conventionalCommits.scopes": [
     "back",
-    "front"
+    "front",
+    "e2e"
   ]
 }
