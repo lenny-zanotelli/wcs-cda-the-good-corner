@@ -13,7 +13,7 @@ describe('AdCard', () => {
         location="Paris"
         owner="email"
         price={250}
-        title="TRes beau titre"
+        title="Tres beau titre"
         id="qfqfq"
         key={1}
         tags={[]}
@@ -22,7 +22,7 @@ describe('AdCard', () => {
       />,
     );
     // Act
-    const title = screen.getByText(/sell my car/i);
+    const title = screen.getByText(/Tres beau titre/i);
     // Assert
     expect(title).toBeInTheDocument();
   });
