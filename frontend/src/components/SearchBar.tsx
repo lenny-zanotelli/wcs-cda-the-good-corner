@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { FormEvent } from 'react';
 
 function SearchBar() {
@@ -19,6 +19,7 @@ function SearchBar() {
     >
       <input
         className="text-field main-search-field"
+        aria-label="search-input"
         type="search"
         name="keyword"
       />
