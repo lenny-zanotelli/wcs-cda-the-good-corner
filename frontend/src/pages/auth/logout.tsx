@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import { UserContext } from '../../components/Layout';
 import { useLogoutQuery } from '../../types/graphql';
+import UserContext from '../../contexts/userContext';
 
 function Logout() {
   const authInfo = useContext(UserContext);

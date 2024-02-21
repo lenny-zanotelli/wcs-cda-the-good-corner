@@ -272,7 +272,7 @@ export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __type
 export type GetAllAdsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllAdsQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: string, title: string, description: string, picture: string, location: string, owner: string, price: number, category: { __typename?: 'Category', id: string, name: string } }> };
+export type GetAllAdsQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: string, title: string, description: string, picture: string, location: string, owner: string, price: number, category: { __typename?: 'Category', id: string, name: string }, tags: Array<{ __typename?: 'Tag', id: string, name: string }> }> };
 
 export type GetAdByIdQueryVariables = Exact<{
   getAdByIdId: Scalars['String']['input'];
@@ -552,6 +552,10 @@ export const GetAllAdsDocument = gql`
     owner
     price
     category {
+      id
+      name
+    }
+    tags {
       id
       name
     }

@@ -35,7 +35,7 @@ function NewAd() {
       toast.error('Chose a proper image');
     } else {
       try {
-        console.log('submit handler;', data);
+        // console.log('submit handler;', data);
         await createAd({
           variables: {
             infos: {

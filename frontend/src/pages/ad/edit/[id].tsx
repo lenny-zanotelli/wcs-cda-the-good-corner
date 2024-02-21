@@ -157,19 +157,6 @@ function EditAd() {
           {errors.owner && toast.warning('Description required')}
         </label>
         <br />
-        {/* <label>
-          Picture:
-          {' '}
-          <br />
-          <input
-            defaultValue={ad?.picture}
-            type="file"
-            {...register('picture', { required: true })}
-            className={styles.textField}
-          />
-          {errors.picture && toast.warning('Picture required')}
-        </label>
-        <br /> */}
         <label>
           Location:
           {' '}
