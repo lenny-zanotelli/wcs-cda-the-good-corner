@@ -1,12 +1,14 @@
 import { useRouter } from 'next/router';
+import { useQuery } from '@apollo/client';
+import { GET_ADS_SEARCH } from '@/graphql/queries/ad.queries';
+import { Ad } from '../../../types/graphql';
 import DisplayAds from '../../../components/DisplayAds';
-import { useSearchQuery } from '../../../types/graphql';
 
 function CategoryResults() {
   const router = useRouter();
   const categoryName = router.query.category;
 
-  const { data, loading, error } = useSearchQuery({
+  const { data, loading, error } = useQuery<Ad[]>(GET_ADS_SEARCH, {
     variables: {
       search: categoryName as string,
     },
@@ -26,7 +28,7 @@ function CategoryResults() {
     );
   }
 
-  const categoryAds = data?.getAllAds;
+  const categoryAds = data || [];
 
   return (
     <div>

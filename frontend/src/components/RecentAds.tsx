@@ -1,9 +1,10 @@
 import { useQuery } from '@apollo/client';
 import { GET_ALL_ADS } from '@/graphql/queries/ad.queries';
+import { Ad } from '../types/graphql';
 import DisplayAds from './DisplayAds';
 
 function RecentAds() {
-  const { loading, error, data } = useQuery(GET_ALL_ADS);
+  const { loading, error, data } = useQuery<Ad[]>(GET_ALL_ADS);
 
   if (loading) return <p>Loading...</p>;
   if (error) {
@@ -16,11 +17,12 @@ function RecentAds() {
       </p>
     );
   }
+  const ads = data || [];
 
   return (
     <DisplayAds
-      ads={data?.getAllAds}
       titleDisplay="Recents Ads"
+      ads={ads}
     />
   );
 }

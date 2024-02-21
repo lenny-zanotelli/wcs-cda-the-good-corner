@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import { UserContext } from '../../components/Layout';
+import { GET_ALL_USERS } from '@/graphql/queries/user.queries';
 import { useDeleteUserMutation, useGetAllUsersQuery } from '../../types/graphql';
-import GET_ALL_USERS from '@/graphql/queries/user.queries';
+import UserContext from '../../contexts/userContext';
 
 function UserAdminPage() {
   const router = useRouter();
@@ -17,12 +17,12 @@ function UserAdminPage() {
 
   const [deleteUser] = useDeleteUserMutation({
     refetchQueries: [{ query: GET_ALL_USERS }],
-    onCompleted: () => {
-      console.log('Succces Delete');
-    },
-    onError: (err) => {
-      console.error('error deleting user:', err);
-    },
+    // onCompleted: () => {
+    //   // console.log('Succces Delete');
+    // },
+    // onError: () => {
+    //   // console.error('error deleting user:', err);
+    // },
   });
 
   if (loading) {
