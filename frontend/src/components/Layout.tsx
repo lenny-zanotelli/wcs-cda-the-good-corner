@@ -1,13 +1,8 @@
 import Head from 'next/head';
-import { ReactNode, createContext, useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import Header from './Header';
 import { useWhoAmIQuery } from '../types/graphql';
-
-export const UserContext = createContext({
-  isLoggedIn: false,
-  refetchLogin: () => {},
-  role: 'user',
-});
+import UserContext from '../contexts/userContext';
 
 function Layout({ children }: { children: ReactNode }) {
   const {

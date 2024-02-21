@@ -3,8 +3,7 @@ import { useContext } from 'react';
 import NavCategory from './NavCategory';
 import SearchBar from './SearchBar';
 import { useGetAllCategoriesQuery } from '../types/graphql';
-// eslint-disable-next-line import/no-cycle
-import { UserContext } from './Layout';
+import UserContext from '../contexts/userContext';
 
 function Header() {
   const authInfo = useContext(UserContext);
