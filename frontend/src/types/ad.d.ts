@@ -10,8 +10,6 @@ export interface Ad {
   price: number;
   picture: string;
   location: string;
-  createdAt: Date;
-  updatedAt: Date;
   category: Category;
   tags: Tag[];
 }

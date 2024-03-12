@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import Link from 'next/link';
 import AdCard from './AdCard';
 import { Ad, useDeleteAdMutation, useGetAllAdsQuery } from '../types/graphql';
@@ -9,7 +8,7 @@ type DisplayAdsProps = {
 };
 
 function DisplayAds({ titleDisplay, ads }: DisplayAdsProps) {
-  const { data, refetch } = useGetAllAdsQuery({ skip: ads.length > 0 });
+  const { refetch, data: adsMap } = useGetAllAdsQuery({ skip: ads.length > 0 });
   const [deleteAd] = useDeleteAdMutation();
 
   const handleDeleteAd = async (adId: string) => {
@@ -18,17 +17,25 @@ function DisplayAds({ titleDisplay, ads }: DisplayAdsProps) {
         variables: { deleteAdId: adId },
       });
       refetch();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return {
+          error: error.message,
+        };
+      } if (error && typeof error === 'object' && 'message' in error) {
+        return {
+          error: error.message,
+        };
+      }
     }
+    return 'Delete';
   };
 
   return (
     <>
       <h2>{titleDisplay}</h2>
       <section className="recent-ads">
-        {ads.map((ad) => (
+        {adsMap?.getAllAds.map((ad) => (
           <div key={ad.id}>
             <AdCard
               key={ad.id}
@@ -40,8 +47,6 @@ function DisplayAds({ titleDisplay, ads }: DisplayAdsProps) {
               location={ad.location}
               owner={ad.owner}
               category={ad.category}
-              createdAt={ad.createdAt}
-              updatedAt={ad.updatedAt}
               tags={ad.tags}
             />
             <div className="button-container">

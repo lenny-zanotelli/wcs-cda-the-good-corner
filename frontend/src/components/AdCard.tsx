@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Ad } from '../types/graphql';
+import { Ad } from '../types/ad';
 
 function AdCard({
   id, title, picture, price,
