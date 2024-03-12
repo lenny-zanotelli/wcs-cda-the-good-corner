@@ -20,8 +20,10 @@ describe('AdCard', () => {
       />,
     );
     // Act
+    const price = screen.getByText(/250/i);
     const title = screen.getByText(/Tres beau titre/i);
     // Assert
+    expect(price).toBeInTheDocument();
     expect(title).toBeInTheDocument();
   });
 });
