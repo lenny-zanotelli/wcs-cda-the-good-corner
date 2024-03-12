@@ -17,8 +17,6 @@ describe('AdCard', () => {
         id="qfqfq"
         key={1}
         tags={[]}
-        createdAt=""
-        updatedAt=""
       />,
     );
     // Act
